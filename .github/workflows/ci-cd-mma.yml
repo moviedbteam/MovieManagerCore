@@ -65,7 +65,7 @@ jobs:
       - name: Build Maven
         run: mvn clean package
 
-      - run: mkdir artifact && cp target/*.jar artifact
+      - run: mkdir artifact && cp MMA-ExpositionLayer/target/*.jar artifact
       - uses: actions/upload-artifact@v3
         with:
           name: movie-manager-mma
