@@ -2,7 +2,12 @@ package com.bcefit.projet.service.watch;
 
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
+import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.infrastructure.IWatchEpisodeRepository;
+import com.bcefit.projet.infrastructure.IWatchEpisodesByUserAccountRepository;
+import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
+import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +27,24 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     IWatchEpisodeRepository repository;
 
     @Autowired
+    IWatchEpisodesByUserAccountRepository iWatchEpisodesByUserAccountRepository;
+
+    @Autowired
+    IUserAccountService iUserAccountService;
+
+    @Autowired
     JmsTemplate jmsTemplate;
 
     @Override
-    public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
-        Optional<List<WatchEpisode>> watchEpisodeList = repository.findWatchEpisodesByUserAccount(userAccount.getIdUser());
+    public Iterable<WatchEpisode> findAllByUserAccountId(Long idUser) {
+        UserAccount userAccount = iUserAccountService.findById(idUser);
+        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (watchEpisodeList.isPresent()) {
             return watchEpisodeList.get();
         } else {
             logger.error("pas de watch episode avec l'id user {}", userAccount.getIdUser());
-            throw new EntityNotFoundException("Pas de watch episode en base");
+            throw new EntityNotFoundException("Pas de wish episode en base");
         }
     }
 

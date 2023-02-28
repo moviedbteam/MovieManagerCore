@@ -5,6 +5,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.exposition.watch.dto.WatchMovieDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchMovieMapper;
+import com.bcefit.projet.service.common.ILogginService;
 import com.bcefit.projet.service.watch.IWatchMovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/watch")
 public class WatchMovieAPI {
+
+    @Autowired
+    ILogginService logginService;
 
     @Autowired
     IWatchMovieService service;
@@ -49,13 +53,17 @@ public class WatchMovieAPI {
     }
 
     @GetMapping("/movie/all")
-    public List<WatchMovieDto> getAllWatchMoviess(){logger.info("nouvelle demande de liste de watch movie");
-        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(new UserAccount());
+    public ResponseEntity<List<WatchMovieDto>> getAllWatchMoviess(@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
+        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
+
+        logger.info("nouvelle demande de liste de watch movie");
+        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(idUser);
         List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();
 
         iterable.forEach((pEntity)-> watchMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
 
-        return watchMovieDtoList;
+        return ResponseEntity.status(HttpStatus.OK).body(watchMovieDtoList);
     }
 
     @DeleteMapping("/movie/{idWatchMovie}")

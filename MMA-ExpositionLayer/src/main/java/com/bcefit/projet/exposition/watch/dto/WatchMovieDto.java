@@ -1,6 +1,7 @@
 package com.bcefit.projet.exposition.watch.dto;
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import net.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public class WatchMovieDto {
 
     private Long idWatch;
 
-    private UserAccount userAccount;
+    private UserAccountDto userAccountDto;
 
     private String viewingPlace;
 
@@ -30,9 +31,9 @@ public class WatchMovieDto {
     public WatchMovieDto() {
     }
 
-    public WatchMovieDto(Long idWatch, UserAccount userAccount, String viewingPlace, Integer viewingRate, Integer viewingMood, Integer idMovie, Integer idCollection, LocalDate dateWatch) {
+    public WatchMovieDto(Long idWatch, UserAccountDto userAccountDto, String viewingPlace, Integer viewingRate, Integer viewingMood, Integer idMovie, Integer idCollection, LocalDate dateWatch) {
         this.idWatch = idWatch;
-        this.userAccount = userAccount;
+        this.userAccountDto = userAccountDto;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
@@ -66,12 +67,12 @@ public class WatchMovieDto {
         this.idCollection = idCollection;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public UserAccountDto getUserAccountDto() {
+        return userAccountDto;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setUserAccountDto(UserAccountDto userAccountDto) {
+        this.userAccountDto = userAccountDto;
     }
 
     public String getViewingPlace() {

@@ -55,4 +55,6 @@ public class UserAccountServiceImpl implements IUserAccountService{
     public Iterable<UserAccount> findAll() {
         return repository.findAll();
     }
+
+
 }

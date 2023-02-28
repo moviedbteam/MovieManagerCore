@@ -3,6 +3,7 @@ package com.bcefit.projet.service.wish;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IWishEpisodeRepository;
+import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,14 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     IWishEpisodeRepository repository;
 
     @Autowired
+    IWishEpisodesByUserAccountRepository iWishEpisodesByUserAccountRepository;
+
+    @Autowired
     JmsTemplate jmsTemplate;
 
     @Override
     public Iterable<WishEpisode> findAllByUserAccountId(UserAccount userAccount) {
-        Optional<List<WishEpisode>> wishEpisodeList = repository.findWishEpisodesByUserAccount(userAccount.getIdUser());
+        Optional<List<WishEpisode>> wishEpisodeList = iWishEpisodesByUserAccountRepository.findWishEpisodesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (wishEpisodeList.isPresent()) {
             return wishEpisodeList.get();

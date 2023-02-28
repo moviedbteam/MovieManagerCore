@@ -4,6 +4,7 @@ package com.bcefit.projet.service.wish;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
+import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
 import com.bcefit.projet.service.message.MessageString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +27,15 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
     IWishMovieRepository repository;
 
     @Autowired
+    IWishMoviesByUserAccountRepository iWishMoviesByUserAccountRepository;
+
+    @Autowired
     JmsTemplate jmsTemplate;
 
 
     @Override
     public Iterable<WishMovie> findAllByUserAccountId(UserAccount userAccount) {
-        Optional<List<WishMovie>> wishMovieList = repository.findWishMoviesByUserAccount(userAccount.getIdUser());
+        Optional<List<WishMovie>> wishMovieList = iWishMoviesByUserAccountRepository.findWishMoviesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (wishMovieList.isPresent()) {
             return wishMovieList.get();

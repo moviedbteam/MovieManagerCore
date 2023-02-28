@@ -1,15 +1,15 @@
 package com.bcefit.projet.exposition.watch.dto;
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class WatchEpisodeDto {
 
     private Long idWatch;
 
-    private UserAccount userAccount;
+    private Long idUser;
 
     private Long idEpisode;
 
@@ -22,12 +22,12 @@ public class WatchEpisodeDto {
     public WatchEpisodeDto() {
     }
 
-    public WatchEpisodeDto(Long idWatch, UserAccount userAccount, Long idEpisode, Long idSeason, Long idTv, LocalDate dateWatch) {
+    public WatchEpisodeDto(Long idWatch, Long idUser, Long idEpisode, Long idSeason, Long idTv, LocalDate dateWatch) {
         this.idWatch = idWatch;
-        this.userAccount = userAccount;
+        this.idUser = idUser;
         this.idEpisode = idEpisode;
         this.idSeason = idSeason;
-        IdTv = idTv;
+        this.IdTv = idTv;
         this.dateWatch = dateWatch;
     }
 
@@ -39,13 +39,6 @@ public class WatchEpisodeDto {
         this.idWatch = idWatch;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
 
     public Long getIdEpisode() {
         return idEpisode;
@@ -77,5 +70,13 @@ public class WatchEpisodeDto {
 
     public void setDateWatch(LocalDate dateWatch) {
         this.dateWatch = dateWatch;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 }

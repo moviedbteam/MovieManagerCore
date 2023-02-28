@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface IWishMovieRepository extends CrudRepository<WishMovie , Long> {
 
-    Optional<List<WishMovie>> findWishMoviesByUserAccount(Long Long);
+
 }

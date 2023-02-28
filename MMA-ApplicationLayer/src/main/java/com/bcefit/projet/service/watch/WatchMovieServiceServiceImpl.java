@@ -4,6 +4,9 @@ package com.bcefit.projet.service.watch;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.infrastructure.IWatchMovieRepository;
+import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
+import com.bcefit.projet.service.user.IUserAccountService;
+import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +26,19 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     IWatchMovieRepository repository;
 
     @Autowired
+    IWatchMoviesByUserAccountRepository iWatchMoviesByUserAccountRepository;
+
+    @Autowired
+    IUserAccountService iUserAccountService;
+
+    @Autowired
     JmsTemplate jmsTemplate;
 
 
     @Override
-    public Iterable<WatchMovie> findAllByUserAccountId(UserAccount userAccount) {
-        Optional<List<WatchMovie>> WatchMovieList = repository.findWatchMoviesByUserAccount(userAccount.getIdUser());
+    public Iterable<WatchMovie> findAllByUserAccountId(Long idUser) {
+        UserAccount userAccount = iUserAccountService.findById(idUser);
+        Optional<List<WatchMovie>> WatchMovieList = iWatchMoviesByUserAccountRepository.findWatchMoviesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (WatchMovieList.isPresent()) {
             return WatchMovieList.get();

@@ -5,7 +5,7 @@ import com.bcefit.projet.domain.watch.WatchEpisode;
 
 public interface IWatchEpisodeService {
 
-    Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount);
+    Iterable<WatchEpisode> findAllByUserAccountId(Long idUser);
 
     WatchEpisode findById(Long id);
 

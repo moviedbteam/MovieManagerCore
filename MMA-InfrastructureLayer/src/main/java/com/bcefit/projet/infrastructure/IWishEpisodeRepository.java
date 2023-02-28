@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface IWishEpisodeRepository extends CrudRepository<WishEpisode, Long> {
 
-    Optional<List<WishEpisode>> findWishEpisodesByUserAccount(Long Long);
+
 }

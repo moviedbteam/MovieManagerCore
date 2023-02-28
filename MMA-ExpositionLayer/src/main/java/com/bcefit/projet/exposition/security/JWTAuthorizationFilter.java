@@ -35,7 +35,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         DecodedJWT decodedJWT = verifier.verify(token);
         // récupéreration du loggin pour l'ajouter à la requetes => sera utilisé par les services backend pour l'identification user
         String username = decodedJWT.getSubject();
-        System.out.println("userName : "+username);
+
+
+        request.setAttribute("userLoggin",username);
+        response.setHeader("userLoggin",username);
 
         //on récupère les rôle
         List<String> roles = decodedJWT.getClaims().get("claims").asList(String.class);
