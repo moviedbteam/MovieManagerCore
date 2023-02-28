@@ -1,0 +1,8 @@
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IWishEpisodeRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IGenreTvRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IUserAccountRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/StreamingSubscriptionRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IWishMovieRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IGenreMovieRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IWatchEpisodeRepository.java
+/Users/renaudbrault/Documents/_ProjetFinal/BackEnd/MovieManagerApplication/MMA-InfrastructureLayer/src/main/java/com/bcefit/projet/infrastructure/IWatchMovieRepository.java
