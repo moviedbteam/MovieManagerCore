@@ -103,3 +103,24 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          
+ #######################################
+  ## PULL IMAGE DOCKER & RUN CONTAINER ##
+  #######################################
+  run_docker_container:
+    needs: build_docker_image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: connexion SSH à VM
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST_BACKEND }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_BACKEND_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker pull ghcr.io/moviedbteam/movie-manager-mma:latest
+            docker stop mma
+            docker run --rm -d -ti --name mma -p 8081:8081 ghcr.io/moviedbteam/movie-manager-mma:latest
+
