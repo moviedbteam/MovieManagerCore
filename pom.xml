@@ -20,7 +20,6 @@
 
 
     <modules>
-        <module>BatchModule-MMA</module>
         <module>MMA-ApplicationLayer</module>
         <module>MMA-DomainLayer</module>
         <module>MMA-ExpositionLayer</module>
