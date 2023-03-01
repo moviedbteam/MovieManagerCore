@@ -76,11 +76,16 @@ public class WatchMovieAPI {
     }
 
     @DeleteMapping("/movie/{idWatchMovie}")
-    public ResponseEntity<String> deleteWatchMovie(@PathVariable Long idWatchMovie){
+    public ResponseEntity<String> deleteWatchMovie(@PathVariable Long idWatchMovie,@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
+        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
+        UserAccount userAccount = iUserAccountService.findById(idUser);
 
         logger.info("Nouvelle demande de suppression watch movie {}",idWatchMovie);
         WatchMovie watchMovie = new WatchMovie();
         watchMovie.setIdWatch(idWatchMovie);
+        watchMovie.setUserAccount(userAccount);
+
         service.deleteWatchMovie(watchMovie);
 
         return new  ResponseEntity<>("Watch movie supprimé!",HttpStatus.OK);
