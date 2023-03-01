@@ -57,6 +57,7 @@ public class WatchMovieAPI {
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
         Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
 
+
         logger.info("nouvelle demande de liste de watch movie");
         Iterable<WatchMovie> iterable=service.findAllByUserAccountId(idUser);
         List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();

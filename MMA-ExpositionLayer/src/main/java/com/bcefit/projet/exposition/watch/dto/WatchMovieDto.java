@@ -11,7 +11,6 @@ public class WatchMovieDto {
 
     private Long idWatch;
 
-    private UserAccountDto userAccountDto;
 
     private String viewingPlace;
 
@@ -31,9 +30,8 @@ public class WatchMovieDto {
     public WatchMovieDto() {
     }
 
-    public WatchMovieDto(Long idWatch, UserAccountDto userAccountDto, String viewingPlace, Integer viewingRate, Integer viewingMood, Integer idMovie, Integer idCollection, LocalDate dateWatch) {
+    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Integer idMovie, Integer idCollection, LocalDate dateWatch) {
         this.idWatch = idWatch;
-        this.userAccountDto = userAccountDto;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
@@ -67,13 +65,6 @@ public class WatchMovieDto {
         this.idCollection = idCollection;
     }
 
-    public UserAccountDto getUserAccountDto() {
-        return userAccountDto;
-    }
-
-    public void setUserAccountDto(UserAccountDto userAccountDto) {
-        this.userAccountDto = userAccountDto;
-    }
 
     public String getViewingPlace() {
         return viewingPlace;
