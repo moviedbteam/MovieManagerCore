@@ -58,7 +58,7 @@ public class WishMovieAPI {
         return wishMovieDtoList;
     }
 
-    @DeleteMapping("/movie/{idWishMovie}")
+    @DeleteMapping( "/movie/{idWishMovie}")
     public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie){
 
         logger.info("Nouvelle demande de suppression wish movie {}",idWishMovie);
