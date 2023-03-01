@@ -17,10 +17,17 @@ public class SecurityConfiguration {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/*").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/wish/*").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/*").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/*").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/movie/**").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/movie/all").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/wish/movie/**").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/movie/*").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/movie/all").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/movie/*").hasRole("USER");
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/episode/**").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/wish/episode/**").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/episode/**").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/episode/**").hasRole("USER");
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/userAccount/*").hasRole("USER");

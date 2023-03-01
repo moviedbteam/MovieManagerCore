@@ -6,6 +6,8 @@ import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.exposition.watch.dto.WatchMovieDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchMovieMapper;
 import com.bcefit.projet.service.common.ILogginService;
+import com.bcefit.projet.service.user.IUserAccountService;
+import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import com.bcefit.projet.service.watch.IWatchMovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,9 @@ public class WatchMovieAPI {
     @Autowired
     WatchMovieMapper mapper;
 
+    @Autowired
+    IUserAccountService iUserAccountService;
+
     Logger logger = LoggerFactory.getLogger(WatchMovieAPI.class);
 
     @GetMapping("/movie/{idWatchMovie}")
@@ -41,11 +46,14 @@ public class WatchMovieAPI {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto){
+    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande d'enregistrement watch movie {}",watchMovieDto.getIdWatch());
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
+        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
+        UserAccount userAccount = iUserAccountService.findById(idUser);
 
         WatchMovie watchMovie = mapper.convertDtoToEntity(watchMovieDto);
+        watchMovie.setUserAccount(userAccount);
 
         WatchMovieDto dto = mapper.convertEntityToDto(service.createWatchMovie(watchMovie));
 
