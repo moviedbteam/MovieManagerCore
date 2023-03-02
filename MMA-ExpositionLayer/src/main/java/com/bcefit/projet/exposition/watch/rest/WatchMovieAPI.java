@@ -5,9 +5,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.exposition.watch.dto.WatchMovieDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchMovieMapper;
-import com.bcefit.projet.service.common.ILogginService;
 import com.bcefit.projet.service.user.IUserAccountService;
-import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import com.bcefit.projet.service.watch.IWatchMovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +21,6 @@ import java.util.List;
 @RequestMapping("/api/v1/watch")
 public class WatchMovieAPI {
 
-    @Autowired
-    ILogginService logginService;
 
     @Autowired
     IWatchMovieService service;
@@ -38,8 +34,10 @@ public class WatchMovieAPI {
     Logger logger = LoggerFactory.getLogger(WatchMovieAPI.class);
 
     @GetMapping("/movie/{idWatchMovie}")
-    public WatchMovieDto getWatchMovieById(@PathVariable("idWatchMovie") Long idWatch){
+    public WatchMovieDto getWatchMovieById(@PathVariable("idWatchMovie") Long idWatch,@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le watch movie {}", idWatch);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+
         WatchMovie watchMovie = service.findById(idWatch);
         logger.debug("DEBUG---ID Watch movie = {}", watchMovie.getIdWatch());
         return mapper.convertEntityToDto(watchMovie);
@@ -49,8 +47,7 @@ public class WatchMovieAPI {
     public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userLoggin") String userLoggin){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
-        UserAccount userAccount = iUserAccountService.findById(idUser);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
         WatchMovie watchMovie = mapper.convertDtoToEntity(watchMovieDto);
         watchMovie.setUserAccount(userAccount);
@@ -63,11 +60,11 @@ public class WatchMovieAPI {
     @GetMapping("/movie/all")
     public ResponseEntity<List<WatchMovieDto>> getAllWatchMoviess(@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
 
         logger.info("nouvelle demande de liste de watch movie");
-        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(idUser);
+        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(userAccount.getIdUser());
         List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();
 
         iterable.forEach((pEntity)-> watchMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
@@ -78,8 +75,7 @@ public class WatchMovieAPI {
     @DeleteMapping("/movie/{idWatchMovie}")
     public ResponseEntity<String> deleteWatchMovie(@PathVariable Long idWatchMovie,@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
-        UserAccount userAccount = iUserAccountService.findById(idUser);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
         logger.info("Nouvelle demande de suppression watch movie {}",idWatchMovie);
         WatchMovie watchMovie = new WatchMovie();

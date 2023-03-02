@@ -1,6 +1,7 @@
 package com.bcefit.projet.service.user;
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.infrastructure.ILogginRepository;
 import com.bcefit.projet.infrastructure.IUserAccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ public class UserAccountServiceImpl implements IUserAccountService{
 
     @Autowired
     IUserAccountRepository repository;
+
+    @Autowired
+    ILogginRepository iLogginRepository;
 
 
     @Override
@@ -57,4 +61,24 @@ public class UserAccountServiceImpl implements IUserAccountService{
     }
 
 
+    @Override
+    public Long getIdUserByUserLoggin(String userLoggin) {
+        logger.debug("service getUserIdByLoggin {}", userLoggin);
+        Optional<UserAccount> optionalUserAccount = iLogginRepository.findUserAccountByLoggin(userLoggin);
+        if(optionalUserAccount.isPresent()){
+            return optionalUserAccount.get().getIdUser();
+        }else{
+            logger.error("pas d'idUser pour le loggin {}", userLoggin);
+            throw new EntityNotFoundException("L'idUser n'éxiste pas");
+        }
+
+    }
+
+    @Override
+    public UserAccount logToUserAccount(String userLoggin) {
+        logger.debug("service log to UserAccount by loggin {}", userLoggin);
+        Long idUser = getIdUserByUserLoggin(userLoggin);
+        UserAccount userAccount = findById(idUser);
+        return userAccount;
+    }
 }

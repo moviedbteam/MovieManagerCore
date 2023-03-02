@@ -3,7 +3,6 @@ package com.bcefit.projet.exposition.user.rest;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import com.bcefit.projet.exposition.user.mapper.UserAccountMapper;
-import com.bcefit.projet.service.common.ILogginService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/userAccount")
 public class UserAccountAPI {
 
-    @Autowired
-    ILogginService logginService;
+
 
     @Autowired
     IUserAccountService service;
@@ -33,8 +31,7 @@ public class UserAccountAPI {
     @GetMapping("/{idUser}")
     public UserAccountDto getUserAccountById(@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
-        UserAccount userAccount = service.findById(idUser);
+        UserAccount userAccount = service.logToUserAccount(userLoggin);
         logger.debug("DEBUG---ID UserAccount = {}", userAccount.getIdUser());
         return mapper.convertEntityToDto(userAccount);
     }
@@ -54,13 +51,13 @@ public class UserAccountAPI {
     @PostMapping("/update")
     public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        Long idUser = logginService.getIdUserByUserLoggin(userLoggin);
-        userAccountDto.setIdUser(idUser);
+        UserAccount userAccountBeforeUpdate = service.logToUserAccount(userLoggin);
+        userAccountDto.setIdUser(userAccountBeforeUpdate.getIdUser());
         logger.info("modification du user account {}",userAccountDto.getUserName());
 
-        UserAccount userAccount=mapper.convertDtoToEntity(userAccountDto);
+        UserAccount userAccountUpdated=mapper.convertDtoToEntity(userAccountDto);
 
-        UserAccountDto dto=mapper.convertEntityToDto(service.updateUserAccount(userAccount));
+        UserAccountDto dto=mapper.convertEntityToDto(service.updateUserAccount(userAccountUpdated));
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(dto);
     }
