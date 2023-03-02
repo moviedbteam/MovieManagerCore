@@ -5,6 +5,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.exposition.wish.dto.WishMovieDto;
 import com.bcefit.projet.exposition.wish.mapper.WishMovieMapper;
+import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishMovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,9 @@ import java.util.List;
 public class WishMovieAPI {
 
     @Autowired
+    IUserAccountService iUserAccountService;
+
+    @Autowired
     IWishMovieService service;
 
     @Autowired
@@ -29,19 +33,23 @@ public class WishMovieAPI {
     Logger logger = LoggerFactory.getLogger(WishMovieAPI.class);
 
     @GetMapping("/movie/{idWishMovie}")
-    public WishMovieDto getWishMovieById(@PathVariable("idWishMovie") Long idWish){
+    public WishMovieDto getWishMovieById(@PathVariable("idWishMovie") Long idWish,@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le wish movie {}", idWish);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+
         WishMovie wishMovie = service.findById(idWish);
         logger.debug("DEBUG---ID Wish movie = {}", wishMovie.getIdWish());
         return mapper.convertEntityToDto(wishMovie);
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<WishMovieDto> create(@RequestBody WishMovieDto wishMovieDto){
+    public ResponseEntity<WishMovieDto> create(@RequestBody WishMovieDto wishMovieDto,@RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande d'enregistrement wish movie {}",wishMovieDto.getIdWish());
+        logger.info("Nouvelle demande de création de wish movie le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
         WishMovie wishMovie = mapper.convertDtoToEntity(wishMovieDto);
+        wishMovie.setUserAccount(userAccount);
 
         WishMovieDto dto = mapper.convertEntityToDto(service.createWishMovie(wishMovie));
 
@@ -49,17 +57,23 @@ public class WishMovieAPI {
     }
 
     @GetMapping("/movie/all")
-    public List<WishMovieDto> getAllWishMoviess(){logger.info("nouvelle demande de liste de wish movie");
-        Iterable<WishMovie> iterable=service.findAllByUserAccountId(new UserAccount());
+    public ResponseEntity<List<WishMovieDto>> getAllWishMovies(@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+
+        logger.info("nouvelle demande de liste de wish movie");
+        Iterable<WishMovie> iterable=service.findAllByUserAccountId(userAccount);
         List<WishMovieDto> wishMovieDtoList = new ArrayList<>();
 
         iterable.forEach((pEntity)-> wishMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
 
-        return wishMovieDtoList;
+        return ResponseEntity.status(HttpStatus.OK).body(wishMovieDtoList);
     }
 
     @DeleteMapping( "/movie/{idWishMovie}")
-    public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie){
+    public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie,@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
         logger.info("Nouvelle demande de suppression wish movie {}",idWishMovie);
         WishMovie wishMovie = new WishMovie();

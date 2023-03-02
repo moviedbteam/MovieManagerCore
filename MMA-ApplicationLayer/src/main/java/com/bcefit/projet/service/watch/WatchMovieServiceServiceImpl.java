@@ -36,8 +36,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
 
     @Override
-    public Iterable<WatchMovie> findAllByUserAccountId(Long idUser) {
-        UserAccount userAccount = iUserAccountService.findById(idUser);
+    public Iterable<WatchMovie> findAllByUserAccountId(UserAccount userAccount) {
         Optional<List<WatchMovie>> WatchMovieList = iWatchMoviesByUserAccountRepository.findWatchMoviesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (WatchMovieList.isPresent()) {

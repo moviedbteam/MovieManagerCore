@@ -13,7 +13,6 @@ public class WishMovieMapper {
 
     public WishMovieDto convertEntityToDto(WishMovie entity){
         return new WishMovieDto(entity.getIdWish(),
-                                entity.getUserAccount(),
                                 entity.getIdMovie(),
                                 entity.getIdCollection());
     }
@@ -21,7 +20,6 @@ public class WishMovieMapper {
     public WishMovie convertDtoToEntity(WishMovieDto dto){
         WishMovie entity = new WishMovie();
         entity.setIdWish(dto.getIdWish());
-        entity.setUserAccount(dto.getUserAccount());
         entity.setIdMovie(dto.getIdMovie());
         entity.setIdCollection(dto.getIdCollection());
         return entity;

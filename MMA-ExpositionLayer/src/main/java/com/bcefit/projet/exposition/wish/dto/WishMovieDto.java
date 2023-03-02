@@ -7,7 +7,6 @@ public class WishMovieDto {
 
     private Long idWish;
 
-    private UserAccount userAccount;
 
     private Long idMovie;
 
@@ -16,9 +15,8 @@ public class WishMovieDto {
     public WishMovieDto() {
     }
 
-    public WishMovieDto(Long idWish, UserAccount userAccount, Long idMovie, Long idCollection) {
+    public WishMovieDto(Long idWish, Long idMovie, Long idCollection) {
         this.idWish = idWish;
-        this.userAccount = userAccount;
         this.idMovie = idMovie;
         this.idCollection = idCollection;
     }
@@ -48,11 +46,4 @@ public class WishMovieDto {
         this.idCollection = idCollection;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
 }

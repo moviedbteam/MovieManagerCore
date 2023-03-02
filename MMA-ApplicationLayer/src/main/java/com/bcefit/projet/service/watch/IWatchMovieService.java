@@ -5,7 +5,7 @@ import com.bcefit.projet.domain.watch.WatchMovie;
 
 public interface IWatchMovieService {
 
-    Iterable<WatchMovie> findAllByUserAccountId(Long userId);
+    Iterable<WatchMovie> findAllByUserAccountId(UserAccount userAccount);
 
     WatchMovie findById(Long id);
 

@@ -58,13 +58,13 @@ public class WatchMovieAPI {
     }
 
     @GetMapping("/movie/all")
-    public ResponseEntity<List<WatchMovieDto>> getAllWatchMoviess(@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<List<WatchMovieDto>> getAllWatchMovies(@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
 
 
         logger.info("nouvelle demande de liste de watch movie");
-        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(userAccount.getIdUser());
+        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(userAccount);
         List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();
 
         iterable.forEach((pEntity)-> watchMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
