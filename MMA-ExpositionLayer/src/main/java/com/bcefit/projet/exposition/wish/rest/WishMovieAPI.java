@@ -36,6 +36,9 @@ public class WishMovieAPI {
     public WishMovieDto getWishMovieById(@PathVariable("idWishMovie") Long idWish,@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le wish movie {}", idWish);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
 
         WishMovie wishMovie = service.findById(idWish);
         logger.debug("DEBUG---ID Wish movie = {}", wishMovie.getIdWish());
@@ -45,8 +48,11 @@ public class WishMovieAPI {
     @PostMapping("/movie")
     public ResponseEntity<WishMovieDto> create(@RequestBody WishMovieDto wishMovieDto,@RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande de création de wish movie le UserAccount (loggin) {}", userLoggin);
+        logger.info("Nouvelle demande de création de wish movie avec le UserAccount (loggin) {}", userLoggin);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
 
         WishMovie wishMovie = mapper.convertDtoToEntity(wishMovieDto);
         wishMovie.setUserAccount(userAccount);
@@ -60,6 +66,9 @@ public class WishMovieAPI {
     public ResponseEntity<List<WishMovieDto>> getAllWishMovies(@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
 
         logger.info("nouvelle demande de liste de wish movie");
         Iterable<WishMovie> iterable=service.findAllByUserAccountId(userAccount);
@@ -74,6 +83,9 @@ public class WishMovieAPI {
     public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie,@RequestAttribute("userLoggin") String userLoggin){
         logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
 
         logger.info("Nouvelle demande de suppression wish movie {}",idWishMovie);
         WishMovie wishMovie = new WishMovie();

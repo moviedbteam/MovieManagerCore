@@ -5,6 +5,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.exposition.wish.dto.WishEpisodeDto;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
+import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishEpisodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,9 @@ import java.util.List;
 public class WishEpisodeAPI {
 
     @Autowired
+    IUserAccountService iUserAccountService;
+
+    @Autowired
     IWishEpisodeService service;
 
     @Autowired
@@ -30,19 +34,28 @@ public class WishEpisodeAPI {
 
 
     @GetMapping("/episode/{idWishEpisode}")
-    public WishEpisodeDto getWishEpisodeById(@PathVariable("idWishEpisode") Long idWish){
-        logger.info("Nouvelle demande pour le wish Episode {}", idWish);
+    public WishEpisodeDto getWishEpisodeById(@PathVariable("idWishEpisode") Long idWish,@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande pour le wish episode {}", idWish);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
+
         WishEpisode wishEpisode = service.findById(idWish);
         logger.debug("DEBUG---ID Wish Episode = {}", wishEpisode.getIdWish());
         return mapper.convertEntityToDto(wishEpisode);
     }
 
     @PostMapping("/episode")
-    public ResponseEntity<WishEpisodeDto> create(@RequestBody WishEpisodeDto wishEpisodeDto){
+    public ResponseEntity<WishEpisodeDto> create(@RequestBody WishEpisodeDto wishEpisodeDto,@RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande d'enregistrement wish Episode {}",wishEpisodeDto.getIdWish());
-
+        logger.info("Nouvelle demande de création de wish Episode  avec le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
         WishEpisode wishEpisode = mapper.convertDtoToEntity(wishEpisodeDto);
+        wishEpisode.setUserAccount(userAccount);
 
         WishEpisodeDto dto = mapper.convertEntityToDto(service.createWishEpisode(wishEpisode));
 
@@ -50,17 +63,29 @@ public class WishEpisodeAPI {
     }
 
     @GetMapping("/episode/all")
-    public List<WishEpisodeDto> getAllWishEpisodess(){logger.info("nouvelle demande de liste de wish Episode");
-        Iterable<WishEpisode> iterable=service.findAllByUserAccountId(new UserAccount());
+    public ResponseEntity<List<WishEpisodeDto>> getAllWishEpisodess(@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
+
+        logger.info("nouvelle demande de liste de wish Episode");
+        Iterable<WishEpisode> iterable=service.findAllByUserAccountId(userAccount);
         List<WishEpisodeDto> wishEpisodeDtoList = new ArrayList<>();
 
         iterable.forEach((pEntity)-> wishEpisodeDtoList.add(mapper.convertEntityToDto(pEntity)));
 
-        return wishEpisodeDtoList;
+        return ResponseEntity.status(HttpStatus.OK).body(wishEpisodeDtoList);
     }
 
     @DeleteMapping("/episode/{idWishEpisode}")
-    public ResponseEntity<String> deleteWishEpisode(@PathVariable Long idWishEpisode){
+    public ResponseEntity<String> deleteWishEpisode(@PathVariable Long idWishEpisode,@RequestAttribute("userLoggin") String userLoggin){
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        if(userAccount ==null){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+        }
 
         logger.info("Nouvelle demande de suppression wish Episode {}",idWishEpisode);
         WishEpisode wishEpisode = new WishEpisode();

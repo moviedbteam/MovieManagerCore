@@ -14,7 +14,6 @@ public class WishEpisodeMapper {
     public WishEpisodeDto convertEntityToDto(WishEpisode entity){
         WishEpisodeDto dto = new WishEpisodeDto();
         dto.setIdWish(entity.getIdWish());
-        dto.setUserAccount(entity.getUserAccount());
         dto.setIdEpisode(entity.getIdEpisode());
         dto.setIdSeason(entity.getIdSeason());
         dto.setIdTv(entity.getIdTv());
@@ -24,7 +23,6 @@ public class WishEpisodeMapper {
     public WishEpisode convertDtoToEntity(WishEpisodeDto dto){
         WishEpisode entity = new WishEpisode();
         entity.setIdWish(dto.getIdWish());
-        entity.setUserAccount(dto.getUserAccount());
         entity.setIdEpisode(dto.getIdEpisode());
         entity.setIdSeason(dto.getIdSeason());
         entity.setIdTv(dto.getIdTv());
