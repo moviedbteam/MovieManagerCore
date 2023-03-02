@@ -36,8 +36,7 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     JmsTemplate jmsTemplate;
 
     @Override
-    public Iterable<WatchEpisode> findAllByUserAccountId(Long idUser) {
-        UserAccount userAccount = iUserAccountService.findById(idUser);
+    public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
         Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
         if (watchEpisodeList.isPresent()) {

@@ -21,6 +21,9 @@ public class WatchEpisodeMapper {
         dto.setIdEpisode(entity.getIdEpisode());
         dto.setIdSeason(entity.getIdSeason());
         dto.setIdTv(entity.getIdTv());
+        dto.setViewingPlace(entity.getViewingPlace());
+        dto.setViewingMood(entity.getViewingMood());
+        dto.setViewingRate(entity.getViewingRate());
         dto.setDateWatch(entity.getDateWatch());
         return dto;
     }
@@ -31,6 +34,9 @@ public class WatchEpisodeMapper {
         entity.setIdEpisode(dto.getIdEpisode());
         entity.setIdSeason(dto.getIdSeason());
         entity.setIdTv(dto.getIdTv());
+        entity.setViewingMood(dto.getViewingMood());
+        entity.setViewingRate(dto.getViewingRate());
+        entity.setViewingPlace(dto.getViewingPlace());
         entity.setDateWatch(dto.getDateWatch());
         return entity;
     }

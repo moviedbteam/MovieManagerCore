@@ -9,7 +9,6 @@ public class WatchEpisodeDto {
 
     private Long idWatch;
 
-    private Long idUser;
 
     private Long idEpisode;
 
@@ -17,17 +16,30 @@ public class WatchEpisodeDto {
 
     private Long IdTv;
 
+
+    private String viewingPlace;
+
+    // Note de 1 à 5
+    private Integer viewingRate;
+
+    // Nombre associé à des humeurs :
+    // 1=Choqué, 2=Frustré, 3= Triste, 4=Songeur, 5=Emu, 6=Amusé, 7= Effrayé, 8=Las, 9=Compris, 10=Ravi, 11= Perdu, 12= Tendu
+    private Integer viewingMood;
+
+
     private LocalDate dateWatch;
 
     public WatchEpisodeDto() {
     }
 
-    public WatchEpisodeDto(Long idWatch, Long idUser, Long idEpisode, Long idSeason, Long idTv, LocalDate dateWatch) {
+    public WatchEpisodeDto(Long idWatch, Long idEpisode, Long idSeason, Long idTv, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch) {
         this.idWatch = idWatch;
-        this.idUser = idUser;
         this.idEpisode = idEpisode;
         this.idSeason = idSeason;
-        this.IdTv = idTv;
+        IdTv = idTv;
+        this.viewingPlace = viewingPlace;
+        this.viewingRate = viewingRate;
+        this.viewingMood = viewingMood;
         this.dateWatch = dateWatch;
     }
 
@@ -72,11 +84,27 @@ public class WatchEpisodeDto {
         this.dateWatch = dateWatch;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public String getViewingPlace() {
+        return viewingPlace;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setViewingPlace(String viewingPlace) {
+        this.viewingPlace = viewingPlace;
+    }
+
+    public Integer getViewingRate() {
+        return viewingRate;
+    }
+
+    public void setViewingRate(Integer viewingRate) {
+        this.viewingRate = viewingRate;
+    }
+
+    public Integer getViewingMood() {
+        return viewingMood;
+    }
+
+    public void setViewingMood(Integer viewingMood) {
+        this.viewingMood = viewingMood;
     }
 }
