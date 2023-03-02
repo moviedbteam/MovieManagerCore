@@ -1,13 +1,13 @@
 package com.bcefit.projet.infrastructure;
 
+import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.domain.wish.WishMovie;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface IWishEpisodeRepository extends CrudRepository<WishEpisode, Long> {
+    @Query("select w from WishEpisode w where w.idEpisode = ?1 and w.userAccount = ?2")
+    WishEpisode findByIdEpisodeAndUserAccount(Long idEpisode, UserAccount userAccount);
 
 
 }

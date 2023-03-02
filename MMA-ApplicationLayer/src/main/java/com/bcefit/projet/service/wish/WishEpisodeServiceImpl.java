@@ -60,6 +60,11 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     }
 
     @Override
+    public WishEpisode getIdWishEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount) {
+        return repository.findByIdEpisodeAndUserAccount(idEpisode,userAccount);
+    }
+
+    @Override
     public void deleteWishEpisode(WishEpisode wishEpisode) {
         repository.delete(wishEpisode);
         // Envoie d'un message pour informer de la suppression d'un film dans la wishList
