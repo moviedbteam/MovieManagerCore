@@ -2,6 +2,7 @@ package com.bcefit.projet.exposition.wish.rest;
 
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.wish.dto.WishEpisodeDto;
+import com.bcefit.projet.exposition.wish.dto.WishTvSeasonDto;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishSeasonService;
@@ -30,30 +31,36 @@ public class WishSeasonAPI {
     Logger logger = LoggerFactory.getLogger(WishSeasonAPI.class);
 
 
-    @GetMapping("/season/add/{idTv}/{numberSeason}")
-    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@PathVariable("idTv") Integer idTv,@PathVariable("numberSeason") Integer numberSeason , @RequestAttribute("userLoggin") String userLoggin){
+    @PostMapping("/season")
+    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande d'ajout de wish episode by numberSeason {}",idTv," pour la séries {}"+numberSeason);
+        Integer idTv = wishTvSeasonDto.getIdTv();
+        Integer idSeason = wishTvSeasonDto.getIdSeason();
+
+        logger.info("Nouvelle demande d'ajout de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWishEpisodeBySeasonId(idTv,numberSeason, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWishEpisodeBySeasonId(idTv,idSeason, userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
 
-    @GetMapping("/season/remove/{idTv}/{numberSeason}")
-    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdSeason(@PathVariable("idTv") Integer idTv,@PathVariable("numberSeason") Integer numberSeason , @RequestAttribute("userLoggin") String userLoggin){
+    @DeleteMapping("/season")
+    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userLoggin") String userLoggin){
 
-        logger.info("Nouvelle demande de suppression de wish episode by numberSeason {}",idTv," pour la séries {}"+numberSeason);
+        Integer idTv = wishTvSeasonDto.getIdTv();
+        Integer idSeason = wishTvSeasonDto.getIdSeason();
+
+        logger.info("Nouvelle demande de suppression de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWishEpisodeBySeasonId(idTv,numberSeason, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWishEpisodeBySeasonId(idTv,idSeason, userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }

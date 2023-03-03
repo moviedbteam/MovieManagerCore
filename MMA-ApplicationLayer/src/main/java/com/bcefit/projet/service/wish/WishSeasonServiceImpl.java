@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,33 +24,38 @@ public class WishSeasonServiceImpl implements IWishSeasonService{
     Logger logger = LoggerFactory.getLogger(IWishSeasonService.class);
 
     @Override
-    public List<WishEpisode> createWishEpisodeBySeasonId(Integer idTv, Integer numberSeason, UserAccount userAccount) {
+    public List<WishEpisode> createWishEpisodeBySeasonId(Integer idTv, Integer idSeason, UserAccount userAccount) {
 
 
         //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,numberSeason);
-
+        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,idSeason);
+        List<WishEpisode> wishEpisodeCreatedList = new ArrayList<>();
 
         for (WishEpisode wishEpisode : wishEpisodeListForTV) {
             wishEpisode.setUserAccount(userAccount);
-            service.createWishEpisode(wishEpisode);
+            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+            if (wishEpisodeIsExist == null) {
+                service.createWishEpisode(wishEpisode);
+                wishEpisodeCreatedList.add(wishEpisode);
+            }
         }
-
-        return wishEpisodeListForTV;
+        return wishEpisodeCreatedList;
     }
 
     @Override
-    public List<WishEpisode> deleteWishEpisodeBySeasonId(Integer idTv, Integer numberSeason,  UserAccount userAccount) {
+    public List<WishEpisode> deleteWishEpisodeBySeasonId(Integer idTv, Integer idSeason,  UserAccount userAccount) {
 
         //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,numberSeason);
-
+        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,idSeason);
+        List<WishEpisode> wishEpisodeDeletedList = new ArrayList<>();
 
         for (WishEpisode wishEpisode : wishEpisodeListForTV) {
             WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(),userAccount);
-            service.deleteWishEpisode(wishEpisodeToDelete);
+            if (wishEpisodeToDelete != null) {
+                service.deleteWishEpisode(wishEpisodeToDelete);
+                wishEpisodeDeletedList.add(wishEpisode);
+            }
         }
-
-        return wishEpisodeListForTV;
+        return wishEpisodeDeletedList;
     }
 }

@@ -3,6 +3,7 @@ package com.bcefit.projet.exposition.wish.rest;
 
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.wish.dto.WishEpisodeDto;
+import com.bcefit.projet.exposition.wish.dto.WishTvSeasonDto;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishTvService;
@@ -31,9 +32,10 @@ public class WishTvAPI {
     Logger logger = LoggerFactory.getLogger(WishTvAPI.class);
 
 
-    @GetMapping("/tv/add/{idTv}")
-    public ResponseEntity<List<WishEpisodeDto>> createWishByIdTv(@PathVariable("idTv") Integer idTv,@RequestAttribute("userLoggin") String userLoggin){
+    @PostMapping("/tv")
+    public ResponseEntity<List<WishEpisodeDto>> createWishByIdTv(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userLoggin") String userLoggin){
 
+        Integer idTv = wishTvSeasonDto.getIdTv();
         logger.info("Nouvelle demande d'ajout de wish episode by idTv {}",idTv);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
         if(userAccount ==null){
@@ -45,8 +47,10 @@ public class WishTvAPI {
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
 
-    @GetMapping("/tv/remove/{idTv}")
-    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdTv(@PathVariable("idTv") Integer idTv,@RequestAttribute("userLoggin") String userLoggin){
+    @DeleteMapping("/tv")
+    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdTv(@RequestBody WishTvSeasonDto wishTvSeasonDto,@RequestAttribute("userLoggin") String userLoggin){
+
+        Integer idTv = wishTvSeasonDto.getIdTv();
 
         logger.info("Nouvelle demande de suppression de wish episode by idTv {}",idTv);
         UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);

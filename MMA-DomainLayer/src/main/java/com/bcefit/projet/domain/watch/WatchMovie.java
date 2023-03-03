@@ -10,12 +10,12 @@ import javax.persistence.Table;
 @Table(name = "watch_movie")
 public class WatchMovie extends WatchContent {
 
-    private Integer idMovie;
+    private Long idMovie;
 
-    private Integer idCollection;
+    private Long idCollection;
 
 
-    public WatchMovie(Long idWatch, UserAccount userAccount, Integer idMovie, Integer idCollection) {
+    public WatchMovie(Long idWatch, UserAccount userAccount, Long idMovie, Long idCollection) {
         super(idWatch, userAccount);
         this.idMovie = idMovie;
         this.idCollection = idCollection;
@@ -25,19 +25,19 @@ public class WatchMovie extends WatchContent {
 
     }
 
-    public Integer getIdMovie() {
+    public Long getIdMovie() {
         return idMovie;
     }
 
-    public void setIdMovie(Integer idMovie) {
+    public void setIdMovie(Long idMovie) {
         this.idMovie = idMovie;
     }
 
-    public Integer getIdCollection() {
+    public Long getIdCollection() {
         return idCollection;
     }
 
-    public void setIdCollection(Integer idCollection) {
+    public void setIdCollection(Long idCollection) {
         this.idCollection = idCollection;
     }
 }

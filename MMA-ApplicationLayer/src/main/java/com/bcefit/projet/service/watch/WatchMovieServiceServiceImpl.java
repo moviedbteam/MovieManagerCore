@@ -2,9 +2,13 @@ package com.bcefit.projet.service.watch;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.watch.WatchMovie;
+import com.bcefit.projet.domain.wish.WishEpisode;
+import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
+import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import org.slf4j.Logger;
@@ -24,6 +28,9 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
     @Autowired
     IWatchMovieRepository repository;
+
+    @Autowired
+    IWishMovieRepository iWishMovieRepository;
 
     @Autowired
     IWatchMoviesByUserAccountRepository iWatchMoviesByUserAccountRepository;
@@ -61,9 +68,16 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
     @Override
     public WatchMovie createWatchMovie(WatchMovie watchMovie) {
-        return repository.save(watchMovie);
+        // Enregistrement du watch Movie
+        WatchMovie watchMovieAdd = repository.save(watchMovie);
+        // Suppression de l'éventuel wish Movie associé
+        WishMovie wishMovieToDelete = iWishMovieRepository.findByIdMovieAndUserAccount(watchMovieAdd.getIdMovie(),watchMovieAdd.getUserAccount());
+        if(wishMovieToDelete!=null){
+            iWishMovieRepository.delete(wishMovieToDelete);
+        }
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
         //jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(watchMovieEntity.getUid()));
+        return watchMovieAdd;
     }
 
     @Override

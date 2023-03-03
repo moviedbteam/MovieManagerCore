@@ -6,7 +6,7 @@ import com.bcefit.projet.domain.wish.WishEpisode;
 import java.util.List;
 
 public interface IWishSeasonService {
-    List<WishEpisode> createWishEpisodeBySeasonId(Integer idTv, Integer numberSeason, UserAccount userAccount);
+    List<WishEpisode> createWishEpisodeBySeasonId(Integer idTv, Integer idSeason, UserAccount userAccount);
 
-    List<WishEpisode> deleteWishEpisodeBySeasonId(Integer idTv, Integer numberSeason, UserAccount userAccount);
+    List<WishEpisode> deleteWishEpisodeBySeasonId(Integer idTv, Integer idSeason, UserAccount userAccount);
 }

@@ -21,16 +21,16 @@ public class WatchMovieDto {
     // 1=Choqué, 2=Frustré, 3= Triste, 4=Songeur, 5=Emu, 6=Amusé, 7= Effrayé, 8=Las, 9=Compris, 10=Ravi, 11= Perdu, 12= Tendu
     private Integer viewingMood;
 
-    private Integer idMovie;
+    private Long idMovie;
 
-    private Integer idCollection;
+    private Long idCollection;
 
     private LocalDate dateWatch;
 
     public WatchMovieDto() {
     }
 
-    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Integer idMovie, Integer idCollection, LocalDate dateWatch) {
+    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idMovie, Long idCollection, LocalDate dateWatch) {
         this.idWatch = idWatch;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
@@ -49,19 +49,19 @@ public class WatchMovieDto {
     }
 
 
-    public Integer getIdMovie() {
+    public Long getIdMovie() {
         return idMovie;
     }
 
-    public void setIdMovie(Integer idMovie) {
+    public void setIdMovie(Long idMovie) {
         this.idMovie = idMovie;
     }
 
-    public Integer getIdCollection() {
+    public Long getIdCollection() {
         return idCollection;
     }
 
-    public void setIdCollection(Integer idCollection) {
+    public void setIdCollection(Long idCollection) {
         this.idCollection = idCollection;
     }
 

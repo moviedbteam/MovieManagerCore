@@ -3,10 +3,9 @@ package com.bcefit.projet.service.watch;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.watch.WatchMovie;
-import com.bcefit.projet.infrastructure.IWatchEpisodeRepository;
-import com.bcefit.projet.infrastructure.IWatchEpisodesByUserAccountRepository;
-import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
-import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.domain.wish.WishEpisode;
+import com.bcefit.projet.domain.wish.WishMovie;
+import com.bcefit.projet.infrastructure.*;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,9 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Autowired
     IWatchEpisodeRepository repository;
+
+    @Autowired
+    IWishEpisodeRepository iWishEpisodeRepository;
 
     @Autowired
     IWatchEpisodesByUserAccountRepository iWatchEpisodesByUserAccountRepository;
@@ -61,9 +63,16 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Override
     public WatchEpisode createWatchEpisode(WatchEpisode watchEpisode) {
-        return repository.save(watchEpisode);
+        // Enregistrement du watch episode
+        WatchEpisode watchEpisodeAdd = repository.save(watchEpisode);
+        // Suppression de l'éventuel wish Movie associé
+        WishEpisode wishEpisodeToDelete = iWishEpisodeRepository.findByIdEpisodeAndUserAccount(watchEpisodeAdd.getIdEpisode(),watchEpisodeAdd.getUserAccount());
+        if(wishEpisodeToDelete!=null){
+            iWishEpisodeRepository.delete(wishEpisodeToDelete);
+        }
         // Envoie d'un message pour informer de l'ajout d'un episode dans la watchList
         //jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(watchEpisode.getUid()));
+        return watchEpisodeAdd;
     }
 
     @Override

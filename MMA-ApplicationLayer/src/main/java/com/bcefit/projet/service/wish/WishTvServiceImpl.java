@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,14 +26,18 @@ public class WishTvServiceImpl implements IWishTvService {
 
         //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
         List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdTv(idTv);
+        List<WishEpisode> wishEpisodeCreatedList = new ArrayList<>();
 
 
         for (WishEpisode wishEpisode : wishEpisodeListForTV) {
             wishEpisode.setUserAccount(userAccount);
-            service.createWishEpisode(wishEpisode);
+            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+            if (wishEpisodeIsExist == null) {
+                service.createWishEpisode(wishEpisode);
+                wishEpisodeCreatedList.add(wishEpisode);
+            }
         }
-
-        return wishEpisodeListForTV;
+        return wishEpisodeCreatedList;
     }
 
     @Override
@@ -39,15 +45,16 @@ public class WishTvServiceImpl implements IWishTvService {
 
         //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
         List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdTv(idTv);
-
+        List<WishEpisode> wishEpisodeDeletedList = new ArrayList<>();
 
         for (WishEpisode wishEpisode : wishEpisodeListForTV) {
-            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(),userAccount);
-            service.deleteWishEpisode(wishEpisodeToDelete);
+            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+            if (wishEpisodeToDelete != null) {
+                service.deleteWishEpisode(wishEpisodeToDelete);
+                wishEpisodeDeletedList.add(wishEpisode);
+            }
         }
-
-        return wishEpisodeListForTV;
+        return wishEpisodeDeletedList;
     }
-
 }
 
