@@ -1,5 +1,5 @@
 # Environnement File
-env.properties
+MMA-ExpositionLayer/src/main/resources/env.properties
 
 # Compiled class file
 *.class

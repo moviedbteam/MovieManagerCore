@@ -32,13 +32,13 @@ public class WishSeasonAPI {
 
 
     @PostMapping("/season")
-    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userEmail") String userEmail){
 
         Integer idTv = wishTvSeasonDto.getIdTv();
         Integer idSeason = wishTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande d'ajout de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -49,13 +49,13 @@ public class WishSeasonAPI {
     }
 
     @DeleteMapping("/season")
-    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<List<WishEpisodeDto>> deleteWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userEmail") String userEmail){
 
         Integer idTv = wishTvSeasonDto.getIdTv();
         Integer idSeason = wishTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande de suppression de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }

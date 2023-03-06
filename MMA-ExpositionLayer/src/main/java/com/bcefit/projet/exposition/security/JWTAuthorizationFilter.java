@@ -38,8 +38,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String username = decodedJWT.getSubject();
 
 
-        request.setAttribute("userLoggin",username);
-        response.setHeader("userLoggin",username);
+        request.setAttribute("userEmail",username);
+        response.setHeader("userEmail",username);
 
         //on récupère les rôle
         List<String> roles = decodedJWT.getClaims().get("claims").asList(String.class);

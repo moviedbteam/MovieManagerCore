@@ -22,12 +22,9 @@ public class UserAccountMapper {
 
     public UserAccountDto convertEntityToDto(UserAccount entity){
         UserAccountDto dto = new UserAccountDto();
-        dto.setLoggin(entity.getLoggin());
-        dto.setIdUser(entity.getIdUser());
         dto.setUserName(entity.getUserName());
         dto.setAdultContent(entity.isAdultContent());
         dto.setEmail(entity.getEmail());
-        dto.setEnableAccount(entity.isEnableAccount());
         dto.setBirthYear(entity.getBirthYear());
         dto.setGenreMovieDtoSet(movieMapper.convertListEntityToDto(entity.getGenreMovieSet()));
         dto.setGenreTvDtoSet(tvMapper.convertListEntityToDto(entity.getGenreTvSet()));
@@ -37,12 +34,9 @@ public class UserAccountMapper {
 
     public UserAccount convertDtoToEntity(UserAccountDto dto){
         UserAccount entity = new UserAccount();
-        entity.setLoggin(dto.getLoggin());
-        entity.setIdUser(dto.getIdUser());
         entity.setUserName(dto.getUserName());
         entity.setAdultContent(dto.isAdultContent());
         entity.setEmail(dto.getEmail());
-        entity.setEnableAccount(dto.isEnableAccount());
         entity.setBirthYear(dto.getBirthYear());
         entity.setGenreMovieSet(movieMapper.convertListDtoToEntity(dto.getGenreMovieDtoSet()));
         entity.setGenreTvSet(tvMapper.convertListDtoToEntity(dto.getGenreTvDtoSet()));

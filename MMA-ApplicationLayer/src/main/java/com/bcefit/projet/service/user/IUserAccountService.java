@@ -15,9 +15,9 @@ public interface IUserAccountService {
 
     Iterable<UserAccount> findAll();
 
-    Long getIdUserByUserLoggin(String userLoggin);
+    Long getIdUserByUserEmail(String email);
 
-    UserAccount logToUserAccount(String userLoggin);
+    UserAccount logToUserAccount(String email);
 
 
 }

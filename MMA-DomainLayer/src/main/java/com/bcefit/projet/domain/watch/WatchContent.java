@@ -1,11 +1,11 @@
 package com.bcefit.projet.domain.watch;
 
 import com.bcefit.projet.domain.user.UserAccount;
-import net.bytebuddy.asm.Advice;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @MappedSuperclass
 public abstract class WatchContent {

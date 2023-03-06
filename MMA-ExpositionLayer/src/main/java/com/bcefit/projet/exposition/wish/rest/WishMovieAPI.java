@@ -33,9 +33,9 @@ public class WishMovieAPI {
     Logger logger = LoggerFactory.getLogger(WishMovieAPI.class);
 
     @GetMapping("/movie/{idWishMovie}")
-    public WishMovieDto getWishMovieById(@PathVariable("idWishMovie") Long idWish,@RequestAttribute("userLoggin") String userLoggin){
+    public WishMovieDto getWishMovieById(@PathVariable("idWishMovie") Long idWish,@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le wish movie {}", idWish);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -46,10 +46,10 @@ public class WishMovieAPI {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<WishMovieDto> create(@RequestBody WishMovieDto wishMovieDto,@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<WishMovieDto> create(@RequestBody WishMovieDto wishMovieDto,@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de wish movie avec le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de wish movie avec le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -63,9 +63,9 @@ public class WishMovieAPI {
     }
 
     @GetMapping("/movie/all")
-    public ResponseEntity<List<WishMovieDto>> getAllWishMovies(@RequestAttribute("userLoggin") String userLoggin){
-        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+    public ResponseEntity<List<WishMovieDto>> getAllWishMovies(@RequestAttribute("userEmail") String userEmail){
+        logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -80,9 +80,9 @@ public class WishMovieAPI {
     }
 
     @DeleteMapping( "/movie/{idWishMovie}")
-    public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie,@RequestAttribute("userLoggin") String userLoggin){
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+    public ResponseEntity<String> deleteWishMovie(@PathVariable Long idWishMovie,@RequestAttribute("userEmail") String userEmail){
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }

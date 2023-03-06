@@ -34,10 +34,10 @@ public class WatchEpisodeAPI {
 
 
     @GetMapping("/episode/{idWatchEpisode}")
-    public ResponseEntity<WatchEpisodeDto> getWatchEpisodeById(@PathVariable("idWatchEpisode") Long idWatch, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<WatchEpisodeDto> getWatchEpisodeById(@PathVariable("idWatchEpisode") Long idWatch, @RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -52,10 +52,10 @@ public class WatchEpisodeAPI {
     }
 
     @PostMapping("/episode")
-    public ResponseEntity<WatchEpisodeDto> create(@RequestBody WatchEpisodeDto watchEpisodeDto, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<WatchEpisodeDto> create(@RequestBody WatchEpisodeDto watchEpisodeDto, @RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -69,10 +69,10 @@ public class WatchEpisodeAPI {
     }
 
     @GetMapping("/episode/all")
-    public ResponseEntity<List<WatchEpisodeDto>> getAllWatchEpisodess(@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<List<WatchEpisodeDto>> getAllWatchEpisodess(@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -87,10 +87,10 @@ public class WatchEpisodeAPI {
     }
 
     @DeleteMapping("/episode/{idWatchEpisode}")
-    public ResponseEntity<String> deleteWatchEpisode(@PathVariable Long idWatchEpisode, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<String> deleteWatchEpisode(@PathVariable Long idWatchEpisode, @RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }

@@ -29,15 +29,15 @@ public class UserAccountAPI {
     Logger logger = LoggerFactory.getLogger(UserAccountAPI.class);
 
     @GetMapping("/{idUser}")
-    public UserAccountDto getUserAccountById(@RequestAttribute("userLoggin") String userLoggin){
-        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = service.logToUserAccount(userLoggin);
+    public UserAccountDto getUserAccountById(@RequestAttribute("userEmail") String userEmail){
+        logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = service.logToUserAccount(userEmail);
         logger.debug("DEBUG---ID UserAccount = {}", userAccount.getIdUser());
         return mapper.convertEntityToDto(userAccount);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserAccountDto> create(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<UserAccountDto> create(@RequestBody UserAccountDto userAccountDto){
 
         logger.info("enregistrement d'un nouveau user account {}",userAccountDto.getUserName());
 
@@ -49,10 +49,9 @@ public class UserAccountAPI {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userLoggin") String userLoggin){
-        logger.info("Nouvelle demande pour le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccountBeforeUpdate = service.logToUserAccount(userLoggin);
-        userAccountDto.setIdUser(userAccountBeforeUpdate.getIdUser());
+    public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userEmail") String userEmail){
+        logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        UserAccount userAccountBeforeUpdate = service.logToUserAccount(userEmail);
         logger.info("modification du user account {}",userAccountDto.getUserName());
 
         UserAccount userAccountUpdated=mapper.convertDtoToEntity(userAccountDto);

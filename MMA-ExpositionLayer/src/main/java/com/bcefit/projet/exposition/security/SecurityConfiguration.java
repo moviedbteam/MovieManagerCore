@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors();
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/create").permitAll();
+        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/create").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/userAccount/").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/userAccount/update/").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/all/").hasRole("ADMIN");

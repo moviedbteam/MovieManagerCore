@@ -34,10 +34,10 @@ public class WatchMovieAPI {
     Logger logger = LoggerFactory.getLogger(WatchMovieAPI.class);
 
     @GetMapping("/movie/{idWatchMovie}")
-    public ResponseEntity<WatchMovieDto> getWatchMovieById(@PathVariable("idWatchMovie") Long idWatch,@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<WatchMovieDto> getWatchMovieById(@PathVariable("idWatchMovie") Long idWatch,@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -50,10 +50,10 @@ public class WatchMovieAPI {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -67,10 +67,10 @@ public class WatchMovieAPI {
     }
 
     @GetMapping("/movie/all")
-    public ResponseEntity<List<WatchMovieDto>> getAllWatchMovies(@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<List<WatchMovieDto>> getAllWatchMovies(@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
@@ -86,10 +86,10 @@ public class WatchMovieAPI {
     }
 
     @DeleteMapping("/movie/{idWatchMovie}")
-    public ResponseEntity<String> deleteWatchMovie(@PathVariable Long idWatchMovie,@RequestAttribute("userLoggin") String userLoggin){
+    public ResponseEntity<String> deleteWatchMovie(@PathVariable Long idWatchMovie,@RequestAttribute("userEmail") String userEmail){
 
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (loggin) {}", userLoggin);
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userLoggin);
+        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }

@@ -62,22 +62,22 @@ public class UserAccountServiceImpl implements IUserAccountService{
 
 
     @Override
-    public Long getIdUserByUserLoggin(String userLoggin) {
-        logger.debug("service getUserIdByLoggin {}", userLoggin);
-        Optional<UserAccount> optionalUserAccount = iLogginRepository.findUserAccountByLoggin(userLoggin);
+    public Long getIdUserByUserEmail(String email) {
+        logger.debug("service getUserIdByEmail {}", email);
+        Optional<UserAccount> optionalUserAccount = iLogginRepository.findUserAccountByEmail(email);
         if(optionalUserAccount.isPresent()){
             return optionalUserAccount.get().getIdUser();
         }else{
-            logger.error("pas d'idUser pour le loggin {}", userLoggin);
-            throw new EntityNotFoundException("L'idUser n'éxiste pas");
+            logger.error("pas d'idUser pour l'email {}", email);
+            throw new EntityNotFoundException("L'email n'éxiste pas");
         }
 
     }
 
     @Override
-    public UserAccount logToUserAccount(String userLoggin) {
-        logger.debug("service log to UserAccount by loggin {}", userLoggin);
-        Long idUser = getIdUserByUserLoggin(userLoggin);
+    public UserAccount logToUserAccount(String email) {
+        logger.debug("service log to UserAccount by loggin {}", email);
+        Long idUser = getIdUserByUserEmail(email);
         UserAccount userAccount = findById(idUser);
         return userAccount;
     }

@@ -18,8 +18,6 @@ public class UserAccount {
     @Column(name = "id_user", nullable = false)
     private Long idUser;
 
-    private String loggin;
-
     private String userName;
 
     private String email;
@@ -72,9 +70,8 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(Long idUser, String loggin, String userName, String email, Integer birthYear, boolean adultContent, boolean enableAccount, Set<GenreMovie> genreMovieSet, Set<GenreTv> genreTvSet, Set<StreamingSubscription> streamingSubscriptionSet) {
+    public UserAccount(Long idUser, String userName, String email, Integer birthYear, boolean adultContent, boolean enableAccount, Set<GenreMovie> genreMovieSet, Set<GenreTv> genreTvSet, Set<StreamingSubscription> streamingSubscriptionSet) {
         this.idUser = idUser;
-        this.loggin = loggin;
         this.userName = userName;
         this.email = email;
         this.birthYear = birthYear;
@@ -149,12 +146,5 @@ public class UserAccount {
         this.streamingSubscriptionSet = streamingSubscriptionSet;
     }
 
-    public String getLoggin() {
-        return loggin;
-    }
-
-    public void setLoggin(String loggin) {
-        this.loggin = loggin;
-    }
 }
 
