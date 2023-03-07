@@ -10,4 +10,6 @@ public interface IMovieDbService {
 
 
     List<WishEpisode> getWishEpisodeListByIdSeason(Integer idTv, Integer numberSeason);
+
+    void getMovieDetail(Integer idMovie);
 }
