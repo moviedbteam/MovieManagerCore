@@ -2,7 +2,10 @@ package com.bcefit.projet.service.analytic;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.watch.WatchEpisode;
+import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishEpisode;
+import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.service.wish.IWishEpisodeService;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbTV;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class Recommendation  {
+public class RecommendationImpl implements IRecommendationService{
 
     @Autowired
     IWishEpisodeService service;
@@ -57,5 +60,26 @@ public class Recommendation  {
             }
         }
         return wishEpisodeListTotale;
+    }
+
+
+    @Override
+    public void calculRecosWatchMovie(WatchMovie watchMovie, String methode) {
+
+    }
+
+    @Override
+    public void calculRecosWatchEpisode(WatchEpisode watchEpisode, String methode) {
+
+    }
+
+    @Override
+    public void calculRecosWishMovie(WishMovie wishMovie, String methode) {
+
+    }
+
+    @Override
+    public void calculRecosWishEpisode(WishEpisode wishEpisode, String methode) {
+
     }
 }

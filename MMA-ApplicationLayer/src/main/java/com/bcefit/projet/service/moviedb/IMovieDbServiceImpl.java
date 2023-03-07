@@ -1,9 +1,11 @@
 package com.bcefit.projet.service.moviedb;
 
 import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.service.wish.WishEpisodeServiceImpl;
 import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbTV;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeason;
 import info.movito.themoviedbapi.model.tv.TvSeries;
@@ -11,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +84,14 @@ public class IMovieDbServiceImpl implements IMovieDbService {
             }
         }
         return wishEpisodeList;
+    }
+
+    @Override
+    public void getMovieDetail(Integer idMovie) {
+        TmdbApi tmdb = getSessionApi();
+        MovieDb movieDb = tmdb.getMovies().getMovie(idMovie, "fr", TmdbMovies.MovieMethod.credits);
+        MovieResultsPage resultsPage = tmdb.getMovies().getRecommendedMovies(idMovie,"fr",1);
+        System.out.println(movieDb);
     }
 }
 

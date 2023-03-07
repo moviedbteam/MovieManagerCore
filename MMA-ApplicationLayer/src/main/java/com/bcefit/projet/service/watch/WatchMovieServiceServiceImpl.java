@@ -2,15 +2,16 @@ package com.bcefit.projet.service.watch;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.watch.WatchMovie;
-import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
+
+import com.bcefit.projet.service.mapper.WatchEpisodeMessageMapper;
+import com.bcefit.projet.service.mapper.WatchMovieMessageMapper;
+import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
-import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
     @Autowired
     JmsTemplate jmsTemplate;
+
+    @Autowired
+    WatchMovieMessageMapper watchMovieMessageMapper;
 
 
     @Override
@@ -76,7 +80,8 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
             iWishMovieRepository.delete(wishMovieToDelete);
         }
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        //jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(watchMovieEntity.getUid()));
+        String message = watchMovieMessageMapper.convertEntityToMessage(watchMovie);
+        jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(message));
         return watchMovieAdd;
     }
 
@@ -84,6 +89,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     public void deleteWatchMovie(WatchMovie watchMovie) {
         repository.delete(watchMovie);
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        //jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(watchMovieEntity.getUid()));
+        String message = watchMovieMessageMapper.convertEntityToMessage(watchMovie);
+        jmsTemplate.send("Q_DELETE_Watch_MOVIE", new MessageString(message));
     }
 }

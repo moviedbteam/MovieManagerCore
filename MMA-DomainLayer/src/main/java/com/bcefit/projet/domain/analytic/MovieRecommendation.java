@@ -20,6 +20,10 @@ public class MovieRecommendation {
 
     private Integer idMovie;
 
+    private Double popularity;
+
+
+
     @ManyToOne
     @JoinColumn(name = "genre_movie_id")
     private GenreMovie genreMovie;

@@ -2,10 +2,10 @@ package com.bcefit.projet.service.watch;
 
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
-import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.*;
+import com.bcefit.projet.service.mapper.WatchEpisodeMessageMapper;
+import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +36,9 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Autowired
     JmsTemplate jmsTemplate;
+
+    @Autowired
+    WatchEpisodeMessageMapper watchEpisodeMessageMapper;
 
     @Override
     public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
@@ -71,7 +74,8 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
             iWishEpisodeRepository.delete(wishEpisodeToDelete);
         }
         // Envoie d'un message pour informer de l'ajout d'un episode dans la watchList
-        //jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(watchEpisode.getUid()));
+        String message = watchEpisodeMessageMapper.convertEntityToMessage(watchEpisode);
+        jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(message));
         return watchEpisodeAdd;
     }
 
@@ -79,6 +83,7 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     public void deleteWatchEpisode(WatchEpisode watchEpisode) {
         repository.delete(watchEpisode);
         // Envoie d'un message pour informer de la suppression d'un film dans la watchList
-        //jmsTemplate.send("Q_DELETE_Watch_EPISODE", new MessageString(watchEpisode.toString()));
+        String message = watchEpisodeMessageMapper.convertEntityToMessage(watchEpisode);
+        jmsTemplate.send("Q_DELETE_Watch_EPISODE", new MessageString(message));
     }
 }
