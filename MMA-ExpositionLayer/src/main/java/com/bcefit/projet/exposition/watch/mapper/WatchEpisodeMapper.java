@@ -25,6 +25,7 @@ public class WatchEpisodeMapper {
         dto.setViewingMood(entity.getViewingMood());
         dto.setViewingRate(entity.getViewingRate());
         dto.setDateWatch(entity.getDateWatch());
+        dto.setDuration(entity.getDuration());
         return dto;
     }
 
@@ -38,6 +39,7 @@ public class WatchEpisodeMapper {
         entity.setViewingRate(dto.getViewingRate());
         entity.setViewingPlace(dto.getViewingPlace());
         entity.setDateWatch(dto.getDateWatch());
+        entity.setDuration(dto.getDuration());
         return entity;
     }
 

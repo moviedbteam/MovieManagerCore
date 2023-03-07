@@ -1,5 +1,7 @@
 package com.bcefit.projet.service.moviedb;
 
+import com.bcefit.projet.domain.analytic.MovieRecommendation;
+import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
@@ -87,11 +89,90 @@ public class IMovieDbServiceImpl implements IMovieDbService {
     }
 
     @Override
-    public void getMovieDetail(Integer idMovie) {
+    public Integer getMovieDetail(Integer idMovie) {
+        TmdbApi tmdb = getSessionApi();
+        MovieDb movieDb = tmdb.getMovies().getMovie(idMovie, "fr", TmdbMovies.MovieMethod.credits);
+        return movieDb.getRuntime();
+    }
+
+    @Override
+    public Integer getEpisodeDetail(Integer idTv) {
+        TmdbApi tmdb = getSessionApi();
+        TvSeries tvSeries = tmdb.getTvSeries().getSeries(idTv,"fr", TmdbTV.TvMethod.credits);
+        return tvSeries.getEpisodeRuntime().get(0);
+    }
+
+    @Override
+    public List<MovieRecommendation> getMovieRecommendations(Integer idMovie) {
         TmdbApi tmdb = getSessionApi();
         MovieDb movieDb = tmdb.getMovies().getMovie(idMovie, "fr", TmdbMovies.MovieMethod.credits);
         MovieResultsPage resultsPage = tmdb.getMovies().getRecommendedMovies(idMovie,"fr",1);
+
+        List<MovieRecommendation> movieRecommendationList = new ArrayList<>();
+
+        System.out.println(resultsPage);
         System.out.println(movieDb);
+        return movieRecommendationList;
+    }
+
+    @Override
+    public List<WatchEpisode> getWatchEpisodeListByIdTv(Integer idTv) {
+
+        TmdbApi tmdb = getSessionApi();
+
+        List<WatchEpisode> watchEpisodeList = new ArrayList<>();
+
+        TvSeries tvSeries = new TvSeries();
+        tvSeries.setId(idTv);
+
+        TvSeries tvResult = tmdb.getTvSeries().getSeries(tvSeries.getId(), "en", TmdbTV.TvMethod.credits, TmdbTV.TvMethod.external_ids);
+
+        for (int i = 1; i <= tvResult.getNumberOfSeasons(); i++) {
+
+            TvSeason resultSeason = tmdb.getTvSeasons().getSeason(tvSeries.getId(), i, "fr");
+
+            List<TvEpisode> tvEpisodeList = resultSeason.getEpisodes().stream().toList();
+
+
+            for (TvEpisode tvEpisode : tvEpisodeList) {
+                WatchEpisode watchEpisode = new WatchEpisode();
+                watchEpisode.setIdEpisode(Long.valueOf(tvEpisode.getId()));
+                watchEpisode.setIdTv(Long.valueOf(tvSeries.getId()));
+                watchEpisode.setIdSeason(Long.valueOf(resultSeason.getId()));
+                watchEpisodeList.add(watchEpisode);
+            }
+        }
+
+        return watchEpisodeList;
+    }
+
+
+    @Override
+    public List<WatchEpisode> getWatchEpisodeListByIdSeason(Integer idTv, Integer idSeason) {
+        TmdbApi tmdb = getSessionApi();
+
+        List<WatchEpisode> watchEpisodeList = new ArrayList<>();
+        TvSeries tvResult = tmdb.getTvSeries().getSeries(idTv, "en", TmdbTV.TvMethod.credits, TmdbTV.TvMethod.external_ids);
+
+        List<TvSeason> tvSeasonList = tvResult.getSeasons();
+
+        for (TvSeason tvSeason : tvSeasonList) {
+            if (tvSeason.getId() == idSeason) {
+                TvSeason resultSeason = tmdb.getTvSeasons().getSeason(idTv, tvSeason.getSeasonNumber(), "fr");
+
+                List<TvEpisode> tvEpisodeList = resultSeason.getEpisodes().stream().toList();
+
+
+                for (TvEpisode tvEpisode : tvEpisodeList) {
+                    WatchEpisode watchEpisode = new WatchEpisode();
+                    watchEpisode.setIdEpisode(Long.valueOf(tvEpisode.getId()));
+                    watchEpisode.setIdTv(Long.valueOf(idTv));
+                    watchEpisode.setIdSeason(Long.valueOf(resultSeason.getId()));
+                    watchEpisodeList.add(watchEpisode);
+                }
+            }
+        }
+        return watchEpisodeList;
     }
 }
 

@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import net.bytebuddy.asm.Advice;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -27,10 +28,12 @@ public class WatchMovieDto {
 
     private LocalDate dateWatch;
 
+    private Duration duration;
+
     public WatchMovieDto() {
     }
 
-    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idMovie, Long idCollection, LocalDate dateWatch) {
+    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idMovie, Long idCollection, LocalDate dateWatch, Duration duration) {
         this.idWatch = idWatch;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
@@ -38,6 +41,7 @@ public class WatchMovieDto {
         this.idMovie = idMovie;
         this.idCollection = idCollection;
         this.dateWatch = dateWatch;
+        this.duration = duration;
     }
 
     public Long getIdWatch() {
@@ -96,5 +100,13 @@ public class WatchMovieDto {
 
     public void setDateWatch(LocalDate dateWatch) {
         this.dateWatch = dateWatch;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }

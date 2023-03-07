@@ -13,4 +13,6 @@ public interface IWatchEpisodeService {
     void deleteWatchEpisode(WatchEpisode watchEpisode);
 
     WatchEpisode createWatchEpisode(WatchEpisode watchEpisode);
+
+    WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount);
 }

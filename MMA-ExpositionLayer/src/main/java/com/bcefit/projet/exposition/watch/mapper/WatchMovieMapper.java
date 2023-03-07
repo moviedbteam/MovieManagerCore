@@ -23,6 +23,7 @@ public class WatchMovieMapper {
         dto.setViewingRate(entity.getViewingRate());
         dto.setIdMovie(entity.getIdMovie());
         dto.setIdCollection(entity.getIdCollection());
+        dto.setDuration(entity.getDuration());
         return dto;
     }
 
@@ -35,6 +36,7 @@ public class WatchMovieMapper {
         entity.setViewingRate(dto.getViewingRate());
         entity.setViewingPlace(dto.getViewingPlace());
         entity.setDateWatch(dto.getDateWatch());
+        entity.setDuration(dto.getDuration());
         return entity;
     }
 

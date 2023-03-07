@@ -8,10 +8,7 @@ public interface IAnalyticService {
     void addWatchMovieAnalytic(WatchMovie watchMovie);
 
 
-    void delWatchMovieAnalytic(WatchMovie watchMovie);
-
     void addWatchEpisodeAnalytic(WatchEpisode watchEpisode);
 
-    void delWatchEpisodeAnalytic(WatchEpisode watchEpisode);
 
 }

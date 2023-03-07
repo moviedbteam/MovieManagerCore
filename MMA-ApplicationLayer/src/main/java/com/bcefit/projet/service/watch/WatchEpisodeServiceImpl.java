@@ -80,6 +80,12 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     }
 
     @Override
+    public WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount) {
+        return repository.findByIdEpisodeAndUserAccount(idEpisode,userAccount);
+    }
+
+
+    @Override
     public void deleteWatchEpisode(WatchEpisode watchEpisode) {
         repository.delete(watchEpisode);
         // Envoie d'un message pour informer de la suppression d'un film dans la watchList

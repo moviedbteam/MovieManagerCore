@@ -1,10 +1,13 @@
 package com.bcefit.projet.domain.watch;
 
+import com.bcefit.projet.domain.user.GenreMovie;
 import com.bcefit.projet.domain.user.UserAccount;
 
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @MappedSuperclass
@@ -31,6 +34,10 @@ public abstract class WatchContent {
     // 1=Choqué, 2=Frustré, 3= Triste, 4=Songeur, 5=Emu, 6=Amusé, 7= Effrayé, 8=Las, 9=Compris, 10=Ravi, 11= Perdu, 12= Tendu
     private Integer viewingMood;
 
+
+    private Duration duration;
+
+
     public WatchContent() {
 
     }
@@ -40,13 +47,14 @@ public abstract class WatchContent {
         this.userAccount = userAccount;
     }
 
-    public WatchContent(Long idWatch, UserAccount userAccount, LocalDate dateWatch, String viewingPlace, Integer viewingRate, Integer viewingMood) {
+    public WatchContent(Long idWatch, UserAccount userAccount, LocalDate dateWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Duration duration) {
         this.idWatch = idWatch;
         this.userAccount = userAccount;
         this.dateWatch = dateWatch;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
+        this.duration = duration;
     }
 
     public UserAccount getUserAccount() {
@@ -95,6 +103,14 @@ public abstract class WatchContent {
 
     public void setDateWatch(LocalDate dateWatch) {
         this.dateWatch = dateWatch;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }
 

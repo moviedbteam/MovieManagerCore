@@ -35,9 +35,9 @@ public class WatchEpisodeMessageMapper {
         watchEpisode.setIdTv(Long.valueOf(tabString[3]));
         UserAccount userAccount = userAccountService.findById(Long.valueOf(tabString[4]));
         watchEpisode.setUserAccount(userAccount);
-        watchEpisode.setViewingPlace(tabString[5]);
-        watchEpisode.setViewingMood(Integer.valueOf(tabString[6]));
-        watchEpisode.setViewingRate(Integer.valueOf(tabString[7]));
+        //if (tabString[5].equalsIgnoreCase("null")){watchEpisode.setViewingPlace(tabString[5]);}
+        //if (tabString[6].equalsIgnoreCase("null")){watchEpisode.setViewingMood(Integer.valueOf(tabString[6]));}
+        //if (tabString[7].equalsIgnoreCase("null")){watchEpisode.setViewingRate(Integer.valueOf(tabString[7]));}
 
         return watchEpisode;
     }
