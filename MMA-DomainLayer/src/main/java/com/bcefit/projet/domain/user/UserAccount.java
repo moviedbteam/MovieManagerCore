@@ -1,14 +1,11 @@
 package com.bcefit.projet.domain.user;
 
-import com.bcefit.projet.domain.watch.WatchEpisode;
-import com.bcefit.projet.domain.watch.WatchMovie;
-import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.domain.wish.WishMovie;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
+import com.bcefit.projet.domain.moviedb.GenreTv;
+import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,32 +25,20 @@ public class UserAccount {
 
     private boolean enableAccount;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_genre_movie",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
     private Set<GenreMovie> genreMovieSet= new HashSet<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_genre_tv",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
     private Set<GenreTv> genreTvSet= new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_streaming_subscription",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
