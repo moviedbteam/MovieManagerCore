@@ -13,7 +13,7 @@ public abstract class WishContent {
     @Column(name = "id_wish", nullable = false)
     private Long idWish;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private UserAccount userAccount;
 

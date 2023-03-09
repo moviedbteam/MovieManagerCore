@@ -21,22 +21,17 @@ public class WatchMovieMapper {
         dto.setViewingPlace(entity.getViewingPlace());
         dto.setViewingMood(entity.getViewingMood());
         dto.setViewingRate(entity.getViewingRate());
-        dto.setIdMovie(entity.getIdMovie());
-        dto.setIdCollection(entity.getIdCollection());
-        dto.setDuration(entity.getDuration());
+        dto.setIdMovie(entity.getMovie().getIdMovie());
         return dto;
     }
 
     public WatchMovie convertDtoToEntity(WatchMovieDto dto){
         WatchMovie entity = new WatchMovie();
         entity.setIdWatch(dto.getIdWatch());
-        entity.setIdMovie(dto.getIdMovie());
-        entity.setIdCollection(dto.getIdCollection());
         entity.setViewingMood(dto.getViewingMood());
         entity.setViewingRate(dto.getViewingRate());
         entity.setViewingPlace(dto.getViewingPlace());
         entity.setDateWatch(dto.getDateWatch());
-        entity.setDuration(dto.getDuration());
         return entity;
     }
 

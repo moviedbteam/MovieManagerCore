@@ -8,8 +8,7 @@ import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 
-import com.bcefit.projet.service.mapper.WatchEpisodeMessageMapper;
-import com.bcefit.projet.service.mapper.WatchMovieMessageMapper;
+import com.bcefit.projet.service.mapper.WatchMovieMsgMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
@@ -43,7 +42,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     JmsTemplate jmsTemplate;
 
     @Autowired
-    WatchMovieMessageMapper watchMovieMessageMapper;
+    WatchMovieMsgMapper watchMovieMapper;
 
 
     @Override
@@ -75,13 +74,16 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
         // Enregistrement du watch Movie
         WatchMovie watchMovieAdd = repository.save(watchMovie);
         // Suppression de l'éventuel wish Movie associé
-        WishMovie wishMovieToDelete = iWishMovieRepository.findByIdMovieAndUserAccount(watchMovieAdd.getIdMovie(),watchMovieAdd.getUserAccount());
+
+        WishMovie wishMovieToDelete = iWishMovieRepository.findByIdMovieAndUserAccount(watchMovieAdd.getMovie().getIdMovie(),watchMovieAdd.getUserAccount());
         if(wishMovieToDelete!=null){
             iWishMovieRepository.delete(wishMovieToDelete);
         }
+
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        String message = watchMovieMessageMapper.convertEntityToMessage(watchMovie);
-        jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(message));
+        //String message = watchMovieMapper.convertEntityToMessage(watchMovie);
+        //jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(message));
+
         return watchMovieAdd;
     }
 
@@ -89,7 +91,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     public void deleteWatchMovie(WatchMovie watchMovie) {
         repository.delete(watchMovie);
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        String message = watchMovieMessageMapper.convertEntityToMessage(watchMovie);
-        jmsTemplate.send("Q_DELETE_Watch_MOVIE", new MessageString(message));
+        //String message = watchMovieMapper.convertEntityToMessage(watchMovie);
+        //jmsTemplate.send("Q_DELETE_Watch_MOVIE", new MessageString(message));
     }
 }

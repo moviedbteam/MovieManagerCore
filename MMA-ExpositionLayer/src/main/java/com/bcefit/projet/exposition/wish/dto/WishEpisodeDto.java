@@ -11,15 +11,18 @@ public class WishEpisodeDto {
 
     private Long idSeason;
 
+    private int seasonNumber;
+
     private Long IdTv;
 
     public WishEpisodeDto() {
     }
 
-    public WishEpisodeDto(Long idWish, Long idEpisode, Long idSeason, Long idTv) {
+    public WishEpisodeDto(Long idWish, Long idEpisode, Long idSeason, int seasonNumber, Long idTv) {
         this.idWish = idWish;
         this.idEpisode = idEpisode;
         this.idSeason = idSeason;
+        this.seasonNumber = seasonNumber;
         IdTv = idTv;
     }
 
@@ -53,5 +56,13 @@ public class WishEpisodeDto {
 
     public void setIdTv(Long idTv) {
         IdTv = idTv;
+    }
+
+    public int getSeasonNumber() {
+        return seasonNumber;
+    }
+
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }

@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IWishEpisodeRepository;
 import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
 
     @Autowired
     IWishEpisodesByUserAccountRepository iWishEpisodesByUserAccountRepository;
+
+    @Autowired
+    IUserAccountService userAccountService;
+
 
     @Autowired
     JmsTemplate jmsTemplate;
@@ -54,15 +59,22 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
 
     @Override
     public WishEpisode createWishEpisode(WishEpisode wishEpisode) {
-        return repository.save(wishEpisode);
+        // Enregistrement du watch episode
+        WishEpisode wishEpisodeAdd = repository.save(wishEpisode);
+
         // Envoie d'un message pour informer de l'ajout d'un episode dans la wishList
         //jmsTemplate.send("Q_ADD_Wish_EPISODE", new MessageString(wishEpisode.getUid()));
+
+        return wishEpisodeAdd;
     }
+
 
     @Override
     public WishEpisode getIdWishEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount) {
         return repository.findByIdEpisodeAndUserAccount(idEpisode,userAccount);
     }
+
+
 
     @Override
     public void deleteWishEpisode(WishEpisode wishEpisode) {

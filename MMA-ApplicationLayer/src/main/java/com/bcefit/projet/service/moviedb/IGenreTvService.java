@@ -1,7 +1,7 @@
-package com.bcefit.projet.service.user;
+package com.bcefit.projet.service.moviedb;
 
 
-import com.bcefit.projet.domain.user.GenreTv;
+import com.bcefit.projet.domain.moviedb.GenreTv;
 
 public interface IGenreTvService {
 

@@ -15,6 +15,8 @@ public class WatchEpisodeDto {
 
     private Long idSeason;
 
+    private int seasonNumber;
+
     private Long idTv;
 
 
@@ -30,21 +32,20 @@ public class WatchEpisodeDto {
 
     private LocalDate dateWatch;
 
-    private Duration duration;
 
     public WatchEpisodeDto() {
     }
 
-    public WatchEpisodeDto(Long idWatch, Long idEpisode, Long idSeason, Long idTv, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch, Duration duration) {
+    public WatchEpisodeDto(Long idWatch, Long idEpisode, Long idSeason, int seasonNumber, Long idTv, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch) {
         this.idWatch = idWatch;
         this.idEpisode = idEpisode;
         this.idSeason = idSeason;
+        this.seasonNumber = seasonNumber;
         this.idTv = idTv;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
         this.dateWatch = dateWatch;
-        this.duration = duration;
     }
 
     public Long getIdWatch() {
@@ -113,11 +114,11 @@ public class WatchEpisodeDto {
         this.idTv = idTv;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public int getSeasonNumber() {
+        return seasonNumber;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }

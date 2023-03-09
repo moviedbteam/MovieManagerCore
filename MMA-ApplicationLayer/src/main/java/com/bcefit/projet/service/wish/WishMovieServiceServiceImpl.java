@@ -6,6 +6,7 @@ import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
 import com.bcefit.projet.service.message.MessageString;
+import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
 
     @Autowired
     IWishMoviesByUserAccountRepository iWishMoviesByUserAccountRepository;
+
+    @Autowired
+    IUserAccountService iUserAccountService;
 
     @Autowired
     JmsTemplate jmsTemplate;
@@ -61,9 +65,11 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
     public WishMovie createWishMovie(WishMovie wishMovie) {
         LocalDate actualDate = LocalDate.now();
         wishMovie.setDateWsih(actualDate);
-        return repository.save(wishMovie);
+        WishMovie wishMovieAdd = repository.save(wishMovie);
         // Envoie d'un message pour informer de l'ajout d'un film dans la wishList
         //jmsTemplate.send("Q_ADD_Wish_MOVIE", new MessageString(wishMovie.toString()));
+
+        return repository.save(wishMovie);
     }
 
     @Override

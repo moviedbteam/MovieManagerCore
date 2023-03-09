@@ -1,6 +1,6 @@
-package com.bcefit.projet.service.user;
+package com.bcefit.projet.service.moviedb;
 
-import com.bcefit.projet.domain.user.StreamingSubscription;
+import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 import com.bcefit.projet.infrastructure.StreamingSubscriptionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

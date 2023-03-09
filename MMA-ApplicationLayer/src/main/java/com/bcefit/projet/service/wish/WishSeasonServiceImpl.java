@@ -1,8 +1,10 @@
 package com.bcefit.projet.service.wish;
 
+import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.service.moviedb.IMovieDbService;
+import com.bcefit.projet.service.moviedb.IEpisodeService;
+import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,26 +16,32 @@ import java.util.List;
 @Service
 public class WishSeasonServiceImpl implements IWishSeasonService{
 
-
     @Autowired
     IWishEpisodeService service;
 
     @Autowired
-    IMovieDbService iMovieDbService;
+    ITmdbApiService iTmdbApiService;
+
+    @Autowired
+    IEpisodeService iEpisodeService;
 
     Logger logger = LoggerFactory.getLogger(IWishSeasonService.class);
 
     @Override
-    public List<WishEpisode> createWishEpisodeBySeasonId(Integer idTv, Integer idSeason, UserAccount userAccount) {
+    public List<WishEpisode> createWishEpisodeBySeasonId(Long idTv, Long idSeason, UserAccount userAccount) {
+        // Synchroniser la base des Tv/Season/Episode
+        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
 
+        //création de la liste de tous les épisodes de la Season
+        List<Episode> episodeListForTvAndSeason = iEpisodeService.getAllEpisodeByIdTvAndIdSeason(idTv, idSeason);
 
         //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,idSeason);
-        List<WishEpisode> wishEpisodeCreatedList = new ArrayList<>();
+         List<WishEpisode> wishEpisodeCreatedList = new ArrayList<>();
 
-        for (WishEpisode wishEpisode : wishEpisodeListForTV) {
+        for (Episode episode : episodeListForTvAndSeason) {
+            WishEpisode wishEpisode = new WishEpisode();
             wishEpisode.setUserAccount(userAccount);
-            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(episode.getIdEpisode(), userAccount);
             if (wishEpisodeIsExist == null) {
                 service.createWishEpisode(wishEpisode);
                 wishEpisodeCreatedList.add(wishEpisode);
@@ -43,19 +51,23 @@ public class WishSeasonServiceImpl implements IWishSeasonService{
     }
 
     @Override
-    public List<WishEpisode> deleteWishEpisodeBySeasonId(Integer idTv, Integer idSeason,  UserAccount userAccount) {
+    public List<WishEpisode> deleteWishEpisodeBySeasonId(Long idTv, Long idSeason,  UserAccount userAccount) {
 
-        //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdSeason(idTv,idSeason);
+        //création de la liste de tous les épisodes de la Season
+        List<Episode> episodeListForTvAndSeason = iEpisodeService.getAllEpisodeByIdTvAndIdSeason(idTv, idSeason);
+
+        //création de la watchListMovie des watch qui seront supprimés en base
         List<WishEpisode> wishEpisodeDeletedList = new ArrayList<>();
 
-        for (WishEpisode wishEpisode : wishEpisodeListForTV) {
-            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(),userAccount);
+        for (Episode episode : episodeListForTvAndSeason) {
+            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(episode.getIdEpisode(),userAccount);
             if (wishEpisodeToDelete != null) {
                 service.deleteWishEpisode(wishEpisodeToDelete);
-                wishEpisodeDeletedList.add(wishEpisode);
+                wishEpisodeDeletedList.add(wishEpisodeToDelete);
             }
         }
         return wishEpisodeDeletedList;
     }
+
+
 }

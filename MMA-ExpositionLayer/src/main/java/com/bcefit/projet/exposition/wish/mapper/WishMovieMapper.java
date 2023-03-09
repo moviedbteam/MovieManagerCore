@@ -12,16 +12,15 @@ import java.util.List;
 public class WishMovieMapper {
 
     public WishMovieDto convertEntityToDto(WishMovie entity){
-        return new WishMovieDto(entity.getIdWish(),
-                                entity.getIdMovie(),
-                                entity.getIdCollection());
+        WishMovieDto dto = new WishMovieDto();
+        dto.setIdWish(entity.getIdWish());
+        dto.setIdMovie(entity.getMovie().getIdMovie());
+        return dto;
     }
 
     public WishMovie convertDtoToEntity(WishMovieDto dto){
         WishMovie entity = new WishMovie();
         entity.setIdWish(dto.getIdWish());
-        entity.setIdMovie(dto.getIdMovie());
-        entity.setIdCollection(dto.getIdCollection());
         return entity;
     }
 

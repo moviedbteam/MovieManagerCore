@@ -1,6 +1,6 @@
 package com.bcefit.projet.exposition.user.mapper;
 
-import com.bcefit.projet.domain.user.GenreTv;
+import com.bcefit.projet.domain.moviedb.GenreTv;
 import com.bcefit.projet.exposition.user.dto.GenreTvDto;
 import org.springframework.stereotype.Component;
 

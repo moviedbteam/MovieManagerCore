@@ -1,6 +1,7 @@
 package com.bcefit.projet.exposition.watch.rest;
 
 
+import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.dto.WatchTvSeasonDto;
@@ -24,7 +25,7 @@ public class WatchTvAPI {
     IUserAccountService iUserAccountService;
 
     @Autowired
-    IWatchTvService service;
+    IWatchTvService iWatchTvService;
 
     @Autowired
     WatchEpisodeMapper mapperEpisode;
@@ -37,12 +38,14 @@ public class WatchTvAPI {
 
         Integer idTv = watchTvSeasonDto.getIdTv();
         logger.info("Nouvelle demande d'ajout de watch episode by idTv {}",idTv);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWatchEpisodeByTvId(idTv, userAccount));
+        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWatchTvService.createWatchEpisodeByTvId(Long.valueOf(idTv), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(watchEpisodeDtoList);
     }
@@ -53,13 +56,18 @@ public class WatchTvAPI {
         Integer idTv = watchTvSeasonDto.getIdTv();
 
         logger.info("Nouvelle demande de suppression de watch episode by idTv {}",idTv);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWatchEpisodeByTvId(idTv, userAccount));
+        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWatchTvService.deleteWatchEpisodeByTvId(Long.valueOf(idTv), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(watchEpisodeDtoList);
     }
+
+
+
 }

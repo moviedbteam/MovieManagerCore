@@ -1,5 +1,6 @@
-package com.bcefit.projet.domain.user;
+package com.bcefit.projet.domain.moviedb;
 
+import com.bcefit.projet.domain.user.UserAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

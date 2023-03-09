@@ -1,10 +1,14 @@
 package com.bcefit.projet.exposition.watch.rest;
 
 
+import com.bcefit.projet.domain.moviedb.Episode;
+import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchEpisodeMapper;
+import com.bcefit.projet.service.moviedb.IEpisodeService;
+import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.watch.IWatchEpisodeService;
 import org.slf4j.Logger;
@@ -30,6 +34,9 @@ public class WatchEpisodeAPI {
     @Autowired
     WatchEpisodeMapper mapper;
 
+    @Autowired
+    IEpisodeService iEpisodeService;
+
     Logger logger = LoggerFactory.getLogger(WatchEpisodeAPI.class);
 
 
@@ -37,6 +44,8 @@ public class WatchEpisodeAPI {
     public ResponseEntity<WatchEpisodeDto> getWatchEpisodeById(@PathVariable("idWatchEpisode") Long idWatch, @RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
@@ -55,14 +64,23 @@ public class WatchEpisodeAPI {
     public ResponseEntity<WatchEpisodeDto> create(@RequestBody WatchEpisodeDto watchEpisodeDto, @RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
+        // Recherche du contexte de l'épisode
+        Episode episode = iEpisodeService.getEpisodeDetail(watchEpisodeDto.getIdTv(), watchEpisodeDto.getIdEpisode());
 
+        // Mapping DTO vers Entity
         WatchEpisode watchEpisode = mapper.convertDtoToEntity(watchEpisodeDto);
-        watchEpisode.setUserAccount(userAccount);
 
+        // Enrichissement de l'entity avec UserAccount et Episode
+        watchEpisode.setUserAccount(userAccount);
+        watchEpisode.setEpisode(episode);
+
+        // Création du WatchEpisode
         WatchEpisodeDto dto = mapper.convertEntityToDto(service.createWatchEpisode(watchEpisode));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
@@ -72,6 +90,8 @@ public class WatchEpisodeAPI {
     public ResponseEntity<List<WatchEpisodeDto>> getAllWatchEpisodess(@RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
@@ -90,6 +110,8 @@ public class WatchEpisodeAPI {
     public ResponseEntity<String> deleteWatchEpisode(@PathVariable Long idWatchEpisode, @RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);

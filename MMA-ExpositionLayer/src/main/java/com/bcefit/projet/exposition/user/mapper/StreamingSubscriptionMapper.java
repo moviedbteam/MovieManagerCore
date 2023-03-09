@@ -1,6 +1,6 @@
 package com.bcefit.projet.exposition.user.mapper;
 
-import com.bcefit.projet.domain.user.StreamingSubscription;
+import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 import com.bcefit.projet.exposition.user.dto.StreamingSubscriptionDto;
 import org.springframework.stereotype.Component;
 

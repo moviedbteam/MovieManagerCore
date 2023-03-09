@@ -1,8 +1,10 @@
 package com.bcefit.projet.service.wish;
 
+import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
-import com.bcefit.projet.service.moviedb.IMovieDbService;
+import com.bcefit.projet.service.moviedb.IEpisodeService;
+import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +16,36 @@ import java.util.List;
 
 @Service
 public class WishTvServiceImpl implements IWishTvService {
+
     @Autowired
     IWishEpisodeService service;
 
     @Autowired
-    IMovieDbService iMovieDbService;
+    ITmdbApiService iTmdbApiService;
+
+    @Autowired
+    IEpisodeService iEpisodeService;
 
     Logger logger = LoggerFactory.getLogger(IWishTvService.class);
 
-    public List<WishEpisode> createWishEpisodeByTvId(Integer idTv, UserAccount userAccount) {
+    public List<WishEpisode> createWishEpisodeByTvId(Long idTv, UserAccount userAccount) {
+        // Synchroniser la base des Tv/Season/Episode
+        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
 
-        //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdTv(idTv);
+        //création de la liste de tous les épisodes de la série Tv
+        List<Episode> episodeListForTV = iEpisodeService.getAllEpisodeByIdTv(idTv);
+
         List<WishEpisode> wishEpisodeCreatedList = new ArrayList<>();
 
-
-        for (WishEpisode wishEpisode : wishEpisodeListForTV) {
+        // Boucle sur les episodes de la série Tv et création d'un wish pour chacun d'eux
+        for (Episode episode : episodeListForTV) {
+            WishEpisode wishEpisode = new WishEpisode();
+            // ajout du UserAccount au watchEpisode
             wishEpisode.setUserAccount(userAccount);
-            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+            // ajout de l'épisode au watchEpisode
+            wishEpisode.setEpisode(episode);
+            // Si le wish n'existe pas déjà alors il est créé et ajout& à la liste wishEpisodeCreatedList
+            WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(episode.getIdEpisode(), userAccount);
             if (wishEpisodeIsExist == null) {
                 service.createWishEpisode(wishEpisode);
                 wishEpisodeCreatedList.add(wishEpisode);
@@ -41,20 +55,24 @@ public class WishTvServiceImpl implements IWishTvService {
     }
 
     @Override
-    public List<WishEpisode> deleteWishEpisodeByTvId(Integer idTv, UserAccount userAccount) {
+    public List<WishEpisode> deleteWishEpisodeByTvId(Long idTv, UserAccount userAccount) {
 
-        //création d'une liste pour stocker tous les épisodes d'une série (intérrogation de The Movie DB)
-        List<WishEpisode> wishEpisodeListForTV = iMovieDbService.getWishEpisodeListByIdTv(idTv);
+        //création de la liste de tous les épisodes de la série Tv
+        List<Episode> episodeListForTV = iEpisodeService.getAllEpisodeByIdTv(idTv);
+
+        // Création de la liste des watchEpisode supprimés
         List<WishEpisode> wishEpisodeDeletedList = new ArrayList<>();
 
-        for (WishEpisode wishEpisode : wishEpisodeListForTV) {
-            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(wishEpisode.getIdEpisode(), userAccount);
+        for (Episode episode : episodeListForTV) {
+            WishEpisode wishEpisodeToDelete = service.getIdWishEpisodeByIdSerieAndUserAccount(episode.getIdEpisode(), userAccount);
             if (wishEpisodeToDelete != null) {
                 service.deleteWishEpisode(wishEpisodeToDelete);
-                wishEpisodeDeletedList.add(wishEpisode);
+                wishEpisodeDeletedList.add(wishEpisodeToDelete);
             }
         }
         return wishEpisodeDeletedList;
     }
+
+
 }
 

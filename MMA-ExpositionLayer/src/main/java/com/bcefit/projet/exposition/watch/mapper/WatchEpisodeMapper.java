@@ -17,29 +17,25 @@ public class WatchEpisodeMapper {
     UserAccountMapper userAccountMapper;
     public WatchEpisodeDto convertEntityToDto(WatchEpisode entity){
         WatchEpisodeDto dto = new WatchEpisodeDto();
-        dto.setIdWatch(entity.getIdWatch());
-        dto.setIdEpisode(entity.getIdEpisode());
-        dto.setIdSeason(entity.getIdSeason());
-        dto.setIdTv(entity.getIdTv());
+        dto.setIdWatch(Long.valueOf(entity.getIdWatch()));
+        dto.setIdEpisode(Long.valueOf(entity.getEpisode().getIdEpisode()));
+        dto.setSeasonNumber(entity.getEpisode().getSeasonNumber());
+        dto.setIdSeason(Long.valueOf(entity.getEpisode().getSeason().getIdSeason()));
+        dto.setIdTv(Long.valueOf(entity.getEpisode().getSeriesId()));
         dto.setViewingPlace(entity.getViewingPlace());
         dto.setViewingMood(entity.getViewingMood());
         dto.setViewingRate(entity.getViewingRate());
         dto.setDateWatch(entity.getDateWatch());
-        dto.setDuration(entity.getDuration());
         return dto;
     }
 
     public WatchEpisode convertDtoToEntity(WatchEpisodeDto dto){
         WatchEpisode entity = new WatchEpisode();
         entity.setIdWatch(dto.getIdWatch());
-        entity.setIdEpisode(dto.getIdEpisode());
-        entity.setIdSeason(dto.getIdSeason());
-        entity.setIdTv(dto.getIdTv());
         entity.setViewingMood(dto.getViewingMood());
         entity.setViewingRate(dto.getViewingRate());
         entity.setViewingPlace(dto.getViewingPlace());
         entity.setDateWatch(dto.getDateWatch());
-        entity.setDuration(dto.getDuration());
         return entity;
     }
 

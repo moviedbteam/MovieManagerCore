@@ -7,9 +7,8 @@ import java.util.List;
 
 public interface IWatchTvService {
 
-    List<WatchEpisode> createWatchEpisodeByTvId(Integer idTv, UserAccount userAccount);
-
-    List<WatchEpisode> deleteWatchEpisodeByTvId(Integer idSeason, UserAccount userAccount);
+    List<WatchEpisode> createWatchEpisodeByTvId(Long idTv, UserAccount userAccount);
 
 
+    List<WatchEpisode> deleteWatchEpisodeByTvId(Long idSeason, UserAccount userAccount);
 }

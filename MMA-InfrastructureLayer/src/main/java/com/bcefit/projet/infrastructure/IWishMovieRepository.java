@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface IWishMovieRepository extends CrudRepository<WishMovie , Long> {
 
-    @Query("select w from WishMovie w where w.idMovie = ?1 and w.userAccount = ?2")
+    @Query("select w from WishMovie w where w.movie.idMovie = ?1 and w.userAccount = ?2")
     WishMovie findByIdMovieAndUserAccount(Long idMovie, UserAccount userAccount);
 
 

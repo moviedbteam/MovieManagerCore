@@ -1,6 +1,6 @@
-package com.bcefit.projet.service.user;
+package com.bcefit.projet.service.moviedb;
 
-import com.bcefit.projet.domain.user.GenreMovie;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.infrastructure.IGenreMovieRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

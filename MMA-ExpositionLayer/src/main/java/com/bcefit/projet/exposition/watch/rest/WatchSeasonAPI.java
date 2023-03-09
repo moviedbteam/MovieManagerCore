@@ -23,7 +23,7 @@ public class WatchSeasonAPI {
     IUserAccountService iUserAccountService;
 
     @Autowired
-    IWatchSeasonService service;
+    IWatchSeasonService iWatchSeasonService;
 
     @Autowired
     WatchEpisodeMapper mapperEpisode;
@@ -38,12 +38,14 @@ public class WatchSeasonAPI {
         Integer idSeason = watchTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande d'ajout de watch episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWatchEpisodeBySeasonId(idTv,idSeason, userAccount));
+        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWatchSeasonService.createWatchEpisodeBySeasonId(Long.valueOf(idTv),Long.valueOf(idSeason), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(watchEpisodeDtoList);
     }
@@ -55,13 +57,16 @@ public class WatchSeasonAPI {
         Integer idSeason = watchTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande de suppression de watch episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
+         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWatchEpisodeBySeasonId(idTv,idSeason, userAccount));
+        List<WatchEpisodeDto> watchEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWatchSeasonService.deleteWatchEpisodeBySeasonId(Long.valueOf(idTv),Long.valueOf(idSeason), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(watchEpisodeDtoList);
     }
+
 }

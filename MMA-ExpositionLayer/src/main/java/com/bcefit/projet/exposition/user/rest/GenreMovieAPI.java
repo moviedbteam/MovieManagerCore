@@ -1,9 +1,9 @@
 package com.bcefit.projet.exposition.user.rest;
 
-import com.bcefit.projet.domain.user.GenreMovie;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.exposition.user.dto.GenreMovieDto;
 import com.bcefit.projet.exposition.user.mapper.GenreMovieMapper;
-import com.bcefit.projet.service.user.IGenreMovieService;
+import com.bcefit.projet.service.moviedb.IGenreMovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

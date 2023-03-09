@@ -1,43 +1,43 @@
 package com.bcefit.projet.domain.watch;
 
+import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.domain.watch.WatchContent;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "watch_movie")
 public class WatchMovie extends WatchContent {
 
-    private Long idMovie;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_movie")
+    private Movie movie;
 
-    private Long idCollection;
-
-
-    public WatchMovie(Long idWatch, UserAccount userAccount, Long idMovie, Long idCollection) {
-        super(idWatch, userAccount);
-        this.idMovie = idMovie;
-        this.idCollection = idCollection;
-    }
 
     public WatchMovie() {
-
     }
 
-    public Long getIdMovie() {
-        return idMovie;
+    public WatchMovie(Movie movie) {
+        this.movie = movie;
     }
 
-    public void setIdMovie(Long idMovie) {
-        this.idMovie = idMovie;
+    public WatchMovie(Long idWatch, UserAccount userAccount, Movie movie) {
+        super(idWatch, userAccount);
+        this.movie = movie;
     }
 
-    public Long getIdCollection() {
-        return idCollection;
+    public WatchMovie(Long idWatch, UserAccount userAccount, LocalDate dateWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Duration duration, Movie movie) {
+        super(idWatch, userAccount, dateWatch, viewingPlace, viewingRate, viewingMood, duration);
+        this.movie = movie;
     }
 
-    public void setIdCollection(Long idCollection) {
-        this.idCollection = idCollection;
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

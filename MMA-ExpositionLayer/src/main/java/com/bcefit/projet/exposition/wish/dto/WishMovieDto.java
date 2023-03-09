@@ -10,15 +10,14 @@ public class WishMovieDto {
 
     private Long idMovie;
 
-    private Long idCollection;
+
 
     public WishMovieDto() {
     }
 
-    public WishMovieDto(Long idWish, Long idMovie, Long idCollection) {
+    public WishMovieDto(Long idWish, Long idMovie) {
         this.idWish = idWish;
         this.idMovie = idMovie;
-        this.idCollection = idCollection;
     }
 
     public Long getIdWish() {
@@ -38,12 +37,5 @@ public class WishMovieDto {
         this.idMovie = idMovie;
     }
 
-    public Long getIdCollection() {
-        return idCollection;
-    }
-
-    public void setIdCollection(Long idCollection) {
-        this.idCollection = idCollection;
-    }
 
 }

@@ -4,7 +4,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
-import com.bcefit.projet.service.mapper.WatchEpisodeMessageMapper;
+import com.bcefit.projet.service.mapper.WatchEpisodeMsgMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
@@ -38,12 +38,12 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     JmsTemplate jmsTemplate;
 
     @Autowired
-    WatchEpisodeMessageMapper watchEpisodeMessageMapper;
+    WatchEpisodeMsgMapper watchEpisodeMapper;
 
     @Override
     public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
-        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
         logger.debug("service findbyId {}", userAccount.getIdUser());
+        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
         if (watchEpisodeList.isPresent()) {
             return watchEpisodeList.get();
         } else {
@@ -69,13 +69,16 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
         // Enregistrement du watch episode
         WatchEpisode watchEpisodeAdd = repository.save(watchEpisode);
         // Suppression de l'éventuel wish Movie associé
-        WishEpisode wishEpisodeToDelete = iWishEpisodeRepository.findByIdEpisodeAndUserAccount(watchEpisodeAdd.getIdEpisode(),watchEpisodeAdd.getUserAccount());
+
+        WishEpisode wishEpisodeToDelete = iWishEpisodeRepository.findByIdEpisodeAndUserAccount(watchEpisode.getEpisode().getIdEpisode(),watchEpisodeAdd.getUserAccount());
         if(wishEpisodeToDelete!=null){
             iWishEpisodeRepository.delete(wishEpisodeToDelete);
         }
+
+
         // Envoie d'un message pour informer de l'ajout d'un episode dans la watchList
-        String message = watchEpisodeMessageMapper.convertEntityToMessage(watchEpisode);
-        jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(message));
+        //String message = watchEpisodeMapper.convertEntityToMessage(watchEpisode);
+        //jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(message));
         return watchEpisodeAdd;
     }
 
@@ -89,7 +92,7 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     public void deleteWatchEpisode(WatchEpisode watchEpisode) {
         repository.delete(watchEpisode);
         // Envoie d'un message pour informer de la suppression d'un film dans la watchList
-        String message = watchEpisodeMessageMapper.convertEntityToMessage(watchEpisode);
-        jmsTemplate.send("Q_DELETE_Watch_EPISODE", new MessageString(message));
+        //String message = watchEpisodeMapper.convertEntityToMessage(watchEpisode);
+        //jmsTemplate.send("Q_DELETE_Watch_EPISODE", new MessageString(message));
     }
 }

@@ -24,24 +24,20 @@ public class WatchMovieDto {
 
     private Long idMovie;
 
-    private Long idCollection;
 
     private LocalDate dateWatch;
 
-    private Duration duration;
 
     public WatchMovieDto() {
     }
 
-    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idMovie, Long idCollection, LocalDate dateWatch, Duration duration) {
+    public WatchMovieDto(Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idMovie, LocalDate dateWatch) {
         this.idWatch = idWatch;
         this.viewingPlace = viewingPlace;
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
         this.idMovie = idMovie;
-        this.idCollection = idCollection;
         this.dateWatch = dateWatch;
-        this.duration = duration;
     }
 
     public Long getIdWatch() {
@@ -60,15 +56,6 @@ public class WatchMovieDto {
     public void setIdMovie(Long idMovie) {
         this.idMovie = idMovie;
     }
-
-    public Long getIdCollection() {
-        return idCollection;
-    }
-
-    public void setIdCollection(Long idCollection) {
-        this.idCollection = idCollection;
-    }
-
 
     public String getViewingPlace() {
         return viewingPlace;
@@ -102,11 +89,4 @@ public class WatchMovieDto {
         this.dateWatch = dateWatch;
     }
 
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
 }

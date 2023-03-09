@@ -1,30 +1,33 @@
 package com.bcefit.projet.domain.wish;
 
+import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "wish_movie")
 public class WishMovie extends WishContent{
 
-    private Long idMovie;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_movie")
+    private Movie movie;
 
-    private Long idCollection;
-
-
-    public WishMovie(Long idWish, UserAccount userAccount, LocalDate dateWsih, Long idMovie, Long idCollection) {
+    public WishMovie(Long idWish, UserAccount userAccount, LocalDate dateWsih, Movie movie) {
         super(idWish, userAccount, dateWsih);
-        this.idMovie = idMovie;
-        this.idCollection = idCollection;
+        this.movie = movie;
     }
 
-    public WishMovie(Long idMovie, Long idCollection) {
-        this.idMovie = idMovie;
-        this.idCollection = idCollection;
+    public WishMovie(Long idWish, UserAccount userAccount, Movie movie) {
+        super(idWish, userAccount);
+        this.movie = movie;
     }
+
+    public WishMovie(Movie movie) {
+        this.movie = movie;
+    }
+
 
     public WishMovie(Long idWish, UserAccount userAccount) {
         super(idWish, userAccount);
@@ -33,19 +36,13 @@ public class WishMovie extends WishContent{
     public WishMovie() {
     }
 
-    public Long getIdMovie() {
-        return idMovie;
+
+
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setIdMovie(Long idMovie) {
-        this.idMovie = idMovie;
-    }
-
-    public Long getIdCollection() {
-        return idCollection;
-    }
-
-    public void setIdCollection(Long idCollection) {
-        this.idCollection = idCollection;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

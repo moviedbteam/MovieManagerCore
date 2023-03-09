@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors();
-        //http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/create").permitAll();
+        /*http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/create").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/userAccount").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/userAccount/update").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/userAccount/all").hasRole("ADMIN");
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/movie").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/movie/all/").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/movie").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/movie").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/movie/*").hasRole("USER");
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/movie").hasRole("USER");
@@ -41,12 +41,12 @@ public class SecurityConfiguration {
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/episode").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/watch/episode/all/").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/episode").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/episode/*").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/tv").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/tv").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/season").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/season").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/episode").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/episode/*").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/tv").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/tv").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/watch/season").hasRole("USER");
+        //http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/watch/season").hasRole("USER");
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/episode").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/v1/wish/episode/all/").hasRole("USER");
@@ -57,6 +57,8 @@ public class SecurityConfiguration {
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/v1/wish/season").hasRole("USER");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/v1/wish/season").hasRole("USER");
 
+
+         */
 
         http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 

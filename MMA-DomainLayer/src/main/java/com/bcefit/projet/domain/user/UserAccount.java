@@ -31,7 +31,6 @@ public class UserAccount {
             inverseJoinColumns = { @JoinColumn(name = "id") })
     private Set<GenreMovie> genreMovieSet= new HashSet<>();
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_genre_tv",
             joinColumns =  { @JoinColumn(name = "id_user") },

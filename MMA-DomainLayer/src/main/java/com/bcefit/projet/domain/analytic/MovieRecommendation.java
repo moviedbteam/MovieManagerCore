@@ -1,7 +1,7 @@
 package com.bcefit.projet.domain.analytic;
 
 
-import com.bcefit.projet.domain.user.GenreMovie;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.domain.user.UserAccount;
 
 import javax.persistence.*;

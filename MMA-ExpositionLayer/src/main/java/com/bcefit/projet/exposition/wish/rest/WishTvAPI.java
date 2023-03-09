@@ -24,7 +24,7 @@ public class WishTvAPI {
     IUserAccountService iUserAccountService;
 
     @Autowired
-    IWishTvService service;
+    IWishTvService iWishTvService;
 
     @Autowired
     WishEpisodeMapper mapperEpisode;
@@ -37,12 +37,14 @@ public class WishTvAPI {
 
         Integer idTv = wishTvSeasonDto.getIdTv();
         logger.info("Nouvelle demande d'ajout de wish episode by idTv {}",idTv);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWishEpisodeByTvId(idTv, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishTvService.createWishEpisodeByTvId(Long.valueOf(idTv), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
@@ -53,13 +55,17 @@ public class WishTvAPI {
         Integer idTv = wishTvSeasonDto.getIdTv();
 
         logger.info("Nouvelle demande de suppression de wish episode by idTv {}",idTv);
+         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWishEpisodeByTvId(idTv, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishTvService.deleteWishEpisodeByTvId(Long.valueOf(idTv), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
+
+
 }

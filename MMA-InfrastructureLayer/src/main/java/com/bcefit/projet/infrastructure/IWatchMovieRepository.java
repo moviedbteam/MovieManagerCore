@@ -10,9 +10,10 @@ import java.time.Duration;
 
 
 public interface IWatchMovieRepository extends CrudRepository<WatchMovie, Long> {
+    /*
     @Transactional
     @Modifying
     @Query("update WatchMovie w set w.duration = ?1 where w.idWatch = ?2")
     void updateDurationbyWatchMovie(Duration duration, Long idWatch);
-
+    */
 }

@@ -49,9 +49,9 @@ public class RecommendationImpl implements IRecommendationService{
 
             for(TvEpisode tvEpisode : tvEpisodeList){
                 WishEpisode wishEpisode = new WishEpisode();
-                wishEpisode.setIdEpisode(Long.valueOf(tvEpisode.getId()));
-                wishEpisode.setIdTv(Long.valueOf(tvSeries.getId()));
-                wishEpisode.setIdSeason(Long.valueOf(tvSeason.getId()));
+                //wishEpisode.setIdEpisode(Long.valueOf(tvEpisode.getId()));
+                //wishEpisode.setIdTv(Long.valueOf(tvSeries.getId()));
+                //wishEpisode.setIdSeason(Long.valueOf(tvSeason.getId()));
                 // User Account à traiter par la suite
                 wishEpisode.setUserAccount(new UserAccount());
                 // Appel au service de création de WishIds

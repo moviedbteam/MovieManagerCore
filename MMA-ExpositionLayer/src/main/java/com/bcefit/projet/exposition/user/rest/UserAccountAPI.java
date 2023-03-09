@@ -31,6 +31,8 @@ public class UserAccountAPI {
     @GetMapping("/{idUser}")
     public UserAccountDto getUserAccountById(@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = service.logToUserAccount(userEmail);
         logger.debug("DEBUG---ID UserAccount = {}", userAccount.getIdUser());
         return mapper.convertEntityToDto(userAccount);
@@ -51,6 +53,8 @@ public class UserAccountAPI {
     @PostMapping("/update")
     public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccountBeforeUpdate = service.logToUserAccount(userEmail);
         logger.info("modification du user account {}",userAccountDto.getUserName());
 

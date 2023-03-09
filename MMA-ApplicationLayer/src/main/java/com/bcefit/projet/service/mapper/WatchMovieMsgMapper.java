@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WatchMovieMessageMapper {
+public class WatchMovieMsgMapper {
 
     @Autowired
     UserAccountServiceImpl userAccountService;
@@ -15,8 +15,8 @@ public class WatchMovieMessageMapper {
     public String convertEntityToMessage(WatchMovie entity){
         String message = new String();
         message += entity.getIdWatch().toString()+"/";
-        message += entity.getIdMovie().toString()+"/";
-        message += entity.getIdCollection().toString()+"/";
+        //message += entity.getIdMovie().toString()+"/";
+        //message += entity.getIdCollection().toString()+"/";
         message += entity.getUserAccount().getIdUser()+"/";
         message += entity.getViewingPlace()+"/";
         message += entity.getViewingMood()+"/";
@@ -29,8 +29,8 @@ public class WatchMovieMessageMapper {
     WatchMovie watchMovie = new WatchMovie();
     String[] tabString = message.split("/");
     watchMovie.setIdWatch(Long.valueOf(tabString[0]));
-    watchMovie.setIdMovie(Long.valueOf(tabString[1]));
-    watchMovie.setIdCollection(Long.valueOf(tabString[2]));
+    //watchMovie.setIdMovie(Long.valueOf(tabString[1]));
+    //watchMovie.setIdCollection(Long.valueOf(tabString[2]));
     UserAccount userAccount = userAccountService.findById(Long.valueOf(tabString[3]));
     watchMovie.setUserAccount(userAccount);
     watchMovie.setViewingPlace(tabString[4]);

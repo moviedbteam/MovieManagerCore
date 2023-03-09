@@ -23,7 +23,7 @@ public class WishSeasonAPI {
     IUserAccountService iUserAccountService;
 
     @Autowired
-    IWishSeasonService service;
+    IWishSeasonService iWishSeasonService;
 
     @Autowired
     WishEpisodeMapper mapperEpisode;
@@ -38,12 +38,14 @@ public class WishSeasonAPI {
         Integer idSeason = wishTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande d'ajout de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.createWishEpisodeBySeasonId(idTv,idSeason, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishSeasonService.createWishEpisodeBySeasonId(Long.valueOf(idTv),Long.valueOf(idSeason), userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
@@ -55,13 +57,17 @@ public class WishSeasonAPI {
         Integer idSeason = wishTvSeasonDto.getIdSeason();
 
         logger.info("Nouvelle demande de suppression de wish episode by numberSeason {}",idTv," pour la séries {}"+idSeason);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(service.deleteWishEpisodeBySeasonId(idTv,idSeason, userAccount));
+        List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishSeasonService.deleteWishEpisodeBySeasonId(Long.valueOf(idTv),Long.valueOf(idSeason),  userAccount));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
     }
+
+
 }

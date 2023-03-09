@@ -1,9 +1,9 @@
 package com.bcefit.projet.exposition.user.rest;
 
-import com.bcefit.projet.domain.user.StreamingSubscription;
+import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 import com.bcefit.projet.exposition.user.dto.StreamingSubscriptionDto;
 import com.bcefit.projet.exposition.user.mapper.StreamingSubscriptionMapper;
-import com.bcefit.projet.service.user.IStreamingSubscriptionService;
+import com.bcefit.projet.service.moviedb.IStreamingSubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,7 @@
 package com.bcefit.projet.infrastructure;
 
-import com.bcefit.projet.domain.user.GenreMovie;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 
 public interface IGenreMovieRepository extends CrudRepository<GenreMovie, Long> {

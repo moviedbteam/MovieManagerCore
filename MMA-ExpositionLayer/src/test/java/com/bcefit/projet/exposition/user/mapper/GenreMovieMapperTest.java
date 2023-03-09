@@ -1,11 +1,5 @@
 package com.bcefit.projet.exposition.user.mapper;
 
-import com.bcefit.projet.domain.user.GenreMovie;
-import com.bcefit.projet.exposition.user.dto.GenreMovieDto;
-import org.springframework.util.Assert;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class GenreMovieMapperTest {
 
     @org.junit.jupiter.api.BeforeEach

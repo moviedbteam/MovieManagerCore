@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface IWishTvService {
 
-    List<WishEpisode> createWishEpisodeByTvId(Integer idTv, UserAccount userAccount);
 
-    List<WishEpisode> deleteWishEpisodeByTvId(Integer idSeason, UserAccount userAccount);
+
+    List<WishEpisode> createWishEpisodeByTvId(Long idTv, UserAccount userAccount);
+
+    List<WishEpisode> deleteWishEpisodeByTvId(Long idSeason, UserAccount userAccount);
 
 
 }

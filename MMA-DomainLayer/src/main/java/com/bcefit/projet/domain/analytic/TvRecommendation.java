@@ -1,7 +1,7 @@
 package com.bcefit.projet.domain.analytic;
 
 
-import com.bcefit.projet.domain.user.GenreTv;
+import com.bcefit.projet.domain.moviedb.GenreTv;
 
 import javax.persistence.*;
 

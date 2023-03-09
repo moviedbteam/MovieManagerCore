@@ -1,10 +1,12 @@
 package com.bcefit.projet.exposition.wish.rest;
 
 
+import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.exposition.wish.dto.WishEpisodeDto;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
+import com.bcefit.projet.service.moviedb.IEpisodeService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishEpisodeService;
 import org.slf4j.Logger;
@@ -30,12 +32,17 @@ public class WishEpisodeAPI {
     @Autowired
     WishEpisodeMapper mapper;
 
+    @Autowired
+    IEpisodeService iEpisodeService;
+
     Logger logger = LoggerFactory.getLogger(WishEpisodeAPI.class);
 
 
     @GetMapping("/episode/{idWishEpisode}")
     public WishEpisodeDto getWishEpisodeById(@PathVariable("idWishEpisode") Long idWish,@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le wish episode {}", idWish);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
@@ -50,13 +57,23 @@ public class WishEpisodeAPI {
     public ResponseEntity<WishEpisodeDto> create(@RequestBody WishEpisodeDto wishEpisodeDto,@RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de wish Episode  avec le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
-        WishEpisode wishEpisode = mapper.convertDtoToEntity(wishEpisodeDto);
-        wishEpisode.setUserAccount(userAccount);
+        // Recherche du contexte de l'épisode
+        Episode episode = iEpisodeService.getEpisodeDetail(wishEpisodeDto.getIdTv(), wishEpisodeDto.getIdEpisode());
 
+        // Mapping DTO vers Entity
+        WishEpisode wishEpisode = mapper.convertDtoToEntity(wishEpisodeDto);
+
+        // Enrichissement de l'entity avec UserAccount et Episode
+        wishEpisode.setUserAccount(userAccount);
+        wishEpisode.setEpisode(episode);
+
+        // Création du WatchEpisode
         WishEpisodeDto dto = mapper.convertEntityToDto(service.createWishEpisode(wishEpisode));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
@@ -65,6 +82,8 @@ public class WishEpisodeAPI {
     @GetMapping("/episode/all")
     public ResponseEntity<List<WishEpisodeDto>> getAllWishEpisodess(@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
@@ -82,6 +101,8 @@ public class WishEpisodeAPI {
     @DeleteMapping("/episode/{idWishEpisode}")
     public ResponseEntity<String> deleteWishEpisode(@PathVariable Long idWishEpisode,@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
+        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
+        // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
         if(userAccount ==null){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
