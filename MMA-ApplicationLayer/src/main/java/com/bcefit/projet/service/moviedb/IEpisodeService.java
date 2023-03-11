@@ -11,5 +11,6 @@ public interface IEpisodeService {
     List<Episode> getAllEpisodeByIdTv (Long idTv);
 
     List<Episode> getAllEpisodeByIdTvAndIdSeason(Long idTv,Long idSeason);
-    
+
+    Episode getEpisodeDetailByEpisodeId(Long idEpisode);
 }

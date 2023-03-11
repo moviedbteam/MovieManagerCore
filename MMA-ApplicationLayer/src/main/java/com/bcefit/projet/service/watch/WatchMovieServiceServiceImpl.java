@@ -94,4 +94,11 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
         //String message = watchMovieMapper.convertEntityToMessage(watchMovie);
         //jmsTemplate.send("Q_DELETE_Watch_MOVIE", new MessageString(message));
     }
+
+
+
+    @Override
+    public WatchMovie findByIdMovieAndUserAccount(Long idMovie, UserAccount userAccount) {
+        return repository.findByIdMovieAndUserAccount(idMovie, userAccount);
+    }
 }

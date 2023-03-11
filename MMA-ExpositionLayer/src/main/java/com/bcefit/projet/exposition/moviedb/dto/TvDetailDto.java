@@ -1,73 +1,46 @@
-package com.bcefit.projet.domain.moviedb;
+package com.bcefit.projet.exposition.moviedb.dto;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.data.repository.cdi.Eager;
+import com.bcefit.projet.domain.moviedb.GenreTv;
+import com.bcefit.projet.domain.moviedb.Season;
+import com.bcefit.projet.domain.moviedb.StreamingSubscription;
+import com.bcefit.projet.exposition.user.dto.GenreTvDto;
+import com.bcefit.projet.exposition.user.dto.StreamingSubscriptionDto;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "tv")
-public class Tv {
-    @Id
-    @Column(name = "id_tv", nullable = false)
+public class TvDetailDto {
     private Long idTv;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
     private List<Integer> episodeRuntime;
     private String firstAirDate;
     private String lastAirDate;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(name = "tv_genre_tv",
-            joinColumns =  { @JoinColumn(name = "id_tv") },
-            inverseJoinColumns = { @JoinColumn(name = "id") })
-    private List<GenreTv> genreTvList= new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(name = "tv_streaming_subscription",
-            joinColumns =  { @JoinColumn(name = "id_tv") },
-            inverseJoinColumns = { @JoinColumn(name = "id") })
-    private List<StreamingSubscription> streamingSubscriptionList= new ArrayList<>();
-
+    private List<GenreTvDto> genreTvDtoList= new ArrayList<>();
+    private List<StreamingSubscriptionDto> streamingSubscriptionDtoList= new ArrayList<>();
     private String homepage;
     private String originalName;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
     private List<String> originCountry;
 
-    @Column(length = 5000)
     private String overview;
     private float popularity;
     private String backdropPath;
     private String posterPath;
     private int numberOfEpisodes;
     private int numberOfSeasons;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_tv",insertable=false, updatable=false)
-    private List<Season> seasons;
-
     private float voteAverage;
     private int voteCount;
     private String status;
+    private List<SeasonDto> seasonDtoList;
 
-    public Tv() {
+    public TvDetailDto() {
     }
 
-    public Tv(Long idTv, List<Integer> episodeRuntime, String firstAirDate, String lastAirDate, List<GenreTv> genreTvList, List<StreamingSubscription> streamingSubscriptionList, String homepage, String originalName, List<String> originCountry, String overview, float popularity, String backdropPath, String posterPath, int numberOfEpisodes, int numberOfSeasons, List<Season> seasons, float voteAverage, int voteCount, String status) {
+    public TvDetailDto(Long idTv, List<Integer> episodeRuntime, String firstAirDate, String lastAirDate, List<GenreTvDto> genreTvDtoList, List<StreamingSubscriptionDto> streamingSubscriptionDtoList, String homepage, String originalName, List<String> originCountry, String overview, float popularity, String backdropPath, String posterPath, int numberOfEpisodes, int numberOfSeasons, float voteAverage, int voteCount, String status, List<SeasonDto> seasonDtoList) {
         this.idTv = idTv;
         this.episodeRuntime = episodeRuntime;
         this.firstAirDate = firstAirDate;
         this.lastAirDate = lastAirDate;
-        this.genreTvList = genreTvList;
-        this.streamingSubscriptionList = streamingSubscriptionList;
+        this.genreTvDtoList = genreTvDtoList;
+        this.streamingSubscriptionDtoList = streamingSubscriptionDtoList;
         this.homepage = homepage;
         this.originalName = originalName;
         this.originCountry = originCountry;
@@ -77,14 +50,10 @@ public class Tv {
         this.posterPath = posterPath;
         this.numberOfEpisodes = numberOfEpisodes;
         this.numberOfSeasons = numberOfSeasons;
-        this.seasons = seasons;
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
         this.status = status;
-    }
-
-    public Tv(List<Integer> episodeRuntime) {
-        this.episodeRuntime = episodeRuntime;
+        this.seasonDtoList = seasonDtoList;
     }
 
     public Long getIdTv() {
@@ -119,6 +88,21 @@ public class Tv {
         this.lastAirDate = lastAirDate;
     }
 
+    public List<GenreTvDto> getGenreTvDtoList() {
+        return genreTvDtoList;
+    }
+
+    public void setGenreTvDtoList(List<GenreTvDto> genreTvDtoList) {
+        this.genreTvDtoList = genreTvDtoList;
+    }
+
+    public List<StreamingSubscriptionDto> getStreamingSubscriptionDtoList() {
+        return streamingSubscriptionDtoList;
+    }
+
+    public void setStreamingSubscriptionDtoList(List<StreamingSubscriptionDto> streamingSubscriptionDtoList) {
+        this.streamingSubscriptionDtoList = streamingSubscriptionDtoList;
+    }
 
     public String getHomepage() {
         return homepage;
@@ -192,14 +176,6 @@ public class Tv {
         this.numberOfSeasons = numberOfSeasons;
     }
 
-    public List<Season> getSeasons() {
-        return seasons;
-    }
-
-    public void setSeasons(List<Season> seasons) {
-        this.seasons = seasons;
-    }
-
     public float getVoteAverage() {
         return voteAverage;
     }
@@ -224,19 +200,11 @@ public class Tv {
         this.status = status;
     }
 
-    public List<GenreTv> getGenreTvList() {
-        return genreTvList;
+    public List<SeasonDto> getSeasonDtoList() {
+        return seasonDtoList;
     }
 
-    public void setGenreTvList(List<GenreTv> genreTvList) {
-        this.genreTvList = genreTvList;
-    }
-
-    public List<StreamingSubscription> getStreamingSubscriptionList() {
-        return streamingSubscriptionList;
-    }
-
-    public void setStreamingSubscriptionList(List<StreamingSubscription> streamingSubscriptionList) {
-        this.streamingSubscriptionList = streamingSubscriptionList;
+    public void setSeasonDtoList(List<SeasonDto> seasonDtoList) {
+        this.seasonDtoList = seasonDtoList;
     }
 }

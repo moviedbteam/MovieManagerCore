@@ -74,6 +74,10 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
         return repository.findByIdEpisodeAndUserAccount(idEpisode,userAccount);
     }
 
+    @Override
+    public WishEpisode findByIdEpisode(Long idEpisode) {
+        return repository.findByEpisode_IdEpisode(idEpisode);
+    }
 
 
     @Override

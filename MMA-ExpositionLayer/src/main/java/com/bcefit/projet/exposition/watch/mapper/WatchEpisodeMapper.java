@@ -2,9 +2,7 @@ package com.bcefit.projet.exposition.watch.mapper;
 
 
 import com.bcefit.projet.domain.watch.WatchEpisode;
-import com.bcefit.projet.exposition.user.mapper.UserAccountMapper;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,8 +11,8 @@ import java.util.List;
 @Component
 public class WatchEpisodeMapper {
 
-    @Autowired
-    UserAccountMapper userAccountMapper;
+
+
     public WatchEpisodeDto convertEntityToDto(WatchEpisode entity){
         WatchEpisodeDto dto = new WatchEpisodeDto();
         dto.setIdWatch(Long.valueOf(entity.getIdWatch()));

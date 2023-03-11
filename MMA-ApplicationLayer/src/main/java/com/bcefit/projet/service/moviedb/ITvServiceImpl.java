@@ -7,8 +7,6 @@ import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class ITvServiceImpl implements ITvService {
 
@@ -20,12 +18,26 @@ public class ITvServiceImpl implements ITvService {
 
 
     @Override
-    public Tv getTvDetailByIdEpisode(Long idTv) {
-        Tv tv = new Tv();
-        tv = iTvRepository.findByIdTv(idTv);
+    public Tv getDetailByIdTv(Long idTv) {
+        Tv tv = iTvRepository.findByIdTv(idTv);
         if (tv == null) {
-            tv = iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+            return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
         }
         return tv;
     }
+
+
+        @Override
+        public Tv getAllDetailByIdTv(Long idTv) {
+            Tv tv = iTvRepository.findAllDetailByIdTv(idTv);
+            if (tv == null) {
+                return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+            }
+            return tv;
+        }
+
+
+
+
+
 }

@@ -1,12 +1,10 @@
 package com.bcefit.projet.service.moviedb.api;
 
-import com.bcefit.projet.domain.analytic.MovieRecommendation;
+
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Season;
 import com.bcefit.projet.domain.moviedb.Tv;
-import com.bcefit.projet.domain.watch.WatchEpisode;
-import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IEpisodeRepository;
 import com.bcefit.projet.infrastructure.IMovieRepository;
 import com.bcefit.projet.infrastructure.ISeasonRepository;
@@ -17,9 +15,7 @@ import com.bcefit.projet.service.mapper.SeasonApiMapper;
 import com.bcefit.projet.service.mapper.TvApiMapper;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.TmdbTV;
 import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeason;
 import info.movito.themoviedbapi.model.tv.TvSeries;
@@ -42,7 +38,6 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
     SeasonApiMapper seasonApiMapper;
     @Autowired
     EpisodeApiMapper episodeApiMapper;
-
 
     @Autowired
     IMovieRepository iMovieRepository;
@@ -84,36 +79,45 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
         TmdbApi tmdb = getSessionApi();
         TvSeries tvSeries = tmdb.getTvSeries().getSeries(idTv, "fr");
         tmptv = tvApiMapper.convertTvApiToTv(tvSeries);
-        iTvRepository.save(tmptv);
 
-        List<TvSeason> tvSeasonList = tvSeries.getSeasons();
+        // Contrôle dans la base local si la série est présente et si le nombre d'épisodes à évolué
+        Tv tvLocal = iTvRepository.findByIdTv(Long.valueOf(idTv));
 
-        for (TvSeason tvSeason : tvSeasonList) {
-            // récupération des saisons et synchronisation en base
-            TvSeason tmpTvSeason = tmdb.getTvSeasons().getSeason(tvSeries.getId(), tvSeason.getSeasonNumber(), "fr");
+        if ((tvLocal == null) || (tvLocal.getNumberOfEpisodes()!=tmptv.getNumberOfEpisodes())){
 
-            if(tmpTvSeason!=null){
-                Season tmpSeason = new Season();
-                tmpSeason = seasonApiMapper.convertSeasonApiToSeason(tmpTvSeason);
-                tmpSeason.setTv(tmptv);
-                iSeasonRepository.save(tmpSeason);
+            iTvRepository.save(tmptv);
 
-                // récupération des episodes et synchronisation en base
-                List<TvEpisode> tvEpisodeList = tmpTvSeason.getEpisodes().stream().toList();
-                if (tvEpisodeList != null) {
-                    for (TvEpisode tvEpisode : tvEpisodeList) {
-                        Episode tmpEpisode = episodeApiMapper.convertEpisodeApiToEpisode(tvEpisode);
-                        tmpEpisode.setSeason(seasonApiMapper.convertSeasonApiToSeason(tvSeason));
-                        tmpEpisode.setSeason(tmpSeason);
-                        episodeList.add(tmpEpisode);
+            List<TvSeason> tvSeasonList = tvSeries.getSeasons();
 
-                        iEpisodeRepository.save(tmpEpisode);
+            for (TvSeason tvSeason : tvSeasonList) {
+                // récupération des saisons et synchronisation en base
+
+                TvSeason tmpTvSeason = tmdb.getTvSeasons().getSeason(tvSeries.getId(), tvSeason.getSeasonNumber(), "fr");
+
+                if(tmpTvSeason!=null){
+                    Season tmpSeason = new Season();
+                    tmpSeason = seasonApiMapper.convertSeasonApiToSeason(tmpTvSeason);
+                    tmpSeason.setTv(tmptv);
+                    iSeasonRepository.save(tmpSeason);
+
+                    // récupération des episodes et synchronisation en base
+                    List<TvEpisode> tvEpisodeList = tmpTvSeason.getEpisodes().stream().toList();
+                    if (tvEpisodeList != null) {
+                        for (TvEpisode tvEpisode : tvEpisodeList) {
+                            Episode tmpEpisode = episodeApiMapper.convertEpisodeApiToEpisode(tvEpisode);
+                            tmpEpisode.setSeason(seasonApiMapper.convertSeasonApiToSeason(tvSeason));
+                            tmpEpisode.setSeason(tmpSeason);
+                            episodeList.add(tmpEpisode);
+
+                            iEpisodeRepository.save(tmpEpisode);
+                        }
                     }
+                    seasonList.add(tmpSeason);
                 }
-                seasonList.add(tmpSeason);
             }
+            tmptv.setSeasons(seasonList);
+            return tmptv;
         }
-        tmptv.setSeasons(seasonList);
-        return tmptv;
+    return tvLocal;
     }
 }

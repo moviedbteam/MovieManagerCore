@@ -15,4 +15,6 @@ public interface IWatchEpisodeService {
     WatchEpisode createWatchEpisode(WatchEpisode watchEpisode);
 
     WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount);
+
+    WatchEpisode findByIdEpisode(Long idEpisode);
 }

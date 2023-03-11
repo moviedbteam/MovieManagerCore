@@ -5,7 +5,6 @@ import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
 import com.bcefit.projet.service.mapper.WatchEpisodeMsgMapper;
-import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +38,34 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Autowired
     WatchEpisodeMsgMapper watchEpisodeMapper;
+
+    /*
+    @Override
+    public Iterable<WatchEpisode> findAllTvsByUserAccountId(UserAccount userAccount) {
+        logger.debug("service findbyId {}", userAccount.getIdUser());
+        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
+        if (watchEpisodeList.isPresent()) {
+            return watchEpisodeList.get();
+        } else {
+            logger.error("pas de watch episode avec l'id user {}", userAccount.getIdUser());
+            throw new EntityNotFoundException("Pas de wish episode en base");
+        }
+    }
+
+
+    @Override
+    public Iterable<WatchEpisode> findAllSeasonAndEpisodesByUserAccountIdAndByTVs(UserAccount userAccount) {
+        logger.debug("service findbyId {}", userAccount.getIdUser());
+        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
+        if (watchEpisodeList.isPresent()) {
+            return watchEpisodeList.get();
+        } else {
+            logger.error("pas de watch episode avec l'id user {}", userAccount.getIdUser());
+            throw new EntityNotFoundException("Pas de wish episode en base");
+        }
+    }
+
+     */
 
     @Override
     public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
@@ -85,6 +112,11 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     @Override
     public WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount) {
         return repository.findByIdEpisodeAndUserAccount(idEpisode,userAccount);
+    }
+
+    @Override
+    public WatchEpisode findByIdEpisode(Long idEpisode) {
+        return repository.findWatchEpisodesByEpisode_IdEpisode(idEpisode);
     }
 
 

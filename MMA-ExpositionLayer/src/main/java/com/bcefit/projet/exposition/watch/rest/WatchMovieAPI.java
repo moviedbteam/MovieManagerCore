@@ -28,7 +28,7 @@ public class WatchMovieAPI {
     IWatchMovieService service;
 
     @Autowired
-    WatchMovieMapper mapper;
+    WatchMovieMapper watchMovieMapper;
 
     @Autowired
     IUserAccountService iUserAccountService;
@@ -51,7 +51,7 @@ public class WatchMovieAPI {
 
         WatchMovie watchMovie = service.findById(idWatch);
         logger.debug("DEBUG---ID Watch movie = {}", watchMovie.getIdWatch());
-        WatchMovieDto watchMovieDto = mapper.convertEntityToDto(watchMovie);
+        WatchMovieDto watchMovieDto = watchMovieMapper.convertEntityToDto(watchMovie);
 
         return ResponseEntity.status(HttpStatus.OK).body(watchMovieDto);
     }
@@ -70,13 +70,13 @@ public class WatchMovieAPI {
         Movie movie = iMovieService.getMovieDetail(watchMovieDto.getIdMovie());
 
         // Mapping DTO vers Entity
-        WatchMovie watchMovie = mapper.convertDtoToEntity(watchMovieDto);
+        WatchMovie watchMovie = watchMovieMapper.convertDtoToEntity(watchMovieDto);
         // Enrichissement de l'entity avec UserAccount et Movie
         watchMovie.setUserAccount(userAccount);
         watchMovie.setMovie(movie);
 
         // Création du WatchMovie
-        WatchMovieDto dto = mapper.convertEntityToDto(service.createWatchMovie(watchMovie));
+        WatchMovieDto dto = watchMovieMapper.convertEntityToDto(service.createWatchMovie(watchMovie));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
@@ -97,7 +97,7 @@ public class WatchMovieAPI {
         Iterable<WatchMovie> iterable=service.findAllByUserAccountId(userAccount);
         List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();
 
-        iterable.forEach((pEntity)-> watchMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
+        iterable.forEach((pEntity)-> watchMovieDtoList.add(watchMovieMapper.convertEntityToDto(pEntity)));
 
         return ResponseEntity.status(HttpStatus.OK).body(watchMovieDtoList);
     }
@@ -122,28 +122,5 @@ public class WatchMovieAPI {
 
         return new  ResponseEntity<>("Watch movie supprimé!",HttpStatus.OK);
     }
-/*
-    @GetMapping("/movie/alldetails")
-    public ResponseEntity<List<WatchMovieDetailsDto>> getAllDetailsWatchMovies(@RequestAttribute("userEmail") String userEmail){
-
-        logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
-        // Contrôle d'identification de l'utilisateur avec l'email issu du Token
-        // Chargement du UserAccount
-        UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
-        if(userAccount ==null){
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
-        }
-
-
-        logger.info("nouvelle demande de liste de watch movie");
-        Iterable<WatchMovie> iterable=service.findAllByUserAccountId(userAccount);
-        List<WatchMovieDto> watchMovieDtoList = new ArrayList<>();
-
-        iterable.forEach((pEntity)-> watchMovieDtoList.add(mapper.convertEntityToDto(pEntity)));
-
-        return ResponseEntity.status(HttpStatus.OK).body(WatchMovieDetailsDto);
-    }
-
- */
 
 }

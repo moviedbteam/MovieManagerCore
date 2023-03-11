@@ -12,8 +12,7 @@ import java.util.List;
 @Component
 public class WatchMovieMapper {
 
-    @Autowired
-    UserAccountMapper userAccountMapper;
+
 
     public WatchMovieDto convertEntityToDto(WatchMovie entity){
         WatchMovieDto dto = new WatchMovieDto();

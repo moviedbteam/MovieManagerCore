@@ -2,6 +2,7 @@ package com.bcefit.projet.service.wish;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
@@ -79,4 +80,9 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
         //jmsTemplate.send("Q_DELETE_Wish_MOVIE", new MessageString(wishMovie.toString()));
     }
 
+
+    @Override
+    public WishMovie findByIdMovieAndUserAccount(Long idMovie, UserAccount userAccount) {
+        return repository.findByIdMovieAndUserAccount(idMovie, userAccount);
+    }
 }

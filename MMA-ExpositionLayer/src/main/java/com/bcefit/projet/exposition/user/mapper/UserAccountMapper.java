@@ -26,9 +26,9 @@ public class UserAccountMapper {
         dto.setAdultContent(entity.isAdultContent());
         dto.setEmail(entity.getEmail());
         dto.setBirthYear(entity.getBirthYear());
-        dto.setGenreMovieDtoSet(movieMapper.convertListEntityToDto(entity.getGenreMovieSet()));
-        dto.setGenreTvDtoSet(tvMapper.convertListEntityToDto(entity.getGenreTvSet()));
-        dto.setStreamingSubscriptionDtoSet(streamingSubscriptionMapper.convertListEntityToDto(entity.getStreamingSubscriptionSet()));
+        dto.setGenreMovieDtoSet(movieMapper.convertSetEntityToDto(entity.getGenreMovieSet()));
+        dto.setGenreTvDtoSet(tvMapper.convertSetEntityToDto(entity.getGenreTvSet()));
+        dto.setStreamingSubscriptionDtoSet(streamingSubscriptionMapper.convertSetEntityToDto(entity.getStreamingSubscriptionSet()));
         return dto;
     }
 
@@ -38,9 +38,9 @@ public class UserAccountMapper {
         entity.setAdultContent(dto.isAdultContent());
         entity.setEmail(dto.getEmail());
         entity.setBirthYear(dto.getBirthYear());
-        entity.setGenreMovieSet(movieMapper.convertListDtoToEntity(dto.getGenreMovieDtoSet()));
-        entity.setGenreTvSet(tvMapper.convertListDtoToEntity(dto.getGenreTvDtoSet()));
-        entity.setStreamingSubscriptionSet(streamingSubscriptionMapper.convertListDtoToEntity(dto.getStreamingSubscriptionDtoSet()));
+        entity.setGenreMovieSet(movieMapper.convertSetDtoToEntity(dto.getGenreMovieDtoSet()));
+        entity.setGenreTvSet(tvMapper.convertSetDtoToEntity(dto.getGenreTvDtoSet()));
+        entity.setStreamingSubscriptionSet(streamingSubscriptionMapper.convertSetDtoToEntity(dto.getStreamingSubscriptionDtoSet()));
         return entity;
     }
 

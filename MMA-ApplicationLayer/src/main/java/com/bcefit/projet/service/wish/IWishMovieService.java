@@ -12,4 +12,8 @@ public interface IWishMovieService {
     WishMovie createWishMovie(WishMovie wishMovie);
 
     void deleteWishMovie(WishMovie wishMovie);
+
+    WishMovie findByIdMovieAndUserAccount(Long idMovie, UserAccount userAccount);
+
+
 }

@@ -46,4 +46,9 @@ public class IEpisodeServiceImpl implements IEpisodeService {
         episodeList = iEpisodeRepository.findBySeriesIdAndSeasonId(idTv.intValue(),idSeason);
         return episodeList;
     }
+
+    @Override
+    public Episode getEpisodeDetailByEpisodeId(Long idEpisode) {
+        return iEpisodeRepository.findByIdEpisode(idEpisode);
+    }
 }

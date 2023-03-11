@@ -2,13 +2,11 @@ package com.bcefit.projet.exposition.watch.rest;
 
 
 import com.bcefit.projet.domain.moviedb.Episode;
-import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchEpisodeMapper;
 import com.bcefit.projet.service.moviedb.IEpisodeService;
-import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.watch.IWatchEpisodeService;
 import org.slf4j.Logger;
@@ -32,7 +30,8 @@ public class WatchEpisodeAPI {
     IUserAccountService iUserAccountService;
 
     @Autowired
-    WatchEpisodeMapper mapper;
+    WatchEpisodeMapper watchEpisodeMapper;
+
 
     @Autowired
     IEpisodeService iEpisodeService;
@@ -53,7 +52,7 @@ public class WatchEpisodeAPI {
 
         WatchEpisode watchEpisode = service.findById(idWatch);
         logger.debug("DEBUG---ID Watch Episode = {}", watchEpisode.getIdWatch());
-        WatchEpisodeDto watchEpisodeDto = mapper.convertEntityToDto(watchEpisode);
+        WatchEpisodeDto watchEpisodeDto = watchEpisodeMapper.convertEntityToDto(watchEpisode);
 
         return ResponseEntity.status(HttpStatus.OK).body(watchEpisodeDto);
 
@@ -74,20 +73,20 @@ public class WatchEpisodeAPI {
         Episode episode = iEpisodeService.getEpisodeDetail(watchEpisodeDto.getIdTv(), watchEpisodeDto.getIdEpisode());
 
         // Mapping DTO vers Entity
-        WatchEpisode watchEpisode = mapper.convertDtoToEntity(watchEpisodeDto);
+        WatchEpisode watchEpisode = watchEpisodeMapper.convertDtoToEntity(watchEpisodeDto);
 
         // Enrichissement de l'entity avec UserAccount et Episode
         watchEpisode.setUserAccount(userAccount);
         watchEpisode.setEpisode(episode);
 
         // Création du WatchEpisode
-        WatchEpisodeDto dto = mapper.convertEntityToDto(service.createWatchEpisode(watchEpisode));
+        WatchEpisodeDto dto = watchEpisodeMapper.convertEntityToDto(service.createWatchEpisode(watchEpisode));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping("/episode/all")
-    public ResponseEntity<List<WatchEpisodeDto>> getAllWatchEpisodess(@RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<List<WatchEpisodeDto>> getAllWatchEpisodes(@RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
@@ -101,7 +100,7 @@ public class WatchEpisodeAPI {
         Iterable<WatchEpisode> iterable=service.findAllByUserAccountId(userAccount);
         List<WatchEpisodeDto> watchEpisodeDtoList = new ArrayList<>();
 
-        iterable.forEach((pEntity)-> watchEpisodeDtoList.add(mapper.convertEntityToDto(pEntity)));
+        iterable.forEach((pEntity)-> watchEpisodeDtoList.add(watchEpisodeMapper.convertEntityToDto(pEntity)));
 
         return ResponseEntity.status(HttpStatus.OK).body(watchEpisodeDtoList);
     }

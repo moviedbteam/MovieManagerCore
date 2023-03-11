@@ -12,4 +12,7 @@ public interface IWatchMovieService {
     WatchMovie createWatchMovie(WatchMovie watchMovie);
 
     void deleteWatchMovie(WatchMovie watchMovie);
+
+
+    WatchMovie findByIdMovieAndUserAccount(Long idMovie, UserAccount userAccount);
 }

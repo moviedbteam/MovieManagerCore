@@ -15,14 +15,11 @@ import java.util.Optional;
 
 public interface IWatchEpisodeRepository extends CrudRepository<WatchEpisode, Long> {
 
-    /*
-    @Transactional
-    @Modifying
-    @Query("update WatchEpisode w set w.duration = ?1 where w.idWatch = ?2")
-    void updateDurationbyWatchEpisode(Duration duration, Long idWatch);
+    @Query("select w from WatchEpisode w where w.episode.idEpisode = ?1")
+    WatchEpisode findWatchEpisodesByEpisode_IdEpisode(Long idEpisode);
 
 
-     */
+
     @Query("select w from WatchEpisode w where w.episode.idEpisode = ?1 and w.userAccount = ?2")
     WatchEpisode findByIdEpisodeAndUserAccount(Long idEpisode, UserAccount userAccount);
 

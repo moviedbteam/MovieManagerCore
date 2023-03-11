@@ -1,45 +1,29 @@
-package com.bcefit.projet.domain.moviedb;
+package com.bcefit.projet.exposition.moviedb.dto;
 
+import com.bcefit.projet.domain.moviedb.Episode;
+import com.bcefit.projet.domain.moviedb.Tv;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Season {
-    @Id
-    @Column(name = "id_season", nullable = false)
+public class SeasonDto {
     private Long idSeason;
-
     private String airDate;
-
-
     private String posterPath;
-
-
     private int seasonNumber;
-
-    @Column(length = 5000)
     private String overview;
+    private List<EpisodeDto> episodeDtoList;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tv")
-    private Tv tv;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_season",insertable=false, updatable=false)
-    private List<Episode> episodeList;
-
-    public Season() {
+    public SeasonDto() {
     }
 
-    public Season(Long idSeason, String airDate, String posterPath, int seasonNumber, String overview, Tv tv) {
+    public SeasonDto(Long idSeason, String airDate, String posterPath, int seasonNumber, String overview, List<EpisodeDto> episodeDtoList) {
         this.idSeason = idSeason;
         this.airDate = airDate;
         this.posterPath = posterPath;
         this.seasonNumber = seasonNumber;
         this.overview = overview;
-        this.tv = tv;
+        this.episodeDtoList = episodeDtoList;
     }
 
     public Long getIdSeason() {
@@ -82,19 +66,11 @@ public class Season {
         this.overview = overview;
     }
 
-    public Tv getTv() {
-        return tv;
+    public List<EpisodeDto> getEpisodeDtoList() {
+        return episodeDtoList;
     }
 
-    public void setTv(Tv tv) {
-        this.tv = tv;
-    }
-
-    public List<Episode> getEpisodeList() {
-        return episodeList;
-    }
-
-    public void setEpisodeList(List<Episode> episodeList) {
-        this.episodeList = episodeList;
+    public void setEpisodeDtoList(List<EpisodeDto> episodeDtoList) {
+        this.episodeDtoList = episodeDtoList;
     }
 }

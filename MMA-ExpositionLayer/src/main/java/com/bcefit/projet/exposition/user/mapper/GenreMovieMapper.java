@@ -4,7 +4,9 @@ import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.exposition.user.dto.GenreMovieDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -21,7 +23,17 @@ public class GenreMovieMapper {
         return entity;
     }
 
-    public Set<GenreMovie> convertListDtoToEntity(Set<GenreMovieDto> dtoSet){
+
+
+    public Set<GenreMovieDto> convertSetEntityToDto(Set<GenreMovie> entitySet) {
+        Set<GenreMovieDto> dtoSet = new HashSet<>();
+        for (GenreMovie entity : entitySet) {
+            dtoSet.add(convertEntityToDto(entity));
+        }
+        return dtoSet;
+    }
+
+    public Set<GenreMovie> convertSetDtoToEntity(Set<GenreMovieDto> dtoSet){
         Set<GenreMovie> entitySet = new HashSet<>();
         for(GenreMovieDto dto:dtoSet){
             entitySet.add(convertDtoToEntity(dto));
@@ -29,14 +41,21 @@ public class GenreMovieMapper {
         return entitySet;
     }
 
-
-
-    public Set<GenreMovieDto> convertListEntityToDto(Set<GenreMovie> entitySet) {
-        Set<GenreMovieDto> dtoSet = new HashSet<>();
-        for (GenreMovie entity : entitySet) {
-            dtoSet.add(convertEntityToDto(entity));
+    public List<GenreMovie> convertListDtoToEntity(List<GenreMovieDto> dtoList){
+        List<GenreMovie> entityList = new ArrayList<>();
+        for(GenreMovieDto dto:dtoList){
+            entityList.add(convertDtoToEntity(dto));
         }
-        return dtoSet;
+        return entityList;
+    }
+
+
+    public List<GenreMovieDto> convertListEntityToDto(List<GenreMovie> entityList) {
+        List<GenreMovieDto> dtoList = new ArrayList<>();
+        for (GenreMovie entity : entityList) {
+            dtoList.add(convertEntityToDto(entity));
+        }
+        return dtoList;
     }
 
 }
