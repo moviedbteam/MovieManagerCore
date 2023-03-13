@@ -1,8 +1,6 @@
 package com.bcefit.projet.exposition.recommendation.rest;
 
 
-import com.bcefit.projet.domain.analytic.MovieRecommendation;
-import com.bcefit.projet.domain.analytic.TvRecommendation;
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
