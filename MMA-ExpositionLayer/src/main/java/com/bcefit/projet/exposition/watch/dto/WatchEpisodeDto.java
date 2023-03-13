@@ -121,4 +121,6 @@ public class WatchEpisodeDto {
     public void setSeasonNumber(int seasonNumber) {
         this.seasonNumber = seasonNumber;
     }
+
+
 }

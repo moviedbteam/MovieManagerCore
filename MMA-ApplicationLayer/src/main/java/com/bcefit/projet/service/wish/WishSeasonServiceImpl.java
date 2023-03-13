@@ -30,7 +30,7 @@ public class WishSeasonServiceImpl implements IWishSeasonService{
     @Override
     public List<WishEpisode> createWishEpisodeBySeasonId(Long idTv, Long idSeason, UserAccount userAccount) {
         // Synchroniser la base des Tv/Season/Episode
-        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
 
         //création de la liste de tous les épisodes de la Season
         List<Episode> episodeListForTvAndSeason = iEpisodeService.getAllEpisodeByIdTvAndIdSeason(idTv, idSeason);

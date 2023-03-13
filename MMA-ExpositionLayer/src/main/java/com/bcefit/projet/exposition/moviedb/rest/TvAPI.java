@@ -173,6 +173,7 @@ public class TvAPI {
                 WishEpisode wishEpisode = iWishEpisodeService.findByIdEpisode(episode.getIdEpisode());
                 if(wishEpisode != null){
                     episodeDto.setIdWish(wishEpisode.getIdWish());
+                    episodeDto.setDateWish(wishEpisode.getDateWsih());
                 }
                episodeDtoList.add(episodeDto);
             }

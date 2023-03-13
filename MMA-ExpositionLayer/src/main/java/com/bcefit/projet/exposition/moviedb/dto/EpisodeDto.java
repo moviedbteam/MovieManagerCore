@@ -24,10 +24,12 @@ public class EpisodeDto {
     private Integer viewingMood;
     private Long idWish;
 
+    private LocalDate DateWish;
+
     public EpisodeDto() {
     }
 
-    public EpisodeDto(Long idEpisode, int episodeNumber, String overview, String airDate, int seriesId, int seasonNumber, String stillPath, float voteAverage, int voteCount, Long idWatch, LocalDate dateWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idWish) {
+    public EpisodeDto(Long idEpisode, int episodeNumber, String overview, String airDate, int seriesId, int seasonNumber, String stillPath, float voteAverage, int voteCount, Long idWatch, LocalDate dateWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, Long idWish, LocalDate dateWish) {
         this.idEpisode = idEpisode;
         this.episodeNumber = episodeNumber;
         this.overview = overview;
@@ -43,6 +45,7 @@ public class EpisodeDto {
         this.viewingRate = viewingRate;
         this.viewingMood = viewingMood;
         this.idWish = idWish;
+        DateWish = dateWish;
     }
 
     public Long getIdEpisode() {
@@ -163,5 +166,13 @@ public class EpisodeDto {
 
     public void setIdWish(Long idWish) {
         this.idWish = idWish;
+    }
+
+    public LocalDate getDateWish() {
+        return DateWish;
+    }
+
+    public void setDateWish(LocalDate dateWish) {
+        DateWish = dateWish;
     }
 }

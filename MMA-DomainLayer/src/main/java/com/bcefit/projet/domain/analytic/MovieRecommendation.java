@@ -1,10 +1,12 @@
 package com.bcefit.projet.domain.analytic;
 
-
-import com.bcefit.projet.domain.moviedb.GenreMovie;
+import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "movie_recommendation")
@@ -14,28 +16,25 @@ public class MovieRecommendation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@Fetch(value = FetchMode.SUBSELECT)
     private UserAccount userAccount;
 
-    private Integer idMovie;
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@Fetch(value = FetchMode.SUBSELECT)
+    private Movie movie;
 
-    private Double popularity;
+   LocalDate date;
 
-
-
-    @ManyToOne
-    @JoinColumn(name = "genre_movie_id")
-    private GenreMovie genreMovie;
-
-    public GenreMovie getGenreMovie() {
-        return genreMovie;
+    public MovieRecommendation() {
     }
 
-    public void setGenreMovie(GenreMovie genreMovie) {
-        this.genreMovie = genreMovie;
+    public MovieRecommendation(Long id, UserAccount userAccount, Movie movie, LocalDate date) {
+        this.id = id;
+        this.userAccount = userAccount;
+        this.movie = movie;
+        this.date = date;
     }
-
 
     public Long getId() {
         return id;
@@ -43,5 +42,29 @@ public class MovieRecommendation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

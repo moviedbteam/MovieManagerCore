@@ -4,6 +4,8 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IWishEpisodeRepository;
 import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.service.mapper.TvMessageMapper;
+import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,8 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
 
     @Autowired
     IUserAccountService userAccountService;
+    @Autowired
+    TvMessageMapper tvMessageMapper;
 
 
     @Autowired
@@ -59,11 +64,14 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
 
     @Override
     public WishEpisode createWishEpisode(WishEpisode wishEpisode) {
+        LocalDate actualDate = LocalDate.now();
+        wishEpisode.setDateWsih(actualDate);
         // Enregistrement du watch episode
         WishEpisode wishEpisodeAdd = repository.save(wishEpisode);
 
         // Envoie d'un message pour informer de l'ajout d'un episode dans la wishList
-        //jmsTemplate.send("Q_ADD_Wish_EPISODE", new MessageString(wishEpisode.getUid()));
+        String message = tvMessageMapper.convertTvAndUserAccountToMessage(wishEpisodeAdd.getEpisode().getSeriesId(),wishEpisodeAdd.getUserAccount().getIdUser());
+        jmsTemplate.send("Q_ADD_Wish_EPISODE", new MessageString(message));
 
         return wishEpisodeAdd;
     }
@@ -83,7 +91,5 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     @Override
     public void deleteWishEpisode(WishEpisode wishEpisode) {
         repository.delete(wishEpisode);
-        // Envoie d'un message pour informer de la suppression d'un film dans la wishList
-        //jmsTemplate.send("Q_DELETE_Wish_EPISODE", new MessageString(wishEpisode.toString()));
     }
 }

@@ -3,6 +3,8 @@ package com.bcefit.projet.domain.user;
 import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.domain.moviedb.GenreTv;
 import com.bcefit.projet.domain.moviedb.StreamingSubscription;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,18 +31,21 @@ public class UserAccount {
     @JoinTable(name = "user_account_genre_movie",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
+    @Fetch(value = FetchMode.SUBSELECT)
     private Set<GenreMovie> genreMovieSet= new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_genre_tv",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
+    @Fetch(value = FetchMode.SUBSELECT)
     private Set<GenreTv> genreTvSet= new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_account_streaming_subscription",
             joinColumns =  { @JoinColumn(name = "id_user") },
             inverseJoinColumns = { @JoinColumn(name = "id") })
+    @Fetch(value = FetchMode.SUBSELECT)
     private Set<StreamingSubscription> streamingSubscriptionSet= new HashSet<>();
 
     public Long getIdUser() {

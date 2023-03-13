@@ -39,10 +39,12 @@ public class MovieDetailsDto {
 
     private Long idWish;
 
+    private LocalDate dateWish;
+
     public MovieDetailsDto() {
     }
 
-    public MovieDetailsDto(Long idMovie, String title, String originalTitle, float popularity, String backdropPath, String posterPath, String releaseDate, boolean adult, long budget, String homepage, String overview, String imdbID, String originalLanguage, int runtime, String tagline, float voteAverage, int voteCount, String status, List<GenreMovieDto> genreMovieDtoList, Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch, Long idWish) {
+    public MovieDetailsDto(Long idMovie, String title, String originalTitle, float popularity, String backdropPath, String posterPath, String releaseDate, boolean adult, long budget, String homepage, String overview, String imdbID, String originalLanguage, int runtime, String tagline, float voteAverage, int voteCount, String status, List<GenreMovieDto> genreMovieDtoList, Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch, Long idWish, LocalDate dateWish) {
         this.idMovie = idMovie;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -68,6 +70,7 @@ public class MovieDetailsDto {
         this.viewingMood = viewingMood;
         this.dateWatch = dateWatch;
         this.idWish = idWish;
+        this.dateWish = dateWish;
     }
 
     public Long getIdMovie() {
@@ -268,5 +271,13 @@ public class MovieDetailsDto {
 
     public void setIdWish(Long idWish) {
         this.idWish = idWish;
+    }
+
+    public LocalDate getDateWish() {
+        return dateWish;
+    }
+
+    public void setDateWish(LocalDate dateWish) {
+        this.dateWish = dateWish;
     }
 }

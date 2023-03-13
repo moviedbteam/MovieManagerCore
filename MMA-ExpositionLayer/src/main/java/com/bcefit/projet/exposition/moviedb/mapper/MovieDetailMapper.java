@@ -65,6 +65,7 @@ public class MovieDetailMapper {
         dto.setStatus(entity.getMovie().getStatus());
         dto.setGenreMovieDtoList(genreMovieMapper.convertListEntityToDto(entity.getMovie().getGenreMovieList()));
         dto.setIdWish(entity.getIdWish());
+        dto.setDateWish(entity.getDateWsih());
 
         return dto;
     }

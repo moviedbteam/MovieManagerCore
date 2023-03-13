@@ -15,12 +15,14 @@ public class WishMovieMapper {
         WishMovieDto dto = new WishMovieDto();
         dto.setIdWish(entity.getIdWish());
         dto.setIdMovie(entity.getMovie().getIdMovie());
+        dto.setDateWish(entity.getDateWsih());
         return dto;
     }
 
     public WishMovie convertDtoToEntity(WishMovieDto dto){
         WishMovie entity = new WishMovie();
         entity.setIdWish(dto.getIdWish());
+        entity.setDateWsih(dto.getDateWish());
         return entity;
     }
 

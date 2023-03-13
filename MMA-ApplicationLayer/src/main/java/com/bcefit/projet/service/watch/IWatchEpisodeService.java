@@ -1,5 +1,6 @@
 package com.bcefit.projet.service.watch;
 
+import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 
@@ -17,4 +18,5 @@ public interface IWatchEpisodeService {
     WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount);
 
     WatchEpisode findByIdEpisode(Long idEpisode);
+
 }

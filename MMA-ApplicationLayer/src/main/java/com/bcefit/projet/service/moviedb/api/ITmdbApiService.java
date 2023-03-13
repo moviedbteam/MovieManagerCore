@@ -11,30 +11,8 @@ import java.util.List;
 public interface ITmdbApiService {
 
 
-    Movie synchronizeMovieDetailFromApi(Integer idMovie);
-    Tv synchronizeTvDetailFromApiFromApi(Integer idTv);
-
-    /*
-    List<WishEpisode> getWishEpisodeListByIdTvFromApi(Integer idTv);
-
-
-    List<WishEpisode> getWishEpisodeListByIdSeasonFromApi(Integer idTv, Integer numberSeason);
-
-    List<WatchEpisode> getWatchEpisodeListByIdTvFromApi(Integer idTv);
-
-
-    List<WatchEpisode> getWatchEpisodeListByIdSeasonFromApi(Integer idTv, Integer numberSeason);
-
-    Integer getEpisodeDetailFromApi(Integer idTv);
-
-
-
-
-
-    Integer getEpisodeDetailFromApiFromApi(Integer idTv);
-
-    List<MovieRecommendation> getMovieRecommendationsFromApi(Integer idMovie);
-
-
-     */
+    Movie synchronizeMovieDetailFromApi(Long idMovie);
+    Tv synchronizeTvDetailFromApiFromApi(Long idTv);
+    List<Movie> getAllMovieRecommendation(Long idMovie);
+    List<Tv> getAllTvRecommendation(Long idTv);
 }

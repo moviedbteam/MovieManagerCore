@@ -19,11 +19,12 @@ public class MovieLightDto {
 
     private Long idWish;
 
+    private LocalDate dateWish;
 
     public MovieLightDto() {
     }
 
-    public MovieLightDto(Long idMovie, String title, String posterPath, Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch, Long idWish, Long idMovie1) {
+    public MovieLightDto(Long idMovie, String title, String posterPath, Long idWatch, String viewingPlace, Integer viewingRate, Integer viewingMood, LocalDate dateWatch, Long idWish, LocalDate dateWish) {
         this.idMovie = idMovie;
         this.title = title;
         this.posterPath = posterPath;
@@ -33,7 +34,7 @@ public class MovieLightDto {
         this.viewingMood = viewingMood;
         this.dateWatch = dateWatch;
         this.idWish = idWish;
-        this.idMovie = idMovie1;
+        this.dateWish = dateWish;
     }
 
     public Long getIdMovie() {
@@ -106,5 +107,13 @@ public class MovieLightDto {
 
     public void setIdWish(Long idWish) {
         this.idWish = idWish;
+    }
+
+    public LocalDate getDateWish() {
+        return dateWish;
+    }
+
+    public void setDateWish(LocalDate dateWish) {
+        this.dateWish = dateWish;
     }
 }

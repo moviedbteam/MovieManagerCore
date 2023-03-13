@@ -19,8 +19,8 @@ public class IMovieServiceImpl implements IMovieService{
     public Movie getMovieDetail(Long idMovie) {
         Movie movie = iMovieRepository.findByIdMovie(idMovie);
         if (movie==null){
-            movie = iTmdbApiService.synchronizeMovieDetailFromApi(idMovie.intValue());
+            movie = iTmdbApiService.synchronizeMovieDetailFromApi(idMovie);
         }
-        return movie;
+        return iTmdbApiService.synchronizeMovieDetailFromApi(idMovie);
     }
 }

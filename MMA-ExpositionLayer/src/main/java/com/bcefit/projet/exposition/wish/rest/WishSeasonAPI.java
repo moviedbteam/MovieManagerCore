@@ -66,7 +66,7 @@ public class WishSeasonAPI {
 
         List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishSeasonService.deleteWishEpisodeBySeasonId(Long.valueOf(idTv),Long.valueOf(idSeason),  userAccount));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(wishEpisodeDtoList);
     }
 
 

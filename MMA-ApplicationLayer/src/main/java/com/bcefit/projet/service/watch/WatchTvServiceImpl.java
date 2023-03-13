@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -31,7 +33,7 @@ public class WatchTvServiceImpl implements IWatchTvService {
 
     public List<WatchEpisode> createWatchEpisodeByTvId(Long idTv, UserAccount userAccount) {
         // Synchroniser la base des Tv/Season/Episode
-        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
 
         //création de la liste de tous les épisodes de la série Tv
         List<Episode> episodeListForTV = iEpisodeService.getAllEpisodeByIdTv(idTv);
@@ -73,6 +75,17 @@ public class WatchTvServiceImpl implements IWatchTvService {
             }
         }
         return watchEpisodeDeletedList;
+    }
+
+    @Override
+    public Set<Long> getIdTvWatchByUserAccount(UserAccount userAccount) {
+        Iterable<WatchEpisode> watchEpisodeIterable = iWatchEpisodeService.findAllByUserAccountId(userAccount);
+        Set<Long> idTvWatchList = new HashSet<>();
+        for(WatchEpisode watchEpisode : watchEpisodeIterable){
+            Episode episode = watchEpisode.getEpisode();
+            idTvWatchList.add(Long.valueOf(episode.getSeriesId()));
+        }
+        return idTvWatchList;
     }
 
 }

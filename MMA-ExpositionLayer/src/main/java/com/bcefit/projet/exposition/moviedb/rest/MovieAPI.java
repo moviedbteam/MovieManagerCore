@@ -75,6 +75,7 @@ public class    MovieAPI {
             WishMovie wishMovie = iWishMovieService.findByIdMovieAndUserAccount(movieLightDto.getIdMovie(), userAccount);
             if (wishMovie != null) {
                 movieLightDto.setIdWish(wishMovie.getIdWish());
+                movieLightDto.setDateWish(wishMovie.getDateWsih());
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(movieLightDtoList);

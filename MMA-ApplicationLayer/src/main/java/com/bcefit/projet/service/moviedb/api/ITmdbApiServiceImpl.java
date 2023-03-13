@@ -15,6 +15,7 @@ import com.bcefit.projet.service.mapper.SeasonApiMapper;
 import com.bcefit.projet.service.mapper.TvApiMapper;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.TmdbTV;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeason;
@@ -31,7 +32,7 @@ import java.util.List;
 public class ITmdbApiServiceImpl implements ITmdbApiService {
 
     @Autowired
-    MovieApiMapper movieMapper;
+    MovieApiMapper movieApiMapper;
     @Autowired
     TvApiMapper tvApiMapper;
     @Autowired
@@ -56,20 +57,28 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
     }
 
     @Override
-    public Movie synchronizeMovieDetailFromApi(Integer idMovie) {
+    public Movie synchronizeMovieDetailFromApi(Long idMovie) {
         //Création des variables qui seront utilisées pour la synchronisation
         Movie tmptv = new Movie();
         TmdbApi tmdb = getSessionApi();
 
-        // récupération du Movie et synchronisation en base
-        MovieDb movieDb = tmdb.getMovies().getMovie(idMovie, "fr", TmdbMovies.MovieMethod.credits);
-        tmptv = movieMapper.convertMovieApiToMovie(movieDb);
-        iMovieRepository.save(tmptv);
-        return tmptv;
+        // Contrôle dans la base local si le Movie est présent
+        Movie movieLocal = iMovieRepository.findByIdMovie(idMovie);
+
+        if ((movieLocal == null)) {
+
+            // récupération du Movie et synchronisation en base
+            MovieDb movieDb = tmdb.getMovies().getMovie(idMovie.intValue(), "fr", TmdbMovies.MovieMethod.credits);
+            tmptv = movieApiMapper.convertMovieApiToMovie(movieDb);
+            iMovieRepository.save(tmptv);
+            return tmptv;
+        }else {
+            return movieLocal;
+        }
     }
 
     @Override
-    public Tv synchronizeTvDetailFromApiFromApi(Integer idTv) {
+    public Tv synchronizeTvDetailFromApiFromApi(Long idTv) {
         //Création des variables qui seront utilisées pour la synchronisation
         Tv tmptv = new Tv();
         List<Season> seasonList = new ArrayList<>();
@@ -77,11 +86,11 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
 
         // récupération de la série Tv et synchronisation en base
         TmdbApi tmdb = getSessionApi();
-        TvSeries tvSeries = tmdb.getTvSeries().getSeries(idTv, "fr");
+        TvSeries tvSeries = tmdb.getTvSeries().getSeries(idTv.intValue(), "fr");
         tmptv = tvApiMapper.convertTvApiToTv(tvSeries);
 
         // Contrôle dans la base local si la série est présente et si le nombre d'épisodes à évolué
-        Tv tvLocal = iTvRepository.findByIdTv(Long.valueOf(idTv));
+        Tv tvLocal = iTvRepository.findByIdTv(idTv);
 
         if ((tvLocal == null) || (tvLocal.getNumberOfEpisodes()!=tmptv.getNumberOfEpisodes())){
 
@@ -119,5 +128,29 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
             return tmptv;
         }
     return tvLocal;
+    }
+
+    @Override
+    public List<Movie> getAllMovieRecommendation(Long idMovie) {
+        //Création des variables qui seront utilisées pour la récupération des recommendations
+        List<Movie> movieList = new ArrayList<>();
+        TmdbApi tmdb = getSessionApi();
+
+        // récupération des recommendations associées au Movie
+        MovieDb movieDb = tmdb.getMovies().getMovie(idMovie.intValue(), "fr", TmdbMovies.MovieMethod.recommendations);
+        movieList = movieApiMapper.convertListMovieRecommendationApiToMovie(movieDb.getRecommendations());
+        return movieList;
+    }
+
+    @Override
+    public List<Tv> getAllTvRecommendation(Long idTv) {
+        //Création des variables qui seront utilisées pour la récupération des recommendations
+        List<Tv> tvList = new ArrayList<>();
+        TmdbApi tmdb = getSessionApi();
+
+        // récupération des recommendations associées au Tv
+        TvSeries tvSeries = tmdb.getTvSeries().getSeries(idTv.intValue(),"fr", TmdbTV.TvMethod.recommendations);
+        tvList = tvApiMapper.convertTvRecommendationApiToTv(tvSeries.getRecommendations().getResults());
+        return tvList;
     }
 }

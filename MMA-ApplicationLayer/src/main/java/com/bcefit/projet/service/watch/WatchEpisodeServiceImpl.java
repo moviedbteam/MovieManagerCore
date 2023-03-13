@@ -4,7 +4,8 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
-import com.bcefit.projet.service.mapper.WatchEpisodeMsgMapper;
+import com.bcefit.projet.service.mapper.TvMessageMapper;
+import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,35 +38,8 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     JmsTemplate jmsTemplate;
 
     @Autowired
-    WatchEpisodeMsgMapper watchEpisodeMapper;
+    TvMessageMapper tvMessageMapper;
 
-    /*
-    @Override
-    public Iterable<WatchEpisode> findAllTvsByUserAccountId(UserAccount userAccount) {
-        logger.debug("service findbyId {}", userAccount.getIdUser());
-        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
-        if (watchEpisodeList.isPresent()) {
-            return watchEpisodeList.get();
-        } else {
-            logger.error("pas de watch episode avec l'id user {}", userAccount.getIdUser());
-            throw new EntityNotFoundException("Pas de wish episode en base");
-        }
-    }
-
-
-    @Override
-    public Iterable<WatchEpisode> findAllSeasonAndEpisodesByUserAccountIdAndByTVs(UserAccount userAccount) {
-        logger.debug("service findbyId {}", userAccount.getIdUser());
-        Optional<List<WatchEpisode>> watchEpisodeList = iWatchEpisodesByUserAccountRepository.findWatchEpisodesByUserAccount(userAccount);
-        if (watchEpisodeList.isPresent()) {
-            return watchEpisodeList.get();
-        } else {
-            logger.error("pas de watch episode avec l'id user {}", userAccount.getIdUser());
-            throw new EntityNotFoundException("Pas de wish episode en base");
-        }
-    }
-
-     */
 
     @Override
     public Iterable<WatchEpisode> findAllByUserAccountId(UserAccount userAccount) {
@@ -104,8 +78,8 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
 
         // Envoie d'un message pour informer de l'ajout d'un episode dans la watchList
-        //String message = watchEpisodeMapper.convertEntityToMessage(watchEpisode);
-        //jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(message));
+        String message = tvMessageMapper.convertTvAndUserAccountToMessage(watchEpisodeAdd.getEpisode().getSeriesId(),watchEpisodeAdd.getUserAccount().getIdUser());
+        jmsTemplate.send("Q_ADD_Watch_EPISODE", new MessageString(message));
         return watchEpisodeAdd;
     }
 
@@ -123,8 +97,5 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     @Override
     public void deleteWatchEpisode(WatchEpisode watchEpisode) {
         repository.delete(watchEpisode);
-        // Envoie d'un message pour informer de la suppression d'un film dans la watchList
-        //String message = watchEpisodeMapper.convertEntityToMessage(watchEpisode);
-        //jmsTemplate.send("Q_DELETE_Watch_EPISODE", new MessageString(message));
     }
 }

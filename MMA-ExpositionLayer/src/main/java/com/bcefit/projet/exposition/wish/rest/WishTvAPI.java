@@ -64,7 +64,7 @@ public class WishTvAPI {
 
         List<WishEpisodeDto> wishEpisodeDtoList = mapperEpisode.convertListEntityToDto(iWishTvService.deleteWishEpisodeByTvId(Long.valueOf(idTv), userAccount));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(wishEpisodeDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(wishEpisodeDtoList);
     }
 
 

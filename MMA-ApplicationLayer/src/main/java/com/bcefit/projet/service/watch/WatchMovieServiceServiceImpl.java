@@ -8,7 +8,7 @@ import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 
-import com.bcefit.projet.service.mapper.WatchMovieMsgMapper;
+import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     JmsTemplate jmsTemplate;
 
     @Autowired
-    WatchMovieMsgMapper watchMovieMapper;
+    MovieMessageMapper movieMessageMapper;
 
 
     @Override
@@ -81,8 +81,8 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
         }
 
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        //String message = watchMovieMapper.convertEntityToMessage(watchMovie);
-        //jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(message));
+        String message = movieMessageMapper.convertMovieAndUserAccountToMessage(watchMovieAdd.getMovie().getIdMovie().intValue(),watchMovieAdd.getUserAccount().getIdUser());
+        jmsTemplate.send("Q_ADD_Watch_MOVIE", new MessageString(message));
 
         return watchMovieAdd;
     }
@@ -90,9 +90,6 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     @Override
     public void deleteWatchMovie(WatchMovie watchMovie) {
         repository.delete(watchMovie);
-        // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
-        //String message = watchMovieMapper.convertEntityToMessage(watchMovie);
-        //jmsTemplate.send("Q_DELETE_Watch_MOVIE", new MessageString(message));
     }
 
 

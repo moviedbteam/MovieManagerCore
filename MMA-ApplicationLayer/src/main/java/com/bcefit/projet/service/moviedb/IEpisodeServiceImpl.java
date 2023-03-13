@@ -27,7 +27,7 @@ public class IEpisodeServiceImpl implements IEpisodeService {
         Episode episode = new Episode();
         episode = iEpisodeRepository.findByIdEpisode(idEpisode);
         if (episode == null){
-            Tv tv = iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+            Tv tv = iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
             episode = iEpisodeRepository.findByIdEpisode(idEpisode);
         }
         return episode;

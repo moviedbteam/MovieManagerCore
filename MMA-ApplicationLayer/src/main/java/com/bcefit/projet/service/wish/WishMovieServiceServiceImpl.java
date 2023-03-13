@@ -2,10 +2,10 @@ package com.bcefit.projet.service.wish;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
+import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +35,9 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
 
     @Autowired
     JmsTemplate jmsTemplate;
+
+    @Autowired
+    MovieMessageMapper movieMessageMapper;
 
 
     @Override
@@ -68,7 +70,8 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
         wishMovie.setDateWsih(actualDate);
         WishMovie wishMovieAdd = repository.save(wishMovie);
         // Envoie d'un message pour informer de l'ajout d'un film dans la wishList
-        //jmsTemplate.send("Q_ADD_Wish_MOVIE", new MessageString(wishMovie.toString()));
+        String message = movieMessageMapper.convertMovieAndUserAccountToMessage(wishMovieAdd.getMovie().getIdMovie().intValue(),wishMovieAdd.getUserAccount().getIdUser());
+        jmsTemplate.send("Q_ADD_Wish_MOVIE", new MessageString(message));
 
         return repository.save(wishMovie);
     }
@@ -76,8 +79,6 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
     @Override
     public void deleteWishMovie(WishMovie wishMovie) {
         repository.delete(wishMovie);
-        // Envoie d'un message pour informer de la suppression d'un film dans la wishList
-        //jmsTemplate.send("Q_DELETE_Wish_MOVIE", new MessageString(wishMovie.toString()));
     }
 
 

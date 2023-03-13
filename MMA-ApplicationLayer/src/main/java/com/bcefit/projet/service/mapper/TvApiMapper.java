@@ -1,11 +1,16 @@
 package com.bcefit.projet.service.mapper;
 
+import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Tv;
+import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeason;
 import info.movito.themoviedbapi.model.tv.TvSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TvApiMapper {
@@ -26,6 +31,28 @@ public class TvApiMapper {
         entity.setLastAirDate(api.getLastAirDate());
         entity.setGenreTvList(genreTvApiMapper.convertListApiToEntity(api.getGenres()));
         entity.setStreamingSubscriptionList(streamingSubscriptionApiMapper.convertListApiToEntity(api.getNetworks()));
+        entity.setHomepage(api.getHomepage());
+        entity.setOriginalName(api.getOriginalName());
+        entity.setOriginCountry(api.getOriginCountry());
+        entity.setOverview(api.getOverview());
+        entity.setPopularity(api.getPopularity());
+        entity.setBackdropPath(api.getBackdropPath());
+        entity.setPosterPath(api.getPosterPath());
+        entity.setNumberOfEpisodes(api.getNumberOfEpisodes());
+        entity.setNumberOfSeasons(api.getNumberOfSeasons());
+        entity.setVoteAverage(api.getVoteAverage());
+        entity.setVoteCount(api.getVoteCount());
+        entity.setStatus(api.getStatus());
+
+        return entity;
+    }
+
+    public Tv convertTvRecommendationApiToTv(TvSeries api){
+        Tv entity = new Tv();
+        entity.setIdTv(Long.valueOf(api.getId()));
+        entity.setEpisodeRuntime(api.getEpisodeRuntime());
+        entity.setFirstAirDate(api.getFirstAirDate());
+        entity.setLastAirDate(api.getLastAirDate());
         entity.setHomepage(api.getHomepage());
         entity.setOriginalName(api.getOriginalName());
         entity.setOriginCountry(api.getOriginCountry());
@@ -65,5 +92,13 @@ public class TvApiMapper {
         api.setStatus(entity.getStatus());
 
         return api;
+    }
+
+    public List<Tv> convertTvRecommendationApiToTv(List<TvSeries> tvSeriesList){
+        List<Tv> entityList = new ArrayList<>();
+        for(TvSeries dto : tvSeriesList){
+            entityList.add(convertTvRecommendationApiToTv(dto));
+        }
+        return entityList;
     }
 }

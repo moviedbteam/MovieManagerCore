@@ -1,9 +1,13 @@
 package com.bcefit.projet.domain.analytic;
 
 
-import com.bcefit.projet.domain.moviedb.GenreTv;
+import com.bcefit.projet.domain.moviedb.Movie;
+import com.bcefit.projet.domain.moviedb.Tv;
+import com.bcefit.projet.domain.user.UserAccount;
+
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tv_recommendation")
@@ -13,20 +17,25 @@ public class TvRecommendation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private Integer IdTv;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_tv_id")
-    private GenreTv genreTv;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserAccount userAccount;
 
-    public GenreTv getGenreTv() {
-        return genreTv;
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@Fetch(value = FetchMode.SUBSELECT)
+    private Tv tv;
+
+    LocalDate date;
+
+    public TvRecommendation() {
     }
 
-    public void setGenreTv(GenreTv genreTv) {
-        this.genreTv = genreTv;
+    public TvRecommendation(Long id, UserAccount userAccount, Tv tv, LocalDate date) {
+        this.id = id;
+        this.userAccount = userAccount;
+        this.tv = tv;
+        this.date = date;
     }
-
 
     public Long getId() {
         return id;
@@ -34,5 +43,29 @@ public class TvRecommendation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Tv getTv() {
+        return tv;
+    }
+
+    public void setTv(Tv tv) {
+        this.tv = tv;
     }
 }

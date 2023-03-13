@@ -28,14 +28,17 @@ public class UserAccountAPI {
 
     Logger logger = LoggerFactory.getLogger(UserAccountAPI.class);
 
-    @GetMapping("/{idUser}")
-    public UserAccountDto getUserAccountById(@RequestAttribute("userEmail") String userEmail){
+    @GetMapping("")
+    public ResponseEntity<UserAccountDto> getUserAccountById(@RequestAttribute("userEmail") String userEmail){
         logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
         // Chargement du UserAccount
         UserAccount userAccount = service.logToUserAccount(userEmail);
         logger.debug("DEBUG---ID UserAccount = {}", userAccount.getIdUser());
-        return mapper.convertEntityToDto(userAccount);
+
+        UserAccountDto dto = mapper.convertEntityToDto(userAccount);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @PostMapping("/create")

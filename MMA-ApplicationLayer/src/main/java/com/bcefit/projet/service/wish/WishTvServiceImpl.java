@@ -2,6 +2,7 @@ package com.bcefit.projet.service.wish;
 
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.service.moviedb.IEpisodeService;
 import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -30,7 +33,7 @@ public class WishTvServiceImpl implements IWishTvService {
 
     public List<WishEpisode> createWishEpisodeByTvId(Long idTv, UserAccount userAccount) {
         // Synchroniser la base des Tv/Season/Episode
-        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+        iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
 
         //création de la liste de tous les épisodes de la série Tv
         List<Episode> episodeListForTV = iEpisodeService.getAllEpisodeByIdTv(idTv);
@@ -73,6 +76,16 @@ public class WishTvServiceImpl implements IWishTvService {
         return wishEpisodeDeletedList;
     }
 
+    @Override
+    public Set<Long> getIdTvByUserAccount(UserAccount userAccount) {
+        Iterable<WishEpisode> wishEpisodeIterable = service.findAllByUserAccountId(userAccount);
+        Set<Long> idTvWishList = new HashSet<>();
+        for(WishEpisode wishEpisode : wishEpisodeIterable){
+            Episode episode = wishEpisode.getEpisode();
+            idTvWishList.add(Long.valueOf(episode.getSeriesId()));
+        }
+        return idTvWishList;
+    }
 
 }
 

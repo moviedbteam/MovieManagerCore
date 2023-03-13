@@ -21,7 +21,7 @@ public class ITvServiceImpl implements ITvService {
     public Tv getDetailByIdTv(Long idTv) {
         Tv tv = iTvRepository.findByIdTv(idTv);
         if (tv == null) {
-            return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+            return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
         }
         return tv;
     }
@@ -31,7 +31,7 @@ public class ITvServiceImpl implements ITvService {
         public Tv getAllDetailByIdTv(Long idTv) {
             Tv tv = iTvRepository.findAllDetailByIdTv(idTv);
             if (tv == null) {
-                return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv.intValue());
+                return iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
             }
             return tv;
         }

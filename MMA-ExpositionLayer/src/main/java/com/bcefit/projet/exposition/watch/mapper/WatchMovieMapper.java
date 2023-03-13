@@ -21,6 +21,7 @@ public class WatchMovieMapper {
         dto.setViewingMood(entity.getViewingMood());
         dto.setViewingRate(entity.getViewingRate());
         dto.setIdMovie(entity.getMovie().getIdMovie());
+        dto.setDateWatch(entity.getDateWatch());
         return dto;
     }
 

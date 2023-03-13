@@ -30,6 +30,7 @@ public class MovieLightMapper {
         dto.setTitle(entity.getMovie().getTitle());
         dto.setPosterPath(entity.getMovie().getPosterPath());
         dto.setIdWish(entity.getIdWish());
+        dto.setDateWish(entity.getDateWsih());
 
         return dto;
     }
