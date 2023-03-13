@@ -124,17 +124,24 @@ public class    MovieAPI {
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-
+        MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
+        //Recherche de wish et watch associés
         WatchMovie watchMovie = iWatchMovieService.findByIdMovieAndUserAccount(idMovie,userAccount);
-        logger.debug("DEBUG---ID Watch movie = {}", watchMovie.getIdWatch());
-        MovieDetailsDto movieDetailsDto = movieDetailMapper.convertWatchEntityToDto(watchMovie);
-
-        // recherche d'un éventuel wish Movie associé
         WishMovie wishMovie = iWishMovieService.findByIdMovieAndUserAccount(idMovie, userAccount);
-        if (wishMovie != null){
+        if (watchMovie!=null && wishMovie!=null){
+            movieDetailsDto = movieDetailMapper.convertWatchEntityToDto(watchMovie);
             movieDetailsDto.setIdWish(wishMovie.getIdWish());
         }
+        if (watchMovie == null && wishMovie !=null){
+            movieDetailsDto = movieDetailMapper.convertWishEntityToDto(wishMovie);
+        }
+        if (watchMovie !=null && wishMovie == null){
+            movieDetailsDto = movieDetailMapper.convertWatchEntityToDto(watchMovie);
+        }
 
+        if(movieDetailsDto==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(movieDetailsDto);
 
     }
