@@ -4,6 +4,8 @@ package com.bcefit.projet.domain.analytic;
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 import javax.persistence.*;
@@ -18,11 +20,10 @@ public class TvRecommendation {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserAccount userAccount;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    //@Fetch(value = FetchMode.SUBSELECT)
     private Tv tv;
 
     LocalDate date;

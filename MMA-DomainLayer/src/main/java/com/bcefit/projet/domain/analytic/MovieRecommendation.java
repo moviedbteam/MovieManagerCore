@@ -16,12 +16,10 @@ public class MovieRecommendation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    //@Fetch(value = FetchMode.SUBSELECT)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserAccount userAccount;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    //@Fetch(value = FetchMode.SUBSELECT)
     private Movie movie;
 
    LocalDate date;
