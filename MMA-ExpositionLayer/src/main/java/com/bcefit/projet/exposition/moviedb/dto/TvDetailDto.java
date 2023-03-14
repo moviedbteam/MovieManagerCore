@@ -6,6 +6,7 @@ import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 import com.bcefit.projet.exposition.user.dto.GenreTvDto;
 import com.bcefit.projet.exposition.user.dto.StreamingSubscriptionDto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,6 @@ public class TvDetailDto {
     private String homepage;
     private String originalName;
     private List<String> originCountry;
-
     private String overview;
     private float popularity;
     private String backdropPath;
@@ -29,12 +29,14 @@ public class TvDetailDto {
     private float voteAverage;
     private int voteCount;
     private String status;
+    private Long idWatch;
+    private Long idWish;
     private List<SeasonDto> seasonDtoList;
 
     public TvDetailDto() {
     }
 
-    public TvDetailDto(Long idTv, List<Integer> episodeRuntime, String firstAirDate, String lastAirDate, List<GenreTvDto> genreTvDtoList, List<StreamingSubscriptionDto> streamingSubscriptionDtoList, String homepage, String originalName, List<String> originCountry, String overview, float popularity, String backdropPath, String posterPath, int numberOfEpisodes, int numberOfSeasons, float voteAverage, int voteCount, String status, List<SeasonDto> seasonDtoList) {
+    public TvDetailDto(Long idTv, List<Integer> episodeRuntime, String firstAirDate, String lastAirDate, List<GenreTvDto> genreTvDtoList, List<StreamingSubscriptionDto> streamingSubscriptionDtoList, String homepage, String originalName, List<String> originCountry, String overview, float popularity, String backdropPath, String posterPath, int numberOfEpisodes, int numberOfSeasons, float voteAverage, int voteCount, String status, Long idWatch, Long idWish, List<SeasonDto> seasonDtoList) {
         this.idTv = idTv;
         this.episodeRuntime = episodeRuntime;
         this.firstAirDate = firstAirDate;
@@ -53,6 +55,8 @@ public class TvDetailDto {
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
         this.status = status;
+        this.idWatch = idWatch;
+        this.idWish = idWish;
         this.seasonDtoList = seasonDtoList;
     }
 
@@ -207,4 +211,21 @@ public class TvDetailDto {
     public void setSeasonDtoList(List<SeasonDto> seasonDtoList) {
         this.seasonDtoList = seasonDtoList;
     }
+
+    public Long getIdWatch() {
+        return idWatch;
+    }
+
+    public void setIdWatch(Long idWatch) {
+        this.idWatch = idWatch;
+    }
+
+    public Long getIdWish() {
+        return idWish;
+    }
+
+    public void setIdWish(Long idWish) {
+        this.idWish = idWish;
+    }
+
 }

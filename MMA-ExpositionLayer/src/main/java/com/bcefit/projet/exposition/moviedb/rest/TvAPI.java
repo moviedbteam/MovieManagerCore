@@ -145,6 +145,10 @@ public class TvAPI {
         TvDetailDto tvDetailDto = tvDetailMapper.convertEntityToDto(tv);
         // Récupération de la liste des season
         List<Season> seasonList= tv.getSeasons();
+        // création d'un flag WishTv et d'un flag watchTv pour permettre indiquer l'éventuelle présence
+        // de wish ou wash sur les éposides de cette série Tv
+        Boolean flagWishTv = false;
+        Boolean flagWatchTv = false;
         // création de la liste SeasonDto pour ajouter les éléments
         List<SeasonDto> seasonDtoList = new ArrayList<>();
         // On boucle sur les saisons
@@ -152,6 +156,10 @@ public class TvAPI {
             // création d'un SeasonDto et instanciation avec le mapper
             SeasonDto seasonDto = new SeasonDto();
             seasonDto = seasonDtoMapper.convertEntityToDto(season);
+            // création d'un flag WishSeason et d'un flag watchSeason pour permettre indiquer l'éventuelle présence
+            // de wish ou wash sur les éposides de cette season
+            Boolean flagWishSeason = false;
+            Boolean flagWatchSeason = false;
             //pour chaque season on récupère la liste des épisodes
             List<Episode> episodeList = season.getEpisodeList();
             // création de la liste des EpisodeDto
@@ -167,19 +175,27 @@ public class TvAPI {
                     episodeDto.setViewingPlace(watchEpisode.getViewingPlace());
                     episodeDto.setViewingRate(watchEpisode.getViewingRate());
                     episodeDto.setDateWatch(watchEpisode.getDateWatch());
+                    flagWatchSeason = true;
+                    flagWatchTv = true;
                 }
                 WishEpisode wishEpisode = iWishEpisodeService.findByIdEpisode(episode.getIdEpisode());
                 if(wishEpisode != null){
                     episodeDto.setIdWish(wishEpisode.getIdWish());
                     episodeDto.setDateWish(wishEpisode.getDateWsih());
+                    flagWishSeason = true;
+                    flagWishTv = true;
                 }
                episodeDtoList.add(episodeDto);
             }
             seasonDto.setEpisodeDtoList(episodeDtoList);
+            if (flagWatchSeason){seasonDto.setIdWatch(0L);}
+            if (flagWishSeason){seasonDto.setIdWish(0L);}
             seasonDtoList.add(seasonDto);
         }
         // Ajout de la liste des SeasonDto à TvDto
         tvDetailDto.setSeasonDtoList(seasonDtoList);
+        if (flagWatchTv){tvDetailDto.setIdWatch(0L);}
+        if (flagWishTv){tvDetailDto.setIdWish(0L);}
 
         return ResponseEntity.status(HttpStatus.OK).body(tvDetailDto);
 

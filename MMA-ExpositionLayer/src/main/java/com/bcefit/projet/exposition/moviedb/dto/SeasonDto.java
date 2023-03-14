@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.moviedb.Tv;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class SeasonDto {
@@ -12,17 +13,21 @@ public class SeasonDto {
     private String posterPath;
     private int seasonNumber;
     private String overview;
+    private Long idWatch;
+    private Long idWish;
     private List<EpisodeDto> episodeDtoList;
 
     public SeasonDto() {
     }
 
-    public SeasonDto(Long idSeason, String airDate, String posterPath, int seasonNumber, String overview, List<EpisodeDto> episodeDtoList) {
+    public SeasonDto(Long idSeason, String airDate, String posterPath, int seasonNumber, String overview, Long idWatch, Long idWish, List<EpisodeDto> episodeDtoList) {
         this.idSeason = idSeason;
         this.airDate = airDate;
         this.posterPath = posterPath;
         this.seasonNumber = seasonNumber;
         this.overview = overview;
+        this.idWatch = idWatch;
+        this.idWish = idWish;
         this.episodeDtoList = episodeDtoList;
     }
 
@@ -73,4 +78,21 @@ public class SeasonDto {
     public void setEpisodeDtoList(List<EpisodeDto> episodeDtoList) {
         this.episodeDtoList = episodeDtoList;
     }
+
+    public Long getIdWatch() {
+        return idWatch;
+    }
+
+    public void setIdWatch(Long idWatch) {
+        this.idWatch = idWatch;
+    }
+
+    public Long getIdWish() {
+        return idWish;
+    }
+
+    public void setIdWish(Long idWish) {
+        this.idWish = idWish;
+    }
+
 }
