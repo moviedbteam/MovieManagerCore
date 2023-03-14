@@ -8,6 +8,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IMovieRecommendationBlackListedRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.api.ITmdbApiServiceImpl;
 import com.bcefit.projet.service.watch.IWatchEpisodeService;
 import com.bcefit.projet.service.watch.IWatchMovieService;
@@ -52,7 +53,7 @@ public class AnalyticServiceImpl implements IAnalyticService{
 
 
     @Override
-    public void addWatchMovieAnalytic(Movie movie, UserAccount userAccount) {
+    public void addWatchMovieAnalytic(Movie movie, UserAccount userAccount) throws InvalidEntityExeption {
         //Recherche d'une éventuelle recommandation pour ce film et suppression si c'est le cas
         if (iMovieRecommendationService.findMovieRecommendationByIdMovieAndUserAccount(movie, userAccount) != null) {
             iMovieRecommendationService.deleteMovieRecommendation(movie, userAccount);
@@ -120,7 +121,7 @@ public class AnalyticServiceImpl implements IAnalyticService{
     }
 
     @Override
-    public void addWatchTvAnalytic(Tv tv, UserAccount userAccount) {
+    public void addWatchTvAnalytic(Tv tv, UserAccount userAccount) throws InvalidEntityExeption{
         //Recherche d'une éventuelle recommandation pour cette Série Tv et suppression si c'est le cas
         if (iTvRecommendationService.findTvRecommendationByIdTvAndUserAccount(tv, userAccount) != null) {
             iTvRecommendationService.deleteTvRecommendation(tv, userAccount);
@@ -195,7 +196,7 @@ public class AnalyticServiceImpl implements IAnalyticService{
     }
 
     @Override
-    public void addWishMovieAnalytic(Movie movie, UserAccount userAccount) {
+    public void addWishMovieAnalytic(Movie movie, UserAccount userAccount) throws InvalidEntityExeption {
         addWatchMovieAnalytic(movie,userAccount);
     }
 
@@ -205,7 +206,7 @@ public class AnalyticServiceImpl implements IAnalyticService{
     }
 
     @Override
-    public void addWishTvAnalytic(Tv tv, UserAccount userAccount) {
+    public void addWishTvAnalytic(Tv tv, UserAccount userAccount)throws InvalidEntityExeption {
         addWatchTvAnalytic(tv,userAccount);
     }
 
