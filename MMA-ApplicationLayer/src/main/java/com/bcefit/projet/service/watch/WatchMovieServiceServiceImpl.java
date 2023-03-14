@@ -8,6 +8,7 @@ import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -70,7 +71,7 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     }
 
     @Override
-    public WatchMovie createWatchMovie(WatchMovie watchMovie) {
+    public WatchMovie createWatchMovie(WatchMovie watchMovie)throws InvalidEntityExeption {
         // Enregistrement du watch Movie
         WatchMovie watchMovieAdd = repository.save(watchMovie);
         // Suppression de l'éventuel wish Movie associé

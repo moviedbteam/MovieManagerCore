@@ -3,6 +3,7 @@ package com.bcefit.projet.exposition.user.rest;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import com.bcefit.projet.exposition.user.mapper.UserAccountMapper;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class UserAccountAPI {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserAccountDto> create(@RequestBody UserAccountDto userAccountDto){
+    public ResponseEntity<UserAccountDto> create(@RequestBody UserAccountDto userAccountDto) throws InvalidEntityExeption {
 
         logger.info("enregistrement d'un nouveau user account {}",userAccountDto.getUserName());
 
@@ -54,7 +55,7 @@ public class UserAccountAPI {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<UserAccountDto> update(@RequestBody UserAccountDto userAccountDto, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
         logger.info("Nouvelle demande pour le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
         // Chargement du UserAccount

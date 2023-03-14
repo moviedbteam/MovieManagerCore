@@ -6,6 +6,7 @@ import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.infrastructure.ITvRecommendationRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class TvRecommendationServiceImpl implements ITvRecommendationService{
     }
 
     @Override
-    public void createTvRecommendation(Tv tv, UserAccount userAccount) {
+    public void createTvRecommendation(Tv tv, UserAccount userAccount) throws InvalidEntityExeption {
         TvRecommendation tvRecommendation = new TvRecommendation();
         tvRecommendation.setUserAccount(userAccount);
         tvRecommendation.setTv(tv);

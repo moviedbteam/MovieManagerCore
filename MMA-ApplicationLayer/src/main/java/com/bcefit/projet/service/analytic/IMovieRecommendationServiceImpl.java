@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.analytic.MovieRecommendation;
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.infrastructure.IMovieRecommendationRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class IMovieRecommendationServiceImpl implements IMovieRecommendationServ
     }
 
     @Override
-    public void createMovieRecommendation(Movie movie, UserAccount userAccount) {
+    public void createMovieRecommendation(Movie movie, UserAccount userAccount) throws InvalidEntityExeption {
         MovieRecommendation movieRecommendation = new MovieRecommendation();
         movieRecommendation.setUserAccount(userAccount);
         movieRecommendation.setMovie(movie);

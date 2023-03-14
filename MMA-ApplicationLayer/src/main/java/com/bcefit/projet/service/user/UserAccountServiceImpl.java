@@ -3,6 +3,7 @@ package com.bcefit.projet.service.user;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.infrastructure.ILogginRepository;
 import com.bcefit.projet.infrastructure.IUserAccountRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserAccountServiceImpl implements IUserAccountService{
     }
 
     @Override
-    public UserAccount createUserAccount(UserAccount userAccount) {
+    public UserAccount createUserAccount(UserAccount userAccount)throws InvalidEntityExeption {
 
 
         return repository.save(userAccount);
@@ -48,7 +49,7 @@ public class UserAccountServiceImpl implements IUserAccountService{
     }
 
     @Override
-    public UserAccount updateUserAccount(UserAccount userAccount) {
+    public UserAccount updateUserAccount(UserAccount userAccount) throws InvalidEntityExeption{
 
      Integer i = repository.userAccountUpdate(userAccount.getUserName(), userAccount.getBirthYear(), userAccount.isAdultContent(), userAccount.getIdUser());
      System.out.println("i = "+i);

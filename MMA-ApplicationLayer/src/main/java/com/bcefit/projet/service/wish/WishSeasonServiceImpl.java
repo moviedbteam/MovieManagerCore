@@ -3,6 +3,7 @@ package com.bcefit.projet.service.wish;
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.IEpisodeService;
 import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class WishSeasonServiceImpl implements IWishSeasonService{
     Logger logger = LoggerFactory.getLogger(IWishSeasonService.class);
 
     @Override
-    public List<WishEpisode> createWishEpisodeBySeasonId(Long idTv, Long idSeason, UserAccount userAccount) {
+    public List<WishEpisode> createWishEpisodeBySeasonId(Long idTv, Long idSeason, UserAccount userAccount) throws InvalidEntityExeption {
         // Synchroniser la base des Tv/Season/Episode
         iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
 
@@ -41,6 +42,7 @@ public class WishSeasonServiceImpl implements IWishSeasonService{
         for (Episode episode : episodeListForTvAndSeason) {
             WishEpisode wishEpisode = new WishEpisode();
             wishEpisode.setUserAccount(userAccount);
+            wishEpisode.setEpisode(episode);
             WishEpisode wishEpisodeIsExist = service.getIdWishEpisodeByIdSerieAndUserAccount(episode.getIdEpisode(), userAccount);
             if (wishEpisodeIsExist == null) {
                 service.createWishEpisode(wishEpisode);

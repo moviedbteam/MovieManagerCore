@@ -6,6 +6,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.exposition.watch.dto.WatchMovieDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchMovieMapper;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.IMovieService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.watch.IWatchMovieService;
@@ -57,7 +58,7 @@ public class WatchMovieAPI {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<WatchMovieDto> create(@RequestBody WatchMovieDto watchMovieDto,@RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token

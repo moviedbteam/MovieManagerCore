@@ -9,6 +9,7 @@ import com.bcefit.projet.exposition.recommendation.dto.MovieRecommendationDto;
 import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import com.bcefit.projet.service.analytic.IMovieRecommendationBlackListedService;
 import com.bcefit.projet.service.analytic.ITvRecommendationBlackListedService;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.IMovieService;
 import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -40,7 +41,7 @@ public class BlackList {
     Logger logger = LoggerFactory.getLogger(BlackList.class);
 
     @GetMapping("/movie")
-    public ResponseEntity<BlackListedContent> createBlacListedMovie(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) {
+    public ResponseEntity<BlackListedContent> createBlacListedMovie(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de recommendation Mvie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
@@ -60,7 +61,7 @@ public class BlackList {
     }
 
     @GetMapping("/tv")
-    public ResponseEntity<BlackListedContent> createBlacListedTv(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) {
+    public ResponseEntity<BlackListedContent> createBlacListedTv(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de recommendation Mvie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token

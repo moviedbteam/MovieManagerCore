@@ -3,6 +3,7 @@ package com.bcefit.projet.service.watch;
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.IEpisodeService;
 import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class WatchTvServiceImpl implements IWatchTvService {
 
     Logger logger = LoggerFactory.getLogger(IWatchTvService.class);
 
-    public List<WatchEpisode> createWatchEpisodeByTvId(Long idTv, UserAccount userAccount) {
+    public List<WatchEpisode> createWatchEpisodeByTvId(Long idTv, UserAccount userAccount) throws InvalidEntityExeption {
         // Synchroniser la base des Tv/Season/Episode
         iTmdbApiService.synchronizeTvDetailFromApiFromApi(idTv);
 

@@ -6,6 +6,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.dto.WatchTvSeasonDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchEpisodeMapper;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.watch.IWatchTvService;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class WatchTvAPI {
 
 
     @PostMapping("/tv")
-    public ResponseEntity<List<WatchEpisodeDto>> createWatchByIdTv(@RequestBody WatchTvSeasonDto watchTvSeasonDto, @RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<List<WatchEpisodeDto>> createWatchByIdTv(@RequestBody WatchTvSeasonDto watchTvSeasonDto, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         Integer idTv = watchTvSeasonDto.getIdTv();
         logger.info("Nouvelle demande d'ajout de watch episode by idTv {}",idTv);

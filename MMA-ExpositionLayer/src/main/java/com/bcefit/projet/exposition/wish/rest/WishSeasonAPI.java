@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.wish.dto.WishEpisodeDto;
 import com.bcefit.projet.exposition.wish.dto.WishTvSeasonDto;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.wish.IWishSeasonService;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class WishSeasonAPI {
 
 
     @PostMapping("/season")
-    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<List<WishEpisodeDto>> createWishByIdSeason(@RequestBody WishTvSeasonDto wishTvSeasonDto, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         Integer idTv = wishTvSeasonDto.getIdTv();
         Integer idSeason = wishTvSeasonDto.getIdSeason();

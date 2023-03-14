@@ -4,6 +4,7 @@ import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.TvMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -66,7 +67,7 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     }
 
     @Override
-    public WatchEpisode createWatchEpisode(WatchEpisode watchEpisode) {
+    public WatchEpisode createWatchEpisode(WatchEpisode watchEpisode) throws InvalidEntityExeption {
         // Enregistrement du watch episode
         WatchEpisode watchEpisodeAdd = repository.save(watchEpisode);
         // Suppression de l'éventuel wish Movie associé
