@@ -11,6 +11,10 @@ import com.bcefit.projet.exposition.recommendation.mapper.TvRecommendationMapper
 import com.bcefit.projet.service.analytic.IMovieRecommendationService;
 import com.bcefit.projet.service.analytic.ITvRecommendationService;
 import com.bcefit.projet.service.user.IUserAccountService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/recommendation")
+@Api(value = "Recommendation API", description = "API de consultation des recommendations")
 public class Recommendation {
 
     @Autowired
@@ -38,13 +43,19 @@ public class Recommendation {
     MovieRecommendationMapper movieRecommendationMapper;
     @Autowired
     TvRecommendationMapper tvRecommendationMapper;
-
     Logger logger = LoggerFactory.getLogger(Recommendation.class);
 
+    @ApiOperation(value = "Liste des films recommandés", response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping("/movie")
     public ResponseEntity<List<MovieRecommendationDto>> getMovieRecommendationList(@RequestAttribute("userEmail") String userEmail) {
 
-        logger.info("Nouvelle demande de recommendation Mvie le UserAccount (Email) {}", userEmail);
+        logger.info("Nouvelle demande de recommendation Movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
         // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);

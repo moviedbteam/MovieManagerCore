@@ -1,10 +1,9 @@
 package com.bcefit.projet.service.analytic;
 
+import com.bcefit.projet.domain.analytic.MovieRecommendation;
 import com.bcefit.projet.domain.analytic.MovieRecommendationBlackListed;
 import com.bcefit.projet.domain.moviedb.Movie;
-import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.infrastructure.IMovieRecommendationBlackListedRepository;
-import com.bcefit.projet.infrastructure.ITvRecommendationBlackListedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,8 @@ public class MovieRecommendationBlackListedServiceImpl implements IMovieRecommen
 
     @Autowired
     IMovieRecommendationBlackListedRepository iMovieRecommendationBlackListedRepository;
+    @Autowired
+    IMovieRecommendationService iMovieRecommendationService;
 
     @Override
     public MovieRecommendationBlackListed isBlackListedByMovie(Movie movie) {
@@ -23,7 +24,11 @@ public class MovieRecommendationBlackListedServiceImpl implements IMovieRecommen
 
     @Override
     public void createMovieRecommandationBlackListed(MovieRecommendationBlackListed movieRecommendationBlackListed) {
+        // Retrait éventuel de la liste des Recommendations
+        iMovieRecommendationService.deleteMovieRecommendation(movieRecommendationBlackListed.getMovie(),movieRecommendationBlackListed.getUserAccount());
+        //Ajout de sysdate à l'enregistrement
         movieRecommendationBlackListed.setDate(LocalDate.now());
+        // Ajout du movie blacklisté dans la base
         iMovieRecommendationBlackListedRepository.save(movieRecommendationBlackListed);
     }
 }

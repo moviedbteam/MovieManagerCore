@@ -13,6 +13,8 @@ public class TvRecommendationBlackListedServiceImpl implements ITvRecommendation
 
     @Autowired
     ITvRecommendationBlackListedRepository iTvRecommendationBlackListedRepository;
+    @Autowired
+    ITvRecommendationService iTvRecommendationService;
 
 
     @Override
@@ -22,7 +24,11 @@ public class TvRecommendationBlackListedServiceImpl implements ITvRecommendation
 
     @Override
     public void createTvRecommandationBlackListed(TvRecommendationBlackListed tvRecommendationBlackListed) {
+        // Retrait éventuel de la liste des Recommendations
+        iTvRecommendationService.deleteTvRecommendation(tvRecommendationBlackListed.getTv(),tvRecommendationBlackListed.getUserAccount());
+        //Ajout de sysdate à l'enregistrement
         tvRecommendationBlackListed.setDate(LocalDate.now());
+        // Ajout du movie blacklisté dans la base
         iTvRecommendationBlackListedRepository.save(tvRecommendationBlackListed);
     }
 }
