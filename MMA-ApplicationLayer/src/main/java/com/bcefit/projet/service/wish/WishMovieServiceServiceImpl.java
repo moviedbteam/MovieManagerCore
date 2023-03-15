@@ -2,9 +2,11 @@ package com.bcefit.projet.service.wish;
 
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -65,7 +67,11 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
     }
 
     @Override
-    public WishMovie createWishMovie(WishMovie wishMovie) {
+    public WishMovie createWishMovie(WishMovie wishMovie) throws InvalidEntityExeption {
+        // Contrôle de la présence d'un wish pour ce contexte UserAccount / Movie
+        WishMovie wishMovieExisting = repository.findByIdMovieAndUserAccount(wishMovie.getMovie().getIdMovie(),wishMovie.getUserAccount());
+        if (wishMovieExisting != null){throw new InvalidEntityExeption("wish déjà présent pour ce contexte");}
+
         LocalDate actualDate = LocalDate.now();
         wishMovie.setDateWsih(actualDate);
         WishMovie wishMovieAdd = repository.save(wishMovie);

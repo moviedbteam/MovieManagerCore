@@ -2,6 +2,7 @@ package com.bcefit.projet.service.watch;
 
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
+import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
@@ -68,6 +69,11 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Override
     public WatchEpisode createWatchEpisode(WatchEpisode watchEpisode) throws InvalidEntityExeption {
+        // Contrôle de la présence d'un watch pour ce contexte UserAccount / Tv
+        WatchEpisode watchEpisodeExisting = repository.findByIdEpisodeAndUserAccount(watchEpisode.getEpisode().getIdEpisode(),watchEpisode.getUserAccount());
+        if (watchEpisodeExisting != null){throw new InvalidEntityExeption("watch déjà présent pour ce contexte");}
+
+
         // Enregistrement du watch episode
         WatchEpisode watchEpisodeAdd = repository.save(watchEpisode);
         // Suppression de l'éventuel wish Movie associé

@@ -72,6 +72,10 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
     @Override
     public WatchMovie createWatchMovie(WatchMovie watchMovie)throws InvalidEntityExeption {
+        // Contrôle de la présence d'un watch pour ce contexte UserAccount / Movie
+        WatchMovie watchMovieExisting = repository.findByIdMovieAndUserAccount(watchMovie.getMovie().getIdMovie(),watchMovie.getUserAccount());
+        if (watchMovieExisting != null){throw new InvalidEntityExeption("watch déjà présent pour ce contexte");}
+
         // Enregistrement du watch Movie
         WatchMovie watchMovieAdd = repository.save(watchMovie);
         // Suppression de l'éventuel wish Movie associé

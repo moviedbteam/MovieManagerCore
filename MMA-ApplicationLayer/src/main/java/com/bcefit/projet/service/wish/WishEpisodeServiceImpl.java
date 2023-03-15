@@ -1,9 +1,11 @@
 package com.bcefit.projet.service.wish;
 
 import com.bcefit.projet.domain.user.UserAccount;
+import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IWishEpisodeRepository;
 import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.TvMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -63,7 +65,11 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     }
 
     @Override
-    public WishEpisode createWishEpisode(WishEpisode wishEpisode) {
+    public WishEpisode createWishEpisode(WishEpisode wishEpisode) throws InvalidEntityExeption {
+        // Contrôle de la présence d'un wish pour ce contexte UserAccount / Tv
+        WishEpisode wishEpisodeExisting = repository.findByIdEpisodeAndUserAccount(wishEpisode.getEpisode().getIdEpisode(),wishEpisode.getUserAccount());
+        if (wishEpisodeExisting != null){throw new InvalidEntityExeption("wish déjà présent pour ce contexte");}
+
         LocalDate actualDate = LocalDate.now();
         wishEpisode.setDateWsih(actualDate);
         // Enregistrement du watch episode

@@ -4,6 +4,7 @@ package com.bcefit.projet.exposition.watch.rest;
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
+import com.bcefit.projet.exposition.watch.dto.WatchContentDto;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.mapper.WatchEpisodeMapper;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
@@ -106,8 +107,8 @@ public class WatchEpisodeAPI {
         return ResponseEntity.status(HttpStatus.OK).body(watchEpisodeDtoList);
     }
 
-    @DeleteMapping("/episode/{idWatchEpisode}")
-    public ResponseEntity<String> deleteWatchEpisode(@PathVariable Long idWatchEpisode, @RequestAttribute("userEmail") String userEmail){
+    @DeleteMapping("/episode")
+    public ResponseEntity<WatchContentDto> deleteWatchEpisode(@RequestBody WatchContentDto watchContentDto,  @RequestAttribute("userEmail") String userEmail){
 
         logger.info("Nouvelle demande de création de watch movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
@@ -117,12 +118,12 @@ public class WatchEpisodeAPI {
             ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
 
-        logger.info("Nouvelle demande de suppression watch Episode {}",idWatchEpisode);
+        logger.info("Nouvelle demande de suppression watch Episode {}",watchContentDto.getWatchIdToDelete());
         WatchEpisode watchEpisode = new WatchEpisode();
-        watchEpisode.setIdWatch(idWatchEpisode);
+        watchEpisode.setIdWatch(watchContentDto.getWatchIdToDelete());
         service.deleteWatchEpisode(watchEpisode);
 
-        return new  ResponseEntity<>("Watch Episode supprimé!",HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(watchContentDto);
     }
 
 }
