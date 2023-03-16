@@ -14,6 +14,7 @@ import com.bcefit.projet.exposition.moviedb.mapper.TvDetailMapper;
 import com.bcefit.projet.exposition.moviedb.mapper.TvLightMapper;
 import com.bcefit.projet.exposition.user.mapper.GenreTvMapper;
 import com.bcefit.projet.exposition.wish.mapper.WishEpisodeMapper;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.IEpisodeService;
 import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
@@ -67,7 +68,7 @@ public class TvAPI {
     Logger logger = LoggerFactory.getLogger(TvAPI.class);
 
     @GetMapping("/watchlist")
-    public ResponseEntity<List<TvLightDto>> getWatchTvList(@RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<List<TvLightDto>> getWatchTvList(@RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de liste de watch movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
@@ -99,7 +100,7 @@ public class TvAPI {
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<List<TvLightDto>> getWishTvList(@RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<List<TvLightDto>> getWishTvList(@RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de liste de watch movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
@@ -130,7 +131,7 @@ public class TvAPI {
     }
 
     @GetMapping("/detail/{idTv}")
-    public ResponseEntity<TvDetailDto> getTvDetailsByIdMovie(@PathVariable("idTv") Long idMovie, @RequestAttribute("userEmail") String userEmail){
+    public ResponseEntity<TvDetailDto> getTvDetailsByIdMovie(@PathVariable("idTv") Long idMovie, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
         logger.info("Nouvelle demande de detail(watch) movie le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token

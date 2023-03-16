@@ -37,9 +37,6 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
     IWatchMoviesByUserAccountRepository iWatchMoviesByUserAccountRepository;
 
     @Autowired
-    IUserAccountService iUserAccountService;
-
-    @Autowired
     JmsTemplate jmsTemplate;
 
     @Autowired

@@ -34,9 +34,6 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     IWatchEpisodesByUserAccountRepository iWatchEpisodesByUserAccountRepository;
 
     @Autowired
-    IUserAccountService iUserAccountService;
-
-    @Autowired
     JmsTemplate jmsTemplate;
 
     @Autowired

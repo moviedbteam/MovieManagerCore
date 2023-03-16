@@ -42,4 +42,9 @@ public class GenreTvServiceImpl implements IGenreTvService {
         return null;
     }
 
+    @Override
+    public void createGenreTv(GenreTv genreTv) {
+        repository.save(genreTv);
+    }
+
 }

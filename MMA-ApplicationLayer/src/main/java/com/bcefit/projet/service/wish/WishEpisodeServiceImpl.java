@@ -32,8 +32,6 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     IWishEpisodesByUserAccountRepository iWishEpisodesByUserAccountRepository;
 
     @Autowired
-    IUserAccountService userAccountService;
-    @Autowired
     TvMessageMapper tvMessageMapper;
 
 

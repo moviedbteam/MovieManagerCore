@@ -12,4 +12,6 @@ public interface IGenreTvService {
     GenreTv findById(Long id);
 
     List<GenreTv> getGenreTv(Long idTv);
+
+    void createGenreTv(GenreTv genreTv);
 }

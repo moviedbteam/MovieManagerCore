@@ -35,4 +35,9 @@ public class StreamingSubscriptionServiceImpl implements IStreamingSubscriptionS
             throw new EntityNotFoundException("Le streaming subscription n'existe pas");
         }
     }
+
+    @Override
+    public void createStremaingSubscription(StreamingSubscription streamingSubscription) {
+        repository.save(streamingSubscription);
+    }
 }

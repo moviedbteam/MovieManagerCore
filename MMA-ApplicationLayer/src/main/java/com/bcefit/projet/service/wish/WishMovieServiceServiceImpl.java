@@ -33,9 +33,6 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
     IWishMoviesByUserAccountRepository iWishMoviesByUserAccountRepository;
 
     @Autowired
-    IUserAccountService iUserAccountService;
-
-    @Autowired
     JmsTemplate jmsTemplate;
 
     @Autowired

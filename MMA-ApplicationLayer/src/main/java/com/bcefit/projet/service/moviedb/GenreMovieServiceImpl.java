@@ -36,4 +36,9 @@ public class GenreMovieServiceImpl implements IGenreMovieService{
             throw  new EntityNotFoundException("Le genre movie n'existe pas");
         }
     }
+
+    @Override
+    public void createGenreMovie(GenreMovie genreMovie) {
+        repository.save(genreMovie);
+    }
 }

@@ -2,6 +2,7 @@ package com.bcefit.projet.service.analytic;
 
 import com.bcefit.projet.domain.analytic.MovieRecommendationBlackListed;
 import com.bcefit.projet.domain.analytic.TvRecommendationBlackListed;
+import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
@@ -212,6 +213,28 @@ public class AnalyticServiceImpl implements IAnalyticService{
 
     @Override
     public void deleteWishTvAnalytic(Tv tv, UserAccount userAccount) {
+
+    }
+
+    @Override
+    public void initializeMovieRecommendation(UserAccount userAccount) throws InvalidEntityExeption {
+        // Création de la liste des GenreMovie sélectionnés par l'utilisateur à partir du Set
+        List<GenreMovie> genreMovieListPreference = new ArrayList<>();
+        for(GenreMovie genreMovie : userAccount.getGenreMovieSet()){
+            genreMovieListPreference.add(genreMovie);
+        }
+        List<Movie> movieList = iTmdbApiService.getAllMovieTrendByGenreMovieFromApi(genreMovieListPreference);
+        List<Movie> movieCeatedList = new ArrayList<>();
+        for (Movie movie : movieList){
+            if (!movieCeatedList.contains(movie)){
+                iMovieRecommendationService.createMovieRecommendation(movie,userAccount);
+                movieCeatedList.add(movie);
+            }
+        }
+    }
+
+    @Override
+    public void initializeTvRecommendation(UserAccount userAccount) {
 
     }
 }

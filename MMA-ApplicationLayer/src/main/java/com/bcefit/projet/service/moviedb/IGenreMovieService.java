@@ -7,4 +7,6 @@ public interface IGenreMovieService {
     Iterable<GenreMovie> findAll();
 
     GenreMovie findById(Long id);
+
+    void createGenreMovie(GenreMovie genreMovie);
 }

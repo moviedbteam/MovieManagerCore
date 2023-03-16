@@ -4,6 +4,7 @@ package com.bcefit.projet.service.moviedb;
 import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.infrastructure.IEpisodeRepository;
+import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.moviedb.api.ITmdbApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class IEpisodeServiceImpl implements IEpisodeService {
     ITmdbApiService iTmdbApiService;
 
     @Override
-    public Episode getEpisodeDetail(Long idTv, Long idEpisode){
+    public Episode getEpisodeDetail(Long idTv, Long idEpisode) throws InvalidEntityExeption {
         Episode episode = new Episode();
         episode = iEpisodeRepository.findByIdEpisode(idEpisode);
         if (episode == null){

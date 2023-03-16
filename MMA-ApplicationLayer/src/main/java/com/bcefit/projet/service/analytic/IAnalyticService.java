@@ -25,4 +25,7 @@ public interface IAnalyticService {
     void addWishTvAnalytic(Tv tv, UserAccount userAccount)throws InvalidEntityExeption;
 
     void deleteWishTvAnalytic(Tv tv, UserAccount userAccount);
+
+    void initializeMovieRecommendation(UserAccount userAccount) throws InvalidEntityExeption;
+    void initializeTvRecommendation(UserAccount userAccount);
 }

@@ -3,6 +3,7 @@ package com.bcefit.projet.service.user;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.infrastructure.ILogginRepository;
 import com.bcefit.projet.infrastructure.IUserAccountRepository;
+import com.bcefit.projet.service.analytic.IAnalyticService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ public class UserAccountServiceImpl implements IUserAccountService{
 
     @Autowired
     IUserAccountRepository repository;
+    @Autowired
+    IAnalyticService iAnalyticService;
 
     @Autowired
     ILogginRepository iLogginRepository;
@@ -39,8 +42,9 @@ public class UserAccountServiceImpl implements IUserAccountService{
     @Override
     public UserAccount createUserAccount(UserAccount userAccount)throws InvalidEntityExeption {
 
-
-        return repository.save(userAccount);
+        UserAccount userAccountCreated = repository.save(userAccount);
+        iAnalyticService.initializeMovieRecommendation(userAccountCreated);
+        return userAccountCreated;
     }
 
     @Override

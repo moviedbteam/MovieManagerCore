@@ -40,10 +40,10 @@ public class BlackList {
 
     Logger logger = LoggerFactory.getLogger(BlackList.class);
 
-    @GetMapping("/movie")
+    @PostMapping("/movie")
     public ResponseEntity<BlackListedContent> createBlacListedMovie(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
-        logger.info("Nouvelle demande de recommendation Mvie le UserAccount (Email) {}", userEmail);
+        logger.info("Nouvelle demande d'ajout de Movie en blackList pour le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
         // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
@@ -60,10 +60,10 @@ public class BlackList {
         return ResponseEntity.status(HttpStatus.OK).body(blackListedContent);
     }
 
-    @GetMapping("/tv")
+    @PostMapping("/tv")
     public ResponseEntity<BlackListedContent> createBlacListedTv(@RequestBody BlackListedContent blackListedContent, @RequestAttribute("userEmail") String userEmail) throws InvalidEntityExeption {
 
-        logger.info("Nouvelle demande de recommendation Mvie le UserAccount (Email) {}", userEmail);
+        logger.info("Nouvelle demande d'ajout de TV en blackList pour le UserAccount (Email) {}", userEmail);
         // Contrôle d'identification de l'utilisateur avec l'email issu du Token
         // Chargement du UserAccount
         UserAccount userAccount = iUserAccountService.logToUserAccount(userEmail);
