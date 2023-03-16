@@ -83,7 +83,7 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
             TmdbApi tmdb = getSessionApi();
 
             //Synchonisation de la base local des Genres Movie
-            synchronizeGenreMovieFromApi(tmdb);
+            //synchronizeGenreMovieFromApi(tmdb);
             // récupération du Movie et synchronisation en base
             MovieDb movieDb = tmdb.getMovies().getMovie(idMovie.intValue(), "fr", TmdbMovies.MovieMethod.credits);
             tmptv = movieApiMapper.convertMovieApiToMovie(movieDb);
@@ -112,7 +112,7 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
         if ((tvLocal == null) || (tvLocal.getNumberOfEpisodes()!=tmptv.getNumberOfEpisodes())){
 
             //Synchonisation de la base locale des Genres Tv et StremaingSubscription
-            synchroniseGenreTvFromApi(tmdb);
+            //synchroniseGenreTvFromApi(tmdb);
 
             iTvRepository.save(tmptv);
 
