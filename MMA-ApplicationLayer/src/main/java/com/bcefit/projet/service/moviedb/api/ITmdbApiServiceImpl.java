@@ -14,6 +14,7 @@ import com.bcefit.projet.service.moviedb.StreamingSubscriptionServiceImpl;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbTV;
+import info.movito.themoviedbapi.TvResultsPage;
 import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
@@ -235,8 +236,35 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
     }
 
     @Override
-    public List<Tv> getAllTvTrendsByGenreTvFromApi(List<GenreTv> genreTvList) {
-        return null;
+    public List<Tv> getAllTvTrendsByGenreTvFromApi(List<GenreTv> genreTvList) throws InvalidEntityExeption {
+        //Création des variables qui seront utilisées pour la synchronisation
+        List<Tv> tvResultList = new ArrayList<>();
+        TmdbApi tmdb = getSessionApi();
+        // récupération de la liste des Trends Tv en fonction de la liste des genres
+        TvResultsPage tvResultsPage = tmdb.getTvSeries().getPopular("fr",1);
+        List<TvSeries> tvSeriesList = tvResultsPage.getResults();
+        for (TvSeries tvSeries:tvSeriesList){
+            TvSeries tvSeriesExtend = tmdb.getTvSeries().getSeries(tvSeries.getId(),"fr", TmdbTV.TvMethod.credits);
+            Tv tv = tvApiMapper.convertTvApiToTv(tvSeriesExtend);
+            // si l'utilisateur n'a pas émis de préférence, on recommande toute la liste de résultats
+            if (genreTvList==null){
+                synchronizeTvDetailFromApiFromApi(tv.getIdTv());
+                tvResultList.add(tv);
+            }
+            // sinon on filtre la liste des Tv récupérées par genre Tv en gérant la synchronisation avec la BDD local
+            List<Genre> genreList = tvSeriesExtend.getGenres();
+            List<GenreTv> genreTvListMovieDB = genreTvApiMapper.convertListApiToEntity(genreList);
+            //On identifie les Tv dont le genre match avec les préférences utilisateur et on synchronise la base locale
+            for (GenreTv genreTv : genreTvList){
+                for (GenreTv genreTv1 : genreTvListMovieDB){
+                    if (genreTv1.getId()==genreTv.getId()){
+                        synchronizeTvDetailFromApiFromApi(tv.getIdTv());
+                        tvResultList.add(tv);
+                    }
+                }
+            }
+        }
+        return tvResultList;
     }
 
 }

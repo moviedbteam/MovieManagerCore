@@ -25,5 +25,5 @@ public interface ITmdbApiService {
     void synchroniseStreamingSubscriptionFromApi(TmdbApi tmdbApi);
 
     List<Movie> getAllMovieTrendByGenreMovieFromApi(List<GenreMovie> genreMovieList) throws InvalidEntityExeption;
-    List<Tv> getAllTvTrendsByGenreTvFromApi(List<GenreTv> genreTvList);
+    List<Tv> getAllTvTrendsByGenreTvFromApi(List<GenreTv> genreTvList) throws InvalidEntityExeption;
 }

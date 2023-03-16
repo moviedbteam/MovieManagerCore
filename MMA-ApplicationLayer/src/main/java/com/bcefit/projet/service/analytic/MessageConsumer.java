@@ -8,6 +8,8 @@ import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.mapper.TvMessageMapper;
 
+import com.bcefit.projet.service.mapper.UserIdMessageMapper;
+import com.bcefit.projet.service.user.UserAccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,21 @@ MovieMessageMapper movieMessageMapper;
 TvMessageMapper tvMessageMapper;
 
 @Autowired
+UserIdMessageMapper userIdMessageMapper;
+@Autowired
+UserAccountServiceImpl userAccountService;
+
+
+@Autowired
 IAnalyticService iAnalyticService;
+
+@JmsListener(destination = "Q_ADD_UserAccount")
+    public void consumeAddUserAccountMessage(String message) throws InvalidEntityExeption{
+    Long userId = userIdMessageMapper.convertMessgeToLong(message);
+    UserAccount userAccount = userAccountService.findById(userId);
+    iAnalyticService.initializeMovieRecommendation(userAccount);
+    iAnalyticService.initializeTvRecommendation(userAccount);
+}
 
 
 @JmsListener(destination = "Q_ADD_Watch_MOVIE")

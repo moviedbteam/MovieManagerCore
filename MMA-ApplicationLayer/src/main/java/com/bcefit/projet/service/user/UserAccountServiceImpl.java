@@ -5,9 +5,12 @@ import com.bcefit.projet.infrastructure.ILogginRepository;
 import com.bcefit.projet.infrastructure.IUserAccountRepository;
 import com.bcefit.projet.service.analytic.IAnalyticService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
+import com.bcefit.projet.service.mapper.UserIdMessageMapper;
+import com.bcefit.projet.service.message.MessageString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -26,6 +29,11 @@ public class UserAccountServiceImpl implements IUserAccountService{
     @Autowired
     ILogginRepository iLogginRepository;
 
+    @Autowired
+    JmsTemplate jmsTemplate;
+    @Autowired
+    UserIdMessageMapper userIdMessageMapper;
+
 
     @Override
     public UserAccount findById(Long idUser) {
@@ -43,7 +51,10 @@ public class UserAccountServiceImpl implements IUserAccountService{
     public UserAccount createUserAccount(UserAccount userAccount)throws InvalidEntityExeption {
 
         UserAccount userAccountCreated = repository.save(userAccount);
-        iAnalyticService.initializeMovieRecommendation(userAccountCreated);
+        // Envoie d'un message pour informer de l'ajout d'un UserAccount
+        // les services asynchrones Analytic se chargeront de créér des recommendation adaptée au profilage de l'utilisateur
+        String message = userIdMessageMapper.convertUserAccountToMessage(userAccount);
+        jmsTemplate.send("Q_ADD_UserAccount", new MessageString(message));
         return userAccountCreated;
     }
 
