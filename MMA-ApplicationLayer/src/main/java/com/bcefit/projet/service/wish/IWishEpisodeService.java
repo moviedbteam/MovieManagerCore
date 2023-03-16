@@ -17,5 +17,5 @@ public interface IWishEpisodeService {
 
     WishEpisode getIdWishEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount);
 
-    WishEpisode findByIdEpisode(Long idEpisode);
+    WishEpisode findByIdEpisodeAndUserAccount(Long idEpisode, UserAccount userAccount);
 }

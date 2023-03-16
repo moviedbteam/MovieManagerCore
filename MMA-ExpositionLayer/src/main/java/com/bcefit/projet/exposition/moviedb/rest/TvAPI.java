@@ -168,7 +168,7 @@ public class TvAPI {
             for(Episode episode : episodeList){
                 //récupération de l'episode et mapping vers EpisodeDto
                 EpisodeDto episodeDto = episodeDtoMapper.convertEntityToDto(iEpisodeService.getEpisodeDetailByEpisodeId(episode.getIdEpisode()));
-                WatchEpisode watchEpisode = iWatchEpisodeService.findByIdEpisode(episode.getIdEpisode());
+                WatchEpisode watchEpisode = iWatchEpisodeService.findByIdEpisodeAndUserAccount(episode.getIdEpisode(), userAccount);
                 if(watchEpisode != null){
                     episodeDto.setIdWatch(watchEpisode.getIdWatch());
                     episodeDto.setViewingMood(watchEpisode.getViewingMood());
@@ -178,7 +178,7 @@ public class TvAPI {
                     flagWatchSeason = true;
                     flagWatchTv = true;
                 }
-                WishEpisode wishEpisode = iWishEpisodeService.findByIdEpisode(episode.getIdEpisode());
+                WishEpisode wishEpisode = iWishEpisodeService.findByIdEpisodeAndUserAccount(episode.getIdEpisode(), userAccount);
                 if(wishEpisode != null){
                     episodeDto.setIdWish(wishEpisode.getIdWish());
                     episodeDto.setDateWish(wishEpisode.getDateWsih());

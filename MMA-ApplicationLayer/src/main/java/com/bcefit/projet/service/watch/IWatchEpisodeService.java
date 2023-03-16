@@ -18,6 +18,6 @@ public interface IWatchEpisodeService {
 
     WatchEpisode getIdWatchEpisodeByIdSerieAndUserAccount(Long idEpisode, UserAccount userAccount);
 
-    WatchEpisode findByIdEpisode(Long idEpisode);
+    WatchEpisode findByIdEpisodeAndUserAccount(Long idEpisode, UserAccount userAccount);
 
 }

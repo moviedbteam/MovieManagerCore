@@ -96,8 +96,8 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
     }
 
     @Override
-    public WatchEpisode findByIdEpisode(Long idEpisode) {
-        return repository.findWatchEpisodesByEpisode_IdEpisode(idEpisode);
+    public WatchEpisode findByIdEpisodeAndUserAccount(Long idEpisode, UserAccount userAccount) {
+        return repository.findByIdEpisodeAndUserAccount(idEpisode, userAccount);
     }
 
 
