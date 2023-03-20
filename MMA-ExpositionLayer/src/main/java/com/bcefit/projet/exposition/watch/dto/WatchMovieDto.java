@@ -1,12 +1,6 @@
 package com.bcefit.projet.exposition.watch.dto;
 
-import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.exposition.user.dto.UserAccountDto;
-import net.bytebuddy.asm.Advice;
-
-import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class WatchMovieDto {
 

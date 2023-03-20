@@ -1,12 +1,8 @@
 package com.bcefit.projet.exposition.moviedb.dto;
 
-import com.bcefit.projet.domain.moviedb.GenreTv;
-import com.bcefit.projet.domain.moviedb.Season;
-import com.bcefit.projet.domain.moviedb.StreamingSubscription;
 import com.bcefit.projet.exposition.user.dto.GenreTvDto;
 import com.bcefit.projet.exposition.user.dto.StreamingSubscriptionDto;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

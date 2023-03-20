@@ -2,7 +2,6 @@ package com.bcefit.projet.exposition.moviedb.mapper;
 
 import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.exposition.moviedb.dto.TvDetailDto;
-import com.bcefit.projet.exposition.user.mapper.GenreMovieMapper;
 import com.bcefit.projet.exposition.user.mapper.GenreTvMapper;
 import com.bcefit.projet.exposition.user.mapper.StreamingSubscriptionMapper;
 import org.springframework.beans.factory.annotation.Autowired;

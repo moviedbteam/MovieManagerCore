@@ -1,13 +1,5 @@
 package com.bcefit.projet.exposition.moviedb.dto;
 
-import com.bcefit.projet.domain.moviedb.GenreTv;
-import com.bcefit.projet.domain.moviedb.Season;
-import com.bcefit.projet.domain.moviedb.StreamingSubscription;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 public class TvLightDto {
     private Long idTv;
    private String originalName;

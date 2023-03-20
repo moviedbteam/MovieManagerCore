@@ -1,7 +1,6 @@
 package com.bcefit.projet.exposition.watch.rest;
 
 
-import com.bcefit.projet.domain.moviedb.Episode;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.watch.dto.WatchEpisodeDto;
 import com.bcefit.projet.exposition.watch.dto.WatchTvSeasonDto;

@@ -1,13 +1,16 @@
 package com.bcefit.projet.service.watch;
 
+import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.*;
+import com.bcefit.projet.service.analytic.ITvRecommendationService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.TvMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
+import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,11 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
 
     @Autowired
     TvMessageMapper tvMessageMapper;
+
+    @Autowired
+    ITvRecommendationService iTvRecommendationService;
+    @Autowired
+    ITvService iTvService;
 
 
     @Override
@@ -79,6 +87,11 @@ public class WatchEpisodeServiceImpl implements IWatchEpisodeService {
         if(wishEpisodeToDelete!=null){
             iWishEpisodeRepository.delete(wishEpisodeToDelete);
         }
+
+        // Suppression de l'éventuelle recommandation associée à ce contenu
+        Tv tv = iTvService.getDetailByIdTv(Long.valueOf(watchEpisodeAdd.getEpisode().getSeriesId()));
+        UserAccount userAccount = watchEpisodeAdd.getUserAccount();
+        iTvRecommendationService.deleteTvRecommendation(tv,userAccount);
 
 
         // Envoie d'un message pour informer de l'ajout d'un episode dans la watchList

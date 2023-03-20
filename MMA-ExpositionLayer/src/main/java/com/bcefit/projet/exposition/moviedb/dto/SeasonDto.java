@@ -1,10 +1,5 @@
 package com.bcefit.projet.exposition.moviedb.dto;
 
-import com.bcefit.projet.domain.moviedb.Episode;
-import com.bcefit.projet.domain.moviedb.Tv;
-
-import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class SeasonDto {

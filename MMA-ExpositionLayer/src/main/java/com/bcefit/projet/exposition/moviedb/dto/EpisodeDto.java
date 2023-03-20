@@ -1,6 +1,5 @@
 package com.bcefit.projet.exposition.moviedb.dto;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class EpisodeDto {

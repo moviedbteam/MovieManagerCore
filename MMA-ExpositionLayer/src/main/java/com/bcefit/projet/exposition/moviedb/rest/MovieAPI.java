@@ -9,7 +9,6 @@ import com.bcefit.projet.exposition.moviedb.dto.MovieLightDto;
 import com.bcefit.projet.exposition.moviedb.mapper.MovieDetailMapper;
 import com.bcefit.projet.exposition.moviedb.mapper.MovieLightMapper;
 import com.bcefit.projet.exposition.watch.mapper.WatchMovieMapper;
-import com.bcefit.projet.exposition.watch.rest.WatchMovieAPI;
 import com.bcefit.projet.service.moviedb.IMovieService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import com.bcefit.projet.service.watch.IWatchMovieService;

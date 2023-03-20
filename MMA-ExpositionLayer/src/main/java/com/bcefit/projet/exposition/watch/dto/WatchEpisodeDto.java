@@ -1,9 +1,5 @@
 package com.bcefit.projet.exposition.watch.dto;
 
-import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.exposition.user.dto.UserAccountDto;
-
-import java.time.Duration;
 import java.time.LocalDate;
 
 public class WatchEpisodeDto {

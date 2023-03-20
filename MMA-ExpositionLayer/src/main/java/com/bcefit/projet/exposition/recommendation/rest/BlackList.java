@@ -5,8 +5,6 @@ import com.bcefit.projet.domain.analytic.MovieRecommendationBlackListed;
 import com.bcefit.projet.domain.analytic.TvRecommendationBlackListed;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.exposition.recommendation.dto.BlackListedContent;
-import com.bcefit.projet.exposition.recommendation.dto.MovieRecommendationDto;
-import com.bcefit.projet.exposition.user.dto.UserAccountDto;
 import com.bcefit.projet.service.analytic.IMovieRecommendationBlackListedService;
 import com.bcefit.projet.service.analytic.ITvRecommendationBlackListedService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;

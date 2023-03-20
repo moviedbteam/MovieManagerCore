@@ -1,7 +1,5 @@
 package com.bcefit.projet.exposition.user.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class GenreMovieAPITest {
 
     @org.junit.jupiter.api.BeforeEach

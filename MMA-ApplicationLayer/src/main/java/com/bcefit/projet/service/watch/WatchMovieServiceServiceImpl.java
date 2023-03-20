@@ -1,6 +1,7 @@
 package com.bcefit.projet.service.watch;
 
 
+import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishMovie;
@@ -8,6 +9,7 @@ import com.bcefit.projet.infrastructure.IWatchMovieRepository;
 import com.bcefit.projet.infrastructure.IWatchMoviesByUserAccountRepository;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 
+import com.bcefit.projet.service.analytic.IMovieRecommendationService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
@@ -41,6 +43,8 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
 
     @Autowired
     MovieMessageMapper movieMessageMapper;
+    @Autowired
+    IMovieRecommendationService iMovieRecommendationService;
 
 
     @Override
@@ -81,6 +85,11 @@ public class WatchMovieServiceServiceImpl implements IWatchMovieService {
         if(wishMovieToDelete!=null){
             iWishMovieRepository.delete(wishMovieToDelete);
         }
+
+        // Suppression de l'éventuelle recommandation associée à ce contenu
+        Movie movie = watchMovieAdd.getMovie();
+        UserAccount userAccount = watchMovieAdd.getUserAccount();
+        iMovieRecommendationService.deleteMovieRecommendation(movie,userAccount);
 
         // Envoie d'un message pour informer de l'ajout d'un film dans la watchList
         String message = movieMessageMapper.convertMovieAndUserAccountToMessage(watchMovieAdd.getMovie().getIdMovie().intValue(),watchMovieAdd.getUserAccount().getIdUser());

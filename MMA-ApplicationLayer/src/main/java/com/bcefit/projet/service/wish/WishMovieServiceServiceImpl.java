@@ -1,14 +1,18 @@
 package com.bcefit.projet.service.wish;
 
 
+import com.bcefit.projet.domain.moviedb.Movie;
+import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.domain.wish.WishMovie;
 import com.bcefit.projet.infrastructure.IWishMovieRepository;
 import com.bcefit.projet.infrastructure.IWishMoviesByUserAccountRepository;
+import com.bcefit.projet.service.analytic.IMovieRecommendationService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.MovieMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
+import com.bcefit.projet.service.moviedb.IMovieService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,9 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
 
     @Autowired
     MovieMessageMapper movieMessageMapper;
+
+    @Autowired
+    IMovieRecommendationService iMovieRecommendationService;
 
 
     @Override
@@ -72,6 +79,13 @@ public class WishMovieServiceServiceImpl implements IWishMovieService{
         LocalDate actualDate = LocalDate.now();
         wishMovie.setDateWsih(actualDate);
         WishMovie wishMovieAdd = repository.save(wishMovie);
+
+        // Suppression de l'éventuelle recommandation associée à ce contenu
+        Movie movie = wishMovieAdd.getMovie();
+        UserAccount userAccount = wishMovieAdd.getUserAccount();
+        iMovieRecommendationService.deleteMovieRecommendation(movie,userAccount);
+
+
         // Envoie d'un message pour informer de l'ajout d'un film dans la wishList
         String message = movieMessageMapper.convertMovieAndUserAccountToMessage(wishMovieAdd.getMovie().getIdMovie().intValue(),wishMovieAdd.getUserAccount().getIdUser());
         jmsTemplate.send("Q_ADD_Wish_MOVIE", new MessageString(message));

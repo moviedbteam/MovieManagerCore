@@ -1,13 +1,16 @@
 package com.bcefit.projet.service.wish;
 
+import com.bcefit.projet.domain.moviedb.Tv;
 import com.bcefit.projet.domain.user.UserAccount;
 import com.bcefit.projet.domain.watch.WatchEpisode;
 import com.bcefit.projet.domain.wish.WishEpisode;
 import com.bcefit.projet.infrastructure.IWishEpisodeRepository;
 import com.bcefit.projet.infrastructure.IWishEpisodesByUserAccountRepository;
+import com.bcefit.projet.service.analytic.ITvRecommendationService;
 import com.bcefit.projet.service.exception.InvalidEntityExeption;
 import com.bcefit.projet.service.mapper.TvMessageMapper;
 import com.bcefit.projet.service.message.MessageString;
+import com.bcefit.projet.service.moviedb.ITvService;
 import com.bcefit.projet.service.user.IUserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +37,13 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
     @Autowired
     TvMessageMapper tvMessageMapper;
 
-
     @Autowired
     JmsTemplate jmsTemplate;
+
+    @Autowired
+    ITvRecommendationService iTvRecommendationService;
+    @Autowired
+    ITvService iTvService;
 
     @Override
     public Iterable<WishEpisode> findAllByUserAccountId(UserAccount userAccount) {
@@ -72,6 +79,11 @@ public class WishEpisodeServiceImpl implements IWishEpisodeService{
         wishEpisode.setDateWsih(actualDate);
         // Enregistrement du watch episode
         WishEpisode wishEpisodeAdd = repository.save(wishEpisode);
+
+        // Suppression de l'éventuelle recommandation associée à ce contenu
+        Tv tv = iTvService.getDetailByIdTv(Long.valueOf(wishEpisodeAdd.getEpisode().getSeriesId()));
+        UserAccount userAccount = wishEpisodeAdd.getUserAccount();
+        iTvRecommendationService.deleteTvRecommendation(tv,userAccount);
 
         // Envoie d'un message pour informer de l'ajout d'un episode dans la wishList
         String message = tvMessageMapper.convertTvAndUserAccountToMessage(wishEpisodeAdd.getEpisode().getSeriesId(),wishEpisodeAdd.getUserAccount().getIdUser());

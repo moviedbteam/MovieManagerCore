@@ -1,9 +1,7 @@
 package com.bcefit.projet.exposition.watch.mapper;
 
 import com.bcefit.projet.domain.watch.WatchMovie;
-import com.bcefit.projet.exposition.user.mapper.UserAccountMapper;
 import com.bcefit.projet.exposition.watch.dto.WatchMovieDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

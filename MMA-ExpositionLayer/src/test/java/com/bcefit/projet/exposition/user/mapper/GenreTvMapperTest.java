@@ -1,7 +1,5 @@
 package com.bcefit.projet.exposition.user.mapper;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class GenreTvMapperTest {
 
     @org.junit.jupiter.api.BeforeEach

@@ -1,8 +1,6 @@
 package com.bcefit.projet.exposition.recommendation.dto;
 
 
-import java.time.LocalDate;
-
 public class MovieRecommendationDto {
 
     private Long idMovie;

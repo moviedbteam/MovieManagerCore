@@ -1,7 +1,5 @@
 package com.bcefit.projet.exposition.wish.dto;
 
-import com.bcefit.projet.domain.user.UserAccount;
-
 import java.time.LocalDate;
 
 

@@ -1,6 +1,5 @@
 package com.bcefit.projet.exposition.moviedb.dto;
 
-import com.bcefit.projet.domain.moviedb.GenreMovie;
 import com.bcefit.projet.exposition.user.dto.GenreMovieDto;
 
 import java.time.LocalDate;

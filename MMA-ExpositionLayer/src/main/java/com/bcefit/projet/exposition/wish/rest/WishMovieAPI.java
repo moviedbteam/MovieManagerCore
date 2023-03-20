@@ -3,9 +3,7 @@ package com.bcefit.projet.exposition.wish.rest;
 
 import com.bcefit.projet.domain.moviedb.Movie;
 import com.bcefit.projet.domain.user.UserAccount;
-import com.bcefit.projet.domain.watch.WatchMovie;
 import com.bcefit.projet.domain.wish.WishMovie;
-import com.bcefit.projet.exposition.watch.dto.WatchContentDto;
 import com.bcefit.projet.exposition.wish.dto.WishContentDto;
 import com.bcefit.projet.exposition.wish.dto.WishMovieDto;
 import com.bcefit.projet.exposition.wish.mapper.WishMovieMapper;
