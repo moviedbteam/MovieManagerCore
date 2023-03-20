@@ -215,7 +215,7 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
             MovieDb movieDbExtend = tmdb.getMovies().getMovie(movieDb.getId(),"fr", TmdbMovies.MovieMethod.credits);
             Movie movie = movieApiMapper.convertMovieApiToMovie(movieDbExtend);
             // si l'utilisateur n'a pas émis de préférence, on recommande toute la liste de résultats
-            if(genreMovieList==null){
+            if(genreMovieList.isEmpty()){
                 synchronizeMovieDetailFromApi(movie.getIdMovie());
                 movieResultList.add(movie);
             }
@@ -247,7 +247,7 @@ public class ITmdbApiServiceImpl implements ITmdbApiService {
             TvSeries tvSeriesExtend = tmdb.getTvSeries().getSeries(tvSeries.getId(),"fr", TmdbTV.TvMethod.credits);
             Tv tv = tvApiMapper.convertTvApiToTv(tvSeriesExtend);
             // si l'utilisateur n'a pas émis de préférence, on recommande toute la liste de résultats
-            if (genreTvList==null){
+            if (genreTvList.isEmpty()){
                 synchronizeTvDetailFromApiFromApi(tv.getIdTv());
                 tvResultList.add(tv);
             }
